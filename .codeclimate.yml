@@ -1,0 +1,17 @@
+engines:
+  eslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+ratings:
+  paths:
+  - server/**
+
+## other configuration excluded from example...
+exclude_paths:
+- "lib/"
+- "build/"
+- "node_modules/"
