@@ -1,0 +1,41 @@
+{
+  "name": "documentmanagementsys",
+  "version": "1.0.0",
+  "description": "A Full Stack Documents Management System",
+  "main": "index.js",
+  "scripts": {
+    "test": "",
+    "start": "babel-watch index.js",
+    "eslint": "eslint *"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-ksolomon/DocumentManagementSys.git"
+  },
+  "keywords": [],
+  "author": "Solomon Kingsley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-ksolomon/DocumentManagementSys/issues"
+  },
+  "homepage": "https://github.com/andela-ksolomon/DocumentManagementSys#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "pg": "^6.1.5",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.30.4"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.24.1",
+    "babel-eslint": "^7.2.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-watch": "^2.0.6",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3"
+  }
+}
