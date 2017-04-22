@@ -4,8 +4,8 @@
   "description": "A Full Stack Documents Management System",
   "main": "index.js",
   "scripts": {
-    "test": "",
-    "start": "babel-watch index.js",
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register ./server/test/**/*.js",
+    "start": "babel-watch server.js",
     "eslint": "eslint *"
   },
   "repository": {
@@ -20,10 +20,18 @@
   },
   "homepage": "https://github.com/andela-ksolomon/DocumentManagementSys#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.1",
+    "chai": "^3.5.0",
     "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "morgan": "^1.8.1",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.30.4"
+    "sequelize": "^3.30.4",
+    "sequelize-classes": "^0.1.12",
+    "should": "^11.2.1",
+    "supertest": "^3.0.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
