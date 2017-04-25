@@ -85,7 +85,7 @@ const UsersModel = (sequelize, DataTypes) => {
         User.hasMany(models.Document, {
           foreignKey: 'ownerId'
         });
-        User.belongsTo(models.Role, {
+        User.belongsTo(models.Roles, {
           foreignKey: 'roleId',
           onDelete: 'CASCADE'
         });
