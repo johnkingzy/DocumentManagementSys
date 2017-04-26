@@ -79,10 +79,10 @@ const Authenticate = {
   },
   isAuthenticated: (req, res, next) => {
     db.User.findOne({
-        where: {
-          username: req.body.username
-        }
-      })
+      where: {
+        username: req.body.username
+      }
+    })
       .then((user) => {
         if (!user) {
           res.json({
@@ -102,6 +102,11 @@ const Authenticate = {
             const token = jwt.sign({
               user
             }, key, JwtOptions);
+            res.json({
+              success: true,
+              message: 'Enjoy your token!',
+              token
+            });
             next();
           }
         }
