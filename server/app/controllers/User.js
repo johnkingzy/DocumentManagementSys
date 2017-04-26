@@ -43,10 +43,19 @@ const User = {
    * @return {void|Response} response object or void
    */
   login: (req, res) => {
-    res.status(200)
-      .send({
-        message: 'Login Successfully'
-      });
+    db.User
+    .findOne({
+      where: { username: req.body.username }
+    })
+    .then((user) => {
+      user
+      .update(
+        {
+          active: true,
+        }).then(() => {
+          res.send('Logged In Successfully');
+        });
+    });
   },
 
   /**  Users logout
@@ -56,7 +65,8 @@ const User = {
    * @return {void} no return
    */
   logout: (req, res) => {
-    db.User.findOne({
+    db.User
+    .findOne({
       where: {
         username: req.body.username
       }
@@ -72,6 +82,47 @@ const User = {
     .catch(error =>
         res.status(400)
         .send(error));
+  },
+
+  /**  Fetch All Users
+   * Route: GET: /users/
+   * @param {object} req request object
+   * @param {object} res response object
+   * @returns {void|Response} return response object or void
+   */
+  fetchAll: (req, res) => {
+    db.User
+    .findAll({})
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((error) => {
+      res.send(error);
+    });
+  },
+
+  /** Fetch One User based on params ID
+   * Route: GET: /users/:id
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {void|Response} return response object or void
+   */
+  fetchOne: (req, res) => {
+    const UserId = req.params.id;
+    db.User
+    .findOne({
+      where: { id: UserId }
+    })
+    .then((user) => {
+      if (user) {
+        res.send(user);
+      } else {
+        res.send(`User with id:${UserId} does not exist`);
+      }
+    })
+    .catch((error) => {
+      res.send(error);
+    });
   }
 };
 export default User;

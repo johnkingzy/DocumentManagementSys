@@ -4,16 +4,17 @@ import Auth from '../middlewares/Authentication';
 
 const UserRouter = express.Router();
 
-UserRouter.route('/', Auth.UserInput)
-  .post(User.create)
-  .get(User.getAll);
+UserRouter.route('/')
+  .get(Auth.isLoggedIn, Auth.isAdmin, User.fetchAll)
+  .post(Auth.ValidateInput, User.create);
+
+UserRouter.route('/:id')
+  .get(Auth.isLoggedIn, Auth.isAdmin, User.fetchOne);
 
 UserRouter.route('/logout')
   .post(User.logout);
 
 UserRouter.route('/login')
-  .post(Auth.isAuthenticated, User.login);
-
-UserRouter.use(Auth.VerifyToken);
+  .post(Auth.authenticate, User.login);
 
 export default UserRouter;

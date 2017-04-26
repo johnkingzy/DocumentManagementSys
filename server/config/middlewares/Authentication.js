@@ -5,7 +5,13 @@ import db from '../../app/models';
 dotenv.config();
 const key = process.env.SECRET_KEY;
 const Authenticate = {
-  UserInput: (req, res, next) => {
+  /** ValidateInput
+   * @param {object} req request object
+   * @param {object} res response object
+   * @param {function} next callback function
+   * @return {void} no return
+   */
+  ValidateInput: (req, res, next) => {
     if (req.body.roleId && req.body.roleId === 1) {
       return res.status(403)
         .send({
@@ -54,30 +60,13 @@ const Authenticate = {
     }
     next();
   },
-  LoggedIn: (req, res, next) => {
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
-    if (token) {
-      jwt.verify(token, key, (error, decoded) => {
-        if (!error) {
-          req.decoded = decoded;
-          next();
-        } else {
-          return res.json({
-            success: false,
-            message: 'Authentication not allowed'
-          });
-        }
-      });
-    } else {
-      return res.status(403)
-        .send({
-          success: false,
-          message: 'Access denied, Only registered users are allowed'
-        });
-    }
-    // next();
-  },
-  isAuthenticated: (req, res, next) => {
+  /** User Authentication
+   * @param {object} req request object
+   * @param {object} res response object
+   * @param {function} next callback function
+   * @return {void} no return
+   */
+  authenticate: (req, res, next) => {
     db.User.findOne({
       where: {
         username: req.body.username
@@ -87,13 +76,13 @@ const Authenticate = {
         if (!user) {
           res.json({
             success: false,
-            message: 'Authentication failed. User not found.'
+            message: 'Authentication failed. User does not exist.'
           });
         } else if (user) {
           if (user.password !== req.body.password) {
             res.json({
               success: false,
-              message: 'Authentication failed. Wrong password.'
+              message: 'Authentication failed. Incorrect password.'
             });
           } else {
             const JwtOptions = {
@@ -102,17 +91,23 @@ const Authenticate = {
             const token = jwt.sign({
               user
             }, key, JwtOptions);
-            res.json({
-              success: true,
-              message: 'Enjoy your token!',
-              token
-            });
+            // res.json({
+            //   success: true,
+            //   message: 'Logged In ',
+            //   token
+            // });
             next();
           }
         }
       });
   },
-  VerifyToken: (req, res, next) => {
+  /** Check if a user is Logged In
+   * @param {object} req request object
+   * @param {object} res response object
+   * @param {function} next callback function
+   * @return {void} no return
+   */
+  isLoggedIn: (req, res, next) => {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {
       jwt.verify(token, key, (err, decoded) => {
@@ -126,11 +121,26 @@ const Authenticate = {
         next();
       });
     } else {
-      return res.status(404)
+      return res.status(403)
         .send({
           success: false,
-          message: 'No Token Provided'
+          message: 'Access denied, only registered users are allowed'
         });
+    }
+  },
+  /** Checks if a user is an admins
+   * @param {object} req request object
+   * @param {object} res response object
+   * @param {function} next callback function
+   * @return {void} no return
+   */
+  isAdmin: (req, res, next) => {
+    const UserInfo = req.decoded;
+    if (UserInfo.user.roleId !== 2) {
+      res.status(403)
+      .send('Access denied, only admins are allowed to view this page');
+    } else {
+      next();
     }
   }
 };
