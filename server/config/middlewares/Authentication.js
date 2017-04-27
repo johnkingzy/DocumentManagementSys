@@ -1,23 +1,19 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import db from '../../app/models';
+import helper from '../../app/controllers/helpers';
 
 dotenv.config();
 const key = process.env.SECRET_KEY;
 const Authenticate = {
-  /** ValidateInput
-   * @param {object} req request object
-   * @param {object} res response object
-   * @param {function} next callback function
-   * @return {void} no return
+  /**
+   * ValidateInput - Validates Users Input
+   * @param  {object} req request object
+   * @param  {type} res  response object
+   * @param  {type} next callback function
+   * @return {void} void no return
    */
-  ValidateInput: (req, res, next) => {
-    if (req.body.roleId && req.body.roleId === 1) {
-      return res.status(403)
-        .send({
-          message: 'Access denied, you can\'t sign up as admin'
-        });
-    }
+  ValidateInput(req, res, next) {
     const username = req.body.username,
       email = req.body.email,
       firstname = req.body.firstname,
@@ -58,25 +54,35 @@ const Authenticate = {
           message: 'Your lastname is required'
         });
     }
+    req.userData = {
+      username: req.body.username,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      password: req.body.password,
+      roleId: req.body.roleId
+    };
     next();
   },
-  /** User Authentication
-   * @param {object} req request object
-   * @param {object} res response object
-   * @param {function} next callback function
-   * @return {void} no return
+  /**
+   * authenticate - authenticate a user
+   * @param  {object} req  request object
+   * @param  {object} res  response object
+   * @param  {function} next callback function
+   * @return {void} no return or void
    */
-  authenticate: (req, res, next) => {
-    db.User.findOne({
-      where: {
-        username: req.body.username
-      }
-    })
+  authenticate(req, res, next) {
+    db.User.findOne(
+      {
+        where: {
+          username: req.body.username
+        }
+      })
       .then((user) => {
         if (!user) {
           res.json({
             success: false,
-            message: 'Authentication failed. User does not exist.'
+            message: 'Authentication failed. Please enter a username'
           });
         } else if (user) {
           if (user.password !== req.body.password) {
@@ -85,36 +91,27 @@ const Authenticate = {
               message: 'Authentication failed. Incorrect password.'
             });
           } else {
-            const JwtOptions = {
-              expiresIn: '1440m'
-            };
-            const token = jwt.sign({
-              user
-            }, key, JwtOptions);
-            // res.json({
-            //   success: true,
-            //   message: 'Logged In ',
-            //   token
-            // });
             next();
           }
         }
       });
   },
-  /** Check if a user is Logged In
-   * @param {object} req request object
-   * @param {object} res response object
-   * @param {function} next callback function
-   * @return {void} no return
+  /**
+   * isLoggedIn - checks if a user looged in
+   * @param  {object} req  request object
+   * @param  {object} res  response object
+   * @param  {function} next callback function
+   * @return {void} no return or void
    */
-  isLoggedIn: (req, res, next) => {
+  isLoggedIn(req, res, next) {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     if (token) {
-      jwt.verify(token, key, (err, decoded) => {
-        if (err) {
+      jwt.verify(token, key, (error, decoded) => {
+        if (error) {
           return res.json({
             success: false,
-            message: 'Failed to Authenticate Token'
+            message: 'Failed to Authenticate Token',
+            error
           });
         }
         req.decoded = decoded;
@@ -124,24 +121,71 @@ const Authenticate = {
       return res.status(403)
         .send({
           success: false,
-          message: 'Access denied, only registered users are allowed'
+          message: 'Access denied, Authentication token does not exist'
         });
     }
   },
-  /** Checks if a user is an admins
-   * @param {object} req request object
-   * @param {object} res response object
-   * @param {function} next callback function
-   * @return {void} no return
+  /**
+   * isAdmin - checks if a user is an admin
+   * @param  {object} req  request object
+   * @param  {type} res  response object
+   * @param  {function} next callback function
+   * @return {void} no return or void
    */
-  isAdmin: (req, res, next) => {
-    const UserInfo = req.decoded;
-    if (UserInfo.user.roleId !== 2) {
-      res.status(403)
-      .send('Access denied, only admins are allowed to view this page');
-    } else {
-      next();
+  isAdmin(req, res, next) {
+    const currentUser = req.decoded;
+    if (helper.isAdmin(currentUser.user.roleId)) {
+      return res.status(403)
+      .send('Access denied, only Admins are allowed');
     }
+    next();
+  },
+
+  /**
+   * validateUpdate - Validates a User's Profile Updates
+   * @param  {object} req request object
+   * @param  {object} res response object
+   * @param  {function} next callback function
+   * @return  {void} no return or void
+   */
+  validateUpdate: (req, res, next) => {
+    const currentUser = req.decoded.user,
+      userId = req.params.id;
+    if (!helper.isAdmin(currentUser.roleId) && userId === 1) {
+      return res.status(403)
+      .send('You are not permitted to edit an admin details');
+    }
+    if (!helper.isOwner(req)) {
+      return res.status(401)
+      .send({
+        message: 'You are not allowed to edit someone\'s else profile'
+      });
+    }
+    if (req.body.id) {
+      res.status(403)
+      .send({
+        message: 'You are not allowed to edit your id'
+      });
+    }
+    if (req.body.roleId && req.body.roleId === '1') {
+      if (!helper.isAdmin(currentUser.roleId)) {
+        return res.status(403)
+        .send({
+          message: 'You are not allowed to set the admin roleId'
+        });
+      }
+    }
+    db.User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404)
+        .send({
+          message: 'User does not exist'
+        });
+      }
+      req.userData = user;
+      next();
+    });
   }
 };
 export default Authenticate;

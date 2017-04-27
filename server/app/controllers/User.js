@@ -1,30 +1,20 @@
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 import db from '../models/';
-// import Helpers from './helpers';
+import Helpers from './helpers';
 
-const key = process.env.SECRET_KEY;
 const User = {
 
-  /**  Create a new user
+  /**  create - Registers a new user
    *   Route: POST: /users
    *  @param {object} req request object
    *  @param {object} res response object
    *  @return {void|Reponse} response object or void
    */
   create: (req, res) => {
-    const token = jwt.sign(req.body, key, {
-      expiresIn: 4000
-    });
     db.User
-      .create({
-        username: req.body.username,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: req.body.password,
-        roleId: req.body.roleId
-      })
+      .create(req.userData)
       .then((user) => {
+        const token = Helpers.createToken(user);
         res.status(200)
           .send({
             user,
@@ -36,7 +26,7 @@ const User = {
         .send(error));
   },
 
-  /** Users login
+  /** login - logs a user in
    *  Route: POST: /users/login
    * @param {object} req request object
    * @param {object} res response object
@@ -52,25 +42,27 @@ const User = {
       .update(
         {
           active: true,
-        }).then(() => {
-          res.send('Logged In Successfully');
+        }).then((result) => {
+          const token = Helpers.createToken(result);
+          res.status(200)
+          .json({
+            success: true,
+            message: 'Logged In Successfully',
+            token
+          });
         });
     });
   },
 
-  /**  Users logout
+  /** logout - logs a user out
    * Route: POST: /users/logout
    *  @param {object} req request object
    * @param {object} res response object
    * @return {void} no return
    */
   logout: (req, res) => {
-    db.User
-    .findOne({
-      where: {
-        username: req.body.username
-      }
-    }).then((user) => {
+    const userId = req.decoded.user.id;
+    db.User.findById(userId).then((user) => {
       user
       .update(
         {
@@ -84,15 +76,33 @@ const User = {
         .send(error));
   },
 
-  /**  Fetch All Users
+  /** fetchAll - Fetches All Users
    * Route: GET: /users/
    * @param {object} req request object
    * @param {object} res response object
    * @returns {void|Response} return response object or void
    */
   fetchAll: (req, res) => {
+    let query;
+    if (req.query.limit && req.query.offset) {
+      if (isNaN(req.query.limit) || isNaN(req.query.offset)) {
+        return res.status(403)
+        .send(
+          {
+            success: false,
+            message: 'limit and offset should be integers'
+          }
+        );
+      }
+      query = {
+        offset: parseInt(req.query.offset, 10),
+        limit: parseInt(req.query.limit, 10)
+      };
+    } else {
+      query = {};
+    }
     db.User
-    .findAll({})
+    .findAll(query)
     .then((user) => {
       res.send(user);
     })
@@ -101,7 +111,7 @@ const User = {
     });
   },
 
-  /** Fetch One User based on params ID
+  /** fetchOne - Fetches One User based on params ID
    * Route: GET: /users/:id
    * @param {object} req request object
    * @param {object} res response object
@@ -123,6 +133,25 @@ const User = {
     .catch((error) => {
       res.send(error);
     });
+  },
+
+  /** updateUserData - Updates a user information
+   * Route: PUT: /user/:id
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {void|Response} returns response object or void
+   */
+  updateUserData: (req, res) => {
+    req.userData
+      .update(req.body)
+        .then(() => {
+          res.send({
+            message: 'Profile Info Updated Successfully'
+          });
+        })
+        .catch((error) => {
+          res.send(error);
+        });
   }
 };
 export default User;

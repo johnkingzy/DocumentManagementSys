@@ -9,10 +9,11 @@ UserRouter.route('/')
   .post(Auth.ValidateInput, User.create);
 
 UserRouter.route('/:id')
-  .get(Auth.isLoggedIn, Auth.isAdmin, User.fetchOne);
+  .get(Auth.isLoggedIn, Auth.isAdmin, User.fetchOne)
+  .put(Auth.isLoggedIn, Auth.validateUpdate, User.updateUserData);
 
 UserRouter.route('/logout')
-  .post(User.logout);
+  .post(Auth.isLoggedIn, User.logout);
 
 UserRouter.route('/login')
   .post(Auth.authenticate, User.login);
