@@ -6,11 +6,12 @@ const UserRouter = express.Router();
 
 UserRouter.route('/')
   .get(Auth.isLoggedIn, Auth.isAdmin, User.fetchAll)
-  .post(Auth.ValidateInput, User.create);
+  .post(Auth.isLoggedIn, Auth.validateInput, User.create);
 
 UserRouter.route('/:id')
   .get(Auth.isLoggedIn, Auth.isAdmin, User.fetchOne)
-  .put(Auth.isLoggedIn, Auth.validateUpdate, User.updateUserData);
+  .put(Auth.isLoggedIn, Auth.validateUpdate, User.updateUserData)
+  .delete(Auth.isLoggedIn, Auth.isAdmin, Auth.validateDelete, User.deleteUser);
 
 UserRouter.route('/logout')
   .post(Auth.isLoggedIn, User.logout);

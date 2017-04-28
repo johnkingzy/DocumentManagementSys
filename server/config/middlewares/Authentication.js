@@ -7,13 +7,13 @@ dotenv.config();
 const key = process.env.SECRET_KEY;
 const Authenticate = {
   /**
-   * ValidateInput - Validates Users Input
+   * validateInput - Validates Users Input
    * @param  {object} req request object
    * @param  {type} res  response object
    * @param  {type} next callback function
    * @return {void} void no return
    */
-  ValidateInput(req, res, next) {
+  validateInput(req, res, next) {
     const username = req.body.username,
       email = req.body.email,
       firstname = req.body.firstname,
@@ -134,7 +134,7 @@ const Authenticate = {
    */
   isAdmin(req, res, next) {
     const currentUser = req.decoded;
-    if (helper.isAdmin(currentUser.user.roleId)) {
+    if (!helper.isAdmin(currentUser.user.roleId)) {
       return res.status(403)
       .send('Access denied, only Admins are allowed');
     }
@@ -186,6 +186,33 @@ const Authenticate = {
       req.userData = user;
       next();
     });
-  }
+  },
+
+  /**
+   * validateDelete - validates deleting of a user
+   * @param  {object} req  request object
+   * @param  {object} res  response object
+   * @param  {function} next callback function
+   * @return {void}  no return or void
+   */
+  validateDelete(req, res, next) {
+    const userId = req.params.id;
+    const currentUserId = req.decoded.user.id;
+    db.User.findById(userId)
+    .then((user) => {
+      if (user) {
+        if (!helper.isAdmin(user.roleId) && user.id !== currentUserId) {
+          req.userData = user;
+          next();
+        } else {
+          res.status(403)
+          .send('You are not allowed to delete an Admin');
+        }
+      } else {
+        res.status(403)
+        .send('The user you trying to delete does not exist');
+      }
+    });
+  },
 };
 export default Authenticate;

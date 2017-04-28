@@ -2,14 +2,13 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import path from 'path';
 import Sequelize from 'sequelize';
-import * as dbConfig from '../../config/config.json';
+import * as dbConfig from '../../config/config';
 
 dotenv.config();
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || 'development';
-const config = dbConfig[env];
+const config = dbConfig.default[env];
 const db = {};
-
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable]);

@@ -10,7 +10,7 @@ const User = {
    *  @param {object} res response object
    *  @return {void|Reponse} response object or void
    */
-  create: (req, res) => {
+  create(req, res) {
     db.User
       .create(req.userData)
       .then((user) => {
@@ -32,7 +32,7 @@ const User = {
    * @param {object} res response object
    * @return {void|Response} response object or void
    */
-  login: (req, res) => {
+  login(req, res) {
     db.User
     .findOne({
       where: { username: req.body.username }
@@ -60,7 +60,7 @@ const User = {
    * @param {object} res response object
    * @return {void} no return
    */
-  logout: (req, res) => {
+  logout(req, res) {
     const userId = req.decoded.user.id;
     db.User.findById(userId).then((user) => {
       user
@@ -82,7 +82,7 @@ const User = {
    * @param {object} res response object
    * @returns {void|Response} return response object or void
    */
-  fetchAll: (req, res) => {
+  fetchAll(req, res) {
     let query;
     if (req.query.limit && req.query.offset) {
       if (isNaN(req.query.limit) || isNaN(req.query.offset)) {
@@ -117,7 +117,7 @@ const User = {
    * @param {object} res response object
    * @return {void|Response} return response object or void
    */
-  fetchOne: (req, res) => {
+  fetchOne(req, res) {
     const UserId = req.params.id;
     db.User
     .findOne({
@@ -141,7 +141,7 @@ const User = {
    * @param {object} res response object
    * @return {void|Response} returns response object or void
    */
-  updateUserData: (req, res) => {
+  updateUserData(req, res) {
     req.userData
       .update(req.body)
         .then(() => {
@@ -152,6 +152,32 @@ const User = {
         .catch((error) => {
           res.send(error);
         });
+  },
+
+  /**
+   * deleteUser - Delete a User
+   * @param  {object} req  request object
+   * @param  {object} res  response object
+   * @param  {function} next callback function
+   * @return {void}  no return or void
+   */
+  deleteUser(req, res) {
+    req.userData.destroy(
+      {
+        where: {
+          id: req.userData.id
+        }
+      }
+    )
+    .then(() => {
+      res.status(200)
+        .send(
+        {
+          success: true,
+          message: 'User was deleted successfully'
+        }
+      );
+    });
   }
 };
 export default User;
