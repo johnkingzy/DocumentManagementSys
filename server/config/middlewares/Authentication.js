@@ -14,45 +14,44 @@ const Authenticate = {
    * @return {void} void no return
    */
   validateInput(req, res, next) {
-    const username = req.body.username,
-      email = req.body.email,
-      firstname = req.body.firstname,
-      password = req.body.password,
-      lastname = req.body.lastname;
-    if (!username) {
-      return res.status(400)
-        .send({
-          message: 'Provide a valid username'
-        });
-    }
-
-    if (!email) {
-      return res.status(400)
-        .send({
-          message: 'Provide a valid email address'
-        });
-    }
-
-    if (!firstname) {
-      return res.status(400)
-        .send({
-
-          message: 'Your firstname is required'
-        });
-    }
-
-    if (!password) {
-      return res.status(400)
-        .send({
-          message: 'Your password cannot be empty'
-        });
-    }
-
-    if (!lastname) {
-      return res.status(400)
-        .send({
-          message: 'Your lastname is required'
-        });
+    req.checkBody(
+      {
+        username: {
+          notEmpty: true,
+          isLength: {
+            options: [{ min: 5, max: 15 }],
+            errorMessage: 'Please provide a username with atleast 5 characters. Max 15'
+          },
+          errorMessage: 'Your Username is required'
+        },
+        email: {
+          notEmpty: true,
+          isEmail: {
+            errorMessage: 'Please provide a valid a Email Adrress'
+          }
+        },
+        firstname: {
+          notEmpty: true,
+          errorMessage: 'Your Firstname is required'
+        },
+        lastname: {
+          notEmpty: true,
+          errorMessage: 'Your Lastname is required'
+        },
+        password: {
+          notEmpty: true,
+          isLength: {
+            options: [{ min: 8 }],
+            errorMessage: 'Please provide a valid password with minimum of 8 characters'
+          },
+        }
+      }
+    );
+    const errors = req.validationErrors();
+    if (errors) {
+      const allErrors = helper.getErrors(errors);
+      res.status(400)
+      .send(allErrors);
     }
     req.userData = {
       username: req.body.username,
@@ -62,7 +61,30 @@ const Authenticate = {
       password: req.body.password,
       roleId: req.body.roleId
     };
-    next();
+    db.User.findOne(
+      {
+        where: {
+          username: req.body.username,
+          $or: {
+            email: req.body.email
+          }
+        }
+      }
+  )
+  .then((user) => {
+    if (user) {
+      if (user.dataValues.username === req.body.username) {
+        return res.status(400)
+      .send(user.dataValues.email);
+      }
+      if (user.dataValues.email === req.body.email) {
+        return res.status(400)
+      .send('Email Address already exist');
+      }
+    } else {
+      next();
+    }
+  });
   },
   /**
    * authenticate - authenticate a user
@@ -214,5 +236,33 @@ const Authenticate = {
       }
     });
   },
+  /**
+   * validateDocument - validate Document before created
+   * @param  {object} req request object
+   * @param  {object} res  response object
+   * @param  {function} next callback function
+   * @return {void} no return or void
+   */
+  validateDocument(req, res, next) {
+    const title = req.body.title,
+      content = req.body.content;
+    if (!title) {
+      return res.status(403)
+      .send('Please type in a title for the document');
+    }
+    if (!content || content.length < 10) {
+      return res.status(403)
+      .send('Please type in content with a minimum of 10 characters');
+    }
+    req.Document = {
+      title,
+      content,
+      access: req.body.access,
+      ownerId: req.decoded.user.id,
+      ownerRoleId: req.decoded.user.roleId
+    };
+    next();
+  }
+
 };
 export default Authenticate;

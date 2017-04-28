@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import db from '../../../app/models';
+// import db from '../../../app/models';
 
 dotenv.config();
 const key = process.env.SECRET_KEY;
@@ -48,6 +48,15 @@ const Helpers = {
         expiresIn: 4000
       });
     return token;
+  },
+  getErrors(errors) {
+    const allErrors = {};
+    errors.forEach((error) => {
+      const title = `${error.param} error`,
+        errorMessage = error.msg;
+      allErrors[title] = errorMessage;
+    });
+    return allErrors;
   }
 };
 export default Helpers;

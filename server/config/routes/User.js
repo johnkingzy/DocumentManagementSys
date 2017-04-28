@@ -6,7 +6,7 @@ const UserRouter = express.Router();
 
 UserRouter.route('/')
   .get(Auth.isLoggedIn, Auth.isAdmin, User.fetchAll)
-  .post(Auth.isLoggedIn, Auth.validateInput, User.create);
+  .post(Auth.validateInput, User.create);
 
 UserRouter.route('/:id')
   .get(Auth.isLoggedIn, Auth.isAdmin, User.fetchOne)
