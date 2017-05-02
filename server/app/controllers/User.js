@@ -127,7 +127,12 @@ const User = {
       if (user) {
         res.send(user);
       } else {
-        res.send(`User with id:${UserId} does not exist`);
+        res.send(
+          {
+            success: false,
+            message: `User with id:${UserId} does not exist`
+          }
+          );
       }
     })
     .catch((error) => {
@@ -146,6 +151,7 @@ const User = {
       .update(req.body)
         .then(() => {
           res.send({
+            success: true,
             message: 'Profile Info Updated Successfully'
           });
         })

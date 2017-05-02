@@ -50,7 +50,7 @@ const Authenticate = {
     const errors = req.validationErrors();
     if (errors) {
       const allErrors = helper.getErrors(errors);
-      res.status(400)
+      return res.status(400)
       .send(allErrors);
     }
     req.userData = {
@@ -79,7 +79,12 @@ const Authenticate = {
       }
       if (user.dataValues.email === req.body.email) {
         return res.status(400)
-      .send('Email Address already exist');
+      .send(
+          {
+            success: false,
+            message: 'Email Address already exist'
+          }
+      );
       }
     } else {
       next();
@@ -102,19 +107,18 @@ const Authenticate = {
       })
       .then((user) => {
         if (!user) {
-          res.json({
+          return res.json({
             success: false,
             message: 'Authentication failed. Please enter a username'
           });
         } else if (user) {
           if (user.password !== req.body.password) {
-            res.json({
+            return res.json({
               success: false,
               message: 'Authentication failed. Incorrect password.'
             });
-          } else {
-            next();
           }
+          next();
         }
       });
   },
@@ -148,17 +152,22 @@ const Authenticate = {
     }
   },
   /**
-   * isAdmin - checks if a user is an admin
+   * checkAdmin - checks if a user is an admin
    * @param  {object} req  request object
    * @param  {type} res  response object
    * @param  {function} next callback function
    * @return {void} no return or void
    */
-  isAdmin(req, res, next) {
+  checkAdmin(req, res, next) {
     const currentUser = req.decoded;
     if (!helper.isAdmin(currentUser.user.roleId)) {
       return res.status(403)
-      .send('Access denied, only Admins are allowed');
+      .send(
+        {
+          success: false,
+          message: 'Access denied, only Admins are allowed'
+        }
+      );
     }
     next();
   },
@@ -170,22 +179,29 @@ const Authenticate = {
    * @param  {function} next callback function
    * @return  {void} no return or void
    */
-  validateUpdate: (req, res, next) => {
+  validateUpdate(req, res, next) {
     const currentUser = req.decoded.user,
       userId = req.params.id;
     if (!helper.isAdmin(currentUser.roleId) && userId === 1) {
       return res.status(403)
-      .send('You are not permitted to edit an admin details');
+      .send(
+        {
+          success: false,
+          message: 'You don\'t have permissions to edit an admin details'
+        }
+      );
     }
     if (!helper.isOwner(req)) {
       return res.status(401)
       .send({
+        success: false,
         message: 'You are not allowed to edit someone\'s else profile'
       });
     }
     if (req.body.id) {
-      res.status(403)
+      return res.status(403)
       .send({
+        success: false,
         message: 'You are not allowed to edit your id'
       });
     }
@@ -193,6 +209,7 @@ const Authenticate = {
       if (!helper.isAdmin(currentUser.roleId)) {
         return res.status(403)
         .send({
+          success: false,
           message: 'You are not allowed to set the admin roleId'
         });
       }
@@ -202,6 +219,7 @@ const Authenticate = {
       if (!user) {
         return res.status(404)
         .send({
+          success: false,
           message: 'User does not exist'
         });
       }
@@ -227,12 +245,22 @@ const Authenticate = {
           req.userData = user;
           next();
         } else {
-          res.status(403)
-          .send('You are not allowed to delete an Admin');
+          return res.status(403)
+          .send(
+            {
+              success: false,
+              message: 'You are not allowed to delete an Admin'
+            }
+          );
         }
       } else {
-        res.status(403)
-        .send('The user you trying to delete does not exist');
+        return res.status(403)
+        .send(
+          {
+            success: false,
+            message: 'The user you trying to delete does not exist'
+          }
+        );
       }
     });
   },
@@ -248,11 +276,21 @@ const Authenticate = {
       content = req.body.content;
     if (!title) {
       return res.status(403)
-      .send('Please type in a title for the document');
+      .send(
+        {
+          success: false,
+          message: 'Please type in a title for the document'
+        }
+      );
     }
     if (!content || content.length < 10) {
       return res.status(403)
-      .send('Please type in content with a minimum of 10 characters');
+      .send(
+        {
+          success: false,
+          message: 'Please type in content with a minimum of 10 characters'
+        }
+      );
     }
     req.Document = {
       title,
@@ -262,6 +300,134 @@ const Authenticate = {
       ownerRoleId: req.decoded.user.roleId
     };
     next();
+  },
+
+  /**
+   * checkAccess - checks if a user has the access to view a document
+   * @param  {object} req  request object
+   * @param  {type} res  response object
+   * @param  {type} next callback function
+   * @return {void} no return or void
+   */
+  checkAccess(req, res, next) {
+    db.Document.findById(req.params.id)
+    .then((result) => {
+      if (!result) {
+        return res.status(404)
+        .send(
+          {
+            success: false,
+            message: 'Document not found'
+          }
+        );
+      }
+      const document = result.dataValues;
+      const currentUser = req.decoded.user;
+      const userRoleId = currentUser.roleId;
+      if (document.ownerId !== currentUser.id && !helper.isAdmin(userRoleId)) {
+        return res.status(500)
+        .send(
+          {
+            success: false,
+            message: 'You are not allowed to view this documents'
+          }
+        );
+      }
+      if (!helper.publicAccess && !helper.roleAccess) {
+        return res.status(500)
+        .send(
+          { success: false,
+            message: 'You are not allowed to view this documents'
+          });
+      }
+      if (helper.roleAccess && currentUser.roleId !== document.ownerRoleId) {
+        return res.status(500)
+        .send(
+          {
+            success: false,
+            message: 'You are not allowed to view this document'
+          }
+        );
+      }
+      req.document = result;
+      next();
+    });
+  },
+
+  /**
+   * checkDocument - checks if a document belongs to the user
+   * @param  {object} req  request object
+   * @param  {object} res  response object
+   * @param  {function} next callback function
+   * @return {void} no return or void
+   */
+  checkDocument(req, res, next) {
+    const currentUser = req.decoded.user;
+    const access = ['public', 'private', 'role'];
+    db.Document.findById(req.params.id)
+    .then((document) => {
+      if (!document) {
+        return res.status(400)
+        .send(
+          {
+            success: false,
+            message: 'Document not found'
+          }
+        );
+      }
+      if (document.ownerId !== currentUser.id) {
+        return res.status(500)
+        .send(
+          {
+            success: false,
+            message: 'You don\'t have write permissions on this document'
+          }
+        );
+      }
+      if (!access.includes(req.body.access)) {
+        return res.status(400)
+        .send(
+          {
+            success: false,
+            message: 'Document access level can only be set to public, private, or role'
+          }
+        );
+      }
+      req.document = document;
+      next();
+    });
+  },
+
+  /**
+   * deleteDocument - delete a document
+   * @param  {object} req  request object
+   * @param  {object} res  response object
+   * @param  {type} next callback function
+   * @return {void} no return or void
+   */
+  deleteDocument(req, res, next) {
+    db.Document.findById(req.params.id)
+    .then((document) => {
+      if (!document) {
+        return res.status(400)
+        .send(
+          {
+            success: false,
+            message: 'Document not found'
+          }
+        );
+      }
+      if (document.ownerId !== req.decoded.user.id) {
+        return res.status(400)
+        .send(
+          {
+            success: false,
+            message: 'You don\'t have permissions to delete this document'
+          });
+      }
+      req.Document = document;
+      next();
+    });
   }
 
 };
