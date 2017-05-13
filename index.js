@@ -1,10 +1,11 @@
+import log from 'log-with-colors';
 import models from './server/app/models';
 
 models.sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection successful');
+    log.success('Connection successful');
   })
   .catch((error) => {
-    console.log('Error while trying to connect!!! Maximuf', error);
+    log.error('Error while trying to connect!!! Maximuf', error);
   });

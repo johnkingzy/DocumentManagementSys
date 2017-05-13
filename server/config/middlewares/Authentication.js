@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import db from '../../app/models';
 import helper from '../../app/controllers/helpers';
 
@@ -53,12 +54,13 @@ const Authenticate = {
       return res.status(400)
       .send(allErrors);
     }
+    const password = bcrypt.hashSync(req.body.password, 10);
     req.userData = {
       username: req.body.username,
       firstname: req.body.firstname,
       lastname: req.body.lastname,
       email: req.body.email,
-      password: req.body.password,
+      password,
       roleId: req.body.roleId
     };
     db.User.findOne(
@@ -106,19 +108,15 @@ const Authenticate = {
         }
       })
       .then((user) => {
-        if (!user) {
-          return res.json({
-            success: false,
-            message: 'Authentication failed. Please enter a username'
-          });
-        } else if (user) {
-          if (user.password !== req.body.password) {
-            return res.json({
-              success: false,
-              message: 'Authentication failed. Incorrect password.'
-            });
-          }
+        if (user &&
+          bcrypt.compareSync(req.body.password, user.password)) {
           next();
+        } else {
+          return res.status(401)
+            .json({
+              success: false,
+              message: 'Invalid Credentials.'
+            });
         }
       });
   },
@@ -130,21 +128,27 @@ const Authenticate = {
    * @return {void} no return or void
    */
   isLoggedIn(req, res, next) {
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const authorizationHeader = req.headers.authorization;
+    let token;
+    if (authorizationHeader) {
+      token = authorizationHeader.split(' ')[1];
+    }
     if (token) {
       jwt.verify(token, key, (error, decoded) => {
         if (error) {
-          return res.json({
-            success: false,
-            message: 'Failed to Authenticate Token',
-            error
-          });
+          res.status(401)
+              .json({
+                success: false,
+                message: 'Failed to Authenticate Token',
+                error
+              });
+        } else {
+          req.decoded = decoded;
+          next();
         }
-        req.decoded = decoded;
-        next();
       });
     } else {
-      return res.status(403)
+      return res.status(401)
         .send({
           success: false,
           message: 'Access denied, Authentication token does not exist'

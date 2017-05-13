@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DataHub</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<div class="container">
+  <!-- <link href="./css/custom.css" rel="stylesheet" type="text/css" media="screen" /> -->
+</head>
+<style type="text/css">
+  #email-list .collection .collection-item.avatar .circle {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: 300;
+    padding: 14px;
+    text-transform: capitalize;
+}
+#pagination {
+  z-index: -1;
+}
+</style>
+<body>
+ <!-- START MAIN -->
+  <div id="main">
+    <!-- START WRAPPER -->
+    <div class="wrapper">
+
+      <!-- START CONTENT -->
+      <section id="content">
+
+        <!--start container-->
+        <div class="container">
+
+          <div class="section">
+            <div class="col s12 row" id="mail-app">
+                <!--
+                <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
+                <div class="card-tabs">
+                  <ul class="tabs tabs-fixed-width">
+                    <li class="tab"><a class="active" href="#public">Public</a></li>
+                    <li class="tab"><a href="#private">Private</a></li>
+                    <li class="tab"><a href="#role">Role</a></li>
+                  </ul>
+                </div>
+                  <ul class="collection" id="public">
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle red lighten-1">A</span>
+                      <span class="email-title">Amazone.com</span>
+                      <p class="truncate grey-text ultra-small">Summer sale is now going on.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">12:10 am</span></a>
+                    </li>
+                    <li class="collection-item avatar selected">
+                       <span class="circle red lighten-1">A</span>
+                      <span class="email-title">Andy Brown</span>
+                      <p class="truncate grey-text ultra-small">Hay Joe, we have next project for this summer.</p>
+                      <a href="#!" class="secondary-content email-time"><i class="mdi-editor-attach-file attach-file"></i> <span class="grey-text ultra-small">12:10 am</span></a>
+                    </li>
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle grey darken-1">T</span>
+                      <span class="email-title">Tuts+</span>
+                      <p class="truncate grey-text ultra-small">Update your code skill, free tutorial for web development.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">2:05 am</span></a>
+                    </li>
+                    <br>
+                    <center>
+                    <ul class="pagination" id="pagination">
+                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                        <li class="active"><a href="#!">1</a></li>
+                        <li class="waves-effect"><a href="#!">2</a></li>
+                        <li class="waves-effect"><a href="#!">3</a></li>
+                        <li class="waves-effect"><a href="#!">4</a></li>
+                        <li class="waves-effect"><a href="#!">5</a></li>
+                        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                    </ul>
+                    </center>
+                    <br>
+                    </ul>
+                    <ul class="collection" id="private">
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle indigo darken-1">F</span>
+                      <span class="email-title">Facebook.com</span>
+                      <p class="truncate grey-text ultra-small">You have new friend request from emy nelson.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">1:15 pm</span></a>
+                    </li>
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle light-blue">T</span>
+                      <span class="email-title">Twitter</span>
+                      <p class="truncate grey-text ultra-small">You have 5 new followers today, let's check it out.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">8:30 pm</span></a>
+                    </li>
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle green accent-4">E</span>
+                      <span class="email-title">Envato Studio</span>
+                      <p class="truncate grey-text ultra-small">Envato Studio Provider News : Score the new stuff.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">5:18 am</span></a>
+                    </li>
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle red">G</span>
+                      <span class="email-title">Gmail</span>
+                      <p class="truncate grey-text ultra-small">You have 5 new mail today.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">6:38 am</span></a>
+                    </li>
+                    <br>
+                    <center>
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                        <li class="active"><a href="#!">1</a></li>
+                        <li class="waves-effect"><a href="#!">2</a></li>
+                        <li class="waves-effect"><a href="#!">3</a></li>
+                        <li class="waves-effect"><a href="#!">4</a></li>
+                        <li class="waves-effect"><a href="#!">5</a></li>
+                        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                    </ul>
+                    </center>
+                    <br>
+                  </ul>
+                   <ul class="collection" id="role">
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle indigo darken-1">M</span>
+                      <span class="email-title">Mark Zukerberg</span>
+                      <p class="truncate grey-text ultra-small">You have new friend request from emy nelson.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">1:15 pm</span></a>
+                    </li>
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle light-blue">A</span>
+                      <span class="email-title">Alian Dunkan</span>
+                      <p class="truncate grey-text ultra-small">You have 5 new followers today, let's check it out.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">8:30 pm</span></a>
+                    </li>
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle green accent-4">M</span>
+                      <span class="email-title">Max Studio</span>
+                      <p class="truncate grey-text ultra-small">Envato Studio Provider News : Score the new stuff.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">5:18 am</span></a>
+                    </li>
+                    <li class="collection-item avatar email-unread">
+                      <span class="circle red">S</span>
+                      <span class="email-title">Solomon Kingsley</span>
+                      <p class="truncate grey-text ultra-small">You have 5 new mail today.</p>
+                      <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">6:38 am</span></a>
+                    </li>
+                    <br>
+                    <center>
+                    <ul class="pagination">
+                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                        <li class="active"><a href="#!">1</a></li>
+                        <li class="waves-effect"><a href="#!">2</a></li>
+                        <li class="waves-effect"><a href="#!">3</a></li>
+                        <li class="waves-effect"><a href="#!">4</a></li>
+                        <li class="waves-effect"><a href="#!">5</a></li>
+                        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                    </ul>
+                    </center>
+                    <br>
+                  </ul>
+                </div>
+                <div id="email-details" class="col s12 m7 l7 card-panel">
+                  <p class="email-subject truncate">New app design for iPhone and Macbook Pro <span class="email-tag grey lighten-3">inbox</span> <span class="email-tag  light-blue lighten-4">projects</span> <i class="mdi-action-star-rate yellow-text text-darken-3 right"></i>
+                  </p>
+                  <hr class="grey-text text-lighten-2">
+                  <div class="email-content-wrap">
+                    <div class="row">
+                      <div class="col s10 m10 l10">
+                        <ul class="collection">
+                          <li class="collection-item avatar">
+                            <img src="./img/avatar.png" alt="" class="circle">
+                            <span class="email-title">Tim Cook</span>
+                            <p class="truncate grey-text ultra-small">CEO, Apple Inc</p>
+                            <p class="grey-text ultra-small">Yesterday</p>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col s2 m2 l2 email-actions">
+                        <a href="#!"><span><i class="mdi-content-reply"></i></span></a>
+                        <a href="#!"><span><i class="mdi-navigation-more-vert"></i></span></a>
+                      </div>
+                    </div>
+                    <div class="email-content">
+                      <p>Hi Mike,</p>
+                      <p>We have new project requirements last night.</p>
+                      <p>I am here to informed all of you that this property is not for sale like i have always said, if you try to sell this property without my signature i will make sure i sue you to court</p>
+                      <p>Cheers!
+                        <br>Andy Brown</p>
+                    </div>
+                  </div>
+                  <hr>
+
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Create Document Trigger -->
+
+
+
+
+
+        </div>
+
+    </div>
+    <!--end container-->
+
+    </section>
+    <!-- END CONTENT -->
+
+  </div>
+  <!-- END WRAPPER -->
+  </div>
+  <!-- END MAIN -->
+
+  <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+  <!-- START FOOTER -->
+  <footer class="page-footer light-blue darken-3">
+    <div class="footer-copyright">
+      <div class="container">
+        <span>Copyright © 2015 All rights reserved.</span>
+        <span class="right"> Design and Developed by <a class="grey-text text-lighten-4" href="http://geekslabs.com/">Solomon Kingsley</a></span>
+        </div>
+    </div>
+  </footer>
+    <!-- END FOOTER -->
+      <!--<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>-->
+    <!-- Compiled and minified JavaScript -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.2/js/materialize.min.js"></script>-->
+    <script type="text/javascript" src="bundle.js"></script>
+        <!-- <script type="text/javascript" src="assets/js/jquery-1.11.2.min.js"></script> -->
+    <!--materialize js-->
+    <!-- <script type="text/javascript" src="assets/js/materialize.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script> -->
+    <!--<script type="text/javascript">
+    $(document).ready(function(){
+       $('select').material_select();
+       // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+       $('.modal-trigger').leanModal();
+       $("#avatar").click(function() {
+
+      $("#avatar").not(this).removeClass("hover");
+
+      $(this).toggleClass("hover");
+
+  });
+
+     });
+
+
+    </script>-->
+
+</body>
+</html>

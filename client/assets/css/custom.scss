@@ -1,0 +1,98 @@
+
+.modalStyle {
+  padding: 20px;
+  max-height: 90%;
+}
+.light-reddish.darken-3 {
+  background-color: #ff3f00 !important;
+}
+#modal2 {
+  padding: 30px;
+  min-height: 620px;
+}
+.side-icons {
+  font-size: 12px;
+  text-align: center
+}
+.errors {
+  display: inline;
+  font-size: 10px;
+  font-style: italic;
+  color: #cc0000;
+}
+.container {
+  width: 100% !important;
+}
+.selectBox {
+  display: inline-block;
+};
+
+.actionStyle {
+  bottom: 5px;
+   right: 4px;
+}
+.logo {
+  width: 200px;
+  height: 45px;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+#mail-app {
+  background: url('../img/backgroung.png') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+#createDocument {
+  padding: 10px;
+}
+#mainPage {
+  width: 100%
+}
+#email-sidebar {
+  min-height: 650px;
+  width: 7%;
+  margin-right: 10px;
+  li {
+    padding: 10px 0;
+    text-align: center;
+          i {
+            padding: 12px;
+            color: #ff3f00;
+            font-size:28px;
+          }
+  }
+}
+#authentication {
+  display: inline-block;
+  padding: 32px 8px 0px 8px;
+  border: 1px solid #EEE;
+  background-color: #dde0ed;
+  margin-left: 500px;
+  .logo {
+    width: 350px;
+  }
+}
+
+#create {
+  background-color: #26a69a;
+  padding: 0px 0px 0px;
+    border-width: 0px;
+    border-style: none;
+    border-color: buttonface;
+}
+.button {
+    margin: 10px
+}
+input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
+    margin: 0 0 5px 0;
+}
+.red-text {
+  font-style: italic;
+  font-size: 14px;
+}
+a {
+  cursor: pointer;
+}
+#email-list {
+  min-height: 650px;
+}

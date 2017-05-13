@@ -184,6 +184,37 @@ const User = {
         }
       );
     });
+  },
+
+  fetchDetails(req, res) {
+    return db.User
+    .find({
+      where: {
+        $or: [
+          { email: req.params.identifier
+          }, {
+            username: req.params.identifier
+          }
+        ]
+      }
+    })
+    .then((user) => {
+      if (!user) {
+        res.send(
+          {
+            success: false,
+            message: 'User does not exist'
+          }
+          );
+      } else {
+        return res
+          .status(200)
+          .send({ user });
+      }
+    })
+    .catch((error) => {
+      res.send(error);
+    });
   }
 };
 export default User;

@@ -67,6 +67,49 @@ const Helpers = {
     return token;
   },
 
+  createQueryForList(req) {
+    const limit = req.query.limit || null;
+    const offset = req.query.offset || 0;
+    const query = {};
+    if (limit || offset) {
+      query.limit = {
+        limit,
+      };
+      query.offset = {
+        offset,
+      };
+    }
+    const hasDecodedProperty =
+    Object.prototype.hasOwnProperty.call(req, 'decoded');
+    if (hasDecodedProperty) {
+      const ownerId = req.decoded.user.id;
+      const roleId = req.decoded.user.roleId;
+      if (roleId === 1) {
+        query.where = {};
+      } else {
+        query.where = {
+          $or: [{
+            access: 'public',
+          }, {
+            ownerId,
+          },
+          {
+            $and: [{
+              ownerRoleId: roleId,
+            }, {
+              access: 'role',
+            }],
+          },
+          ],
+        };
+      }
+    } else {
+      query.where = {
+        access: 'public',
+      };
+    }
+    return query;
+  },
   /**
    * getErrors - gets all errors
    * @param  {Array} errors an array of errors
@@ -75,7 +118,7 @@ const Helpers = {
   getErrors(errors) {
     const allErrors = {};
     errors.forEach((error) => {
-      const title = `${error.param} error`,
+      const title = `${error.param}`,
         errorMessage = error.msg;
       allErrors[title] = errorMessage;
     });

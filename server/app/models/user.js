@@ -104,7 +104,7 @@ const UsersModel = (sequelize, DataTypes) => {
         user.generateHash();
       },
       beforeUpdate(user) {
-        if (user._changed.password) {
+        if (user.changed.password) {
           user.generateHash();
         }
       }

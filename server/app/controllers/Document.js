@@ -1,5 +1,5 @@
 import db from '../models';
-// import Helpers from './helpers';
+import Helpers from './helpers';
 
 
 const Document = {
@@ -17,24 +17,7 @@ const Document = {
       .catch(error => res.status(400).send(error.errors));
   },
   fetchAll(req, res) {
-    let query;
-    if (req.query.limit && req.query.offset) {
-      if (isNaN(req.query.limit) || isNaN(req.query.offset)) {
-        return res.status(403)
-        .send(
-          {
-            success: false,
-            message: 'limit and offset should be integers'
-          }
-        );
-      }
-      query = {
-        offset: parseInt(req.query.offset, 10),
-        limit: parseInt(req.query.limit, 10)
-      };
-    } else {
-      query = {};
-    }
+    const query = Helpers.createQueryForList(req);
     db.Document
     .findAll(query)
     .then((document) => {
@@ -84,7 +67,37 @@ const Document = {
         message: 'Document was deleted successfully'
       }
       ));
-  }
+  },
+  findAllUserDocument(req, res) {
+    return db.Document
+    .findAll({
+      where: {
+        $or: [
+          { access: 'public' },
+          {
+            ownerRoleId: req.decoded.roleId
+          },
+          {
+            ownerId: req.params.id
+          }
+        ]
+      },
+      include: [db.User],
+      order: [['updatedAt', 'DESC']]
+    })
+    .then((document) => {
+      if (!document) {
+        return res.status(404).send({
+          message: 'Document Not Found',
+        });
+      }
+      return res.status(200).send(document);
+    })
+    .catch(error => res.status(400).send({
+      error,
+      message: 'Error occurred while retrieving documents'
+    }));
+  },
 };
 
 export default Document;
