@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { PropTypes } from 'react';
 
 const TextInput = (
   {
@@ -12,7 +11,9 @@ const TextInput = (
     onBlur,
     onFocus,
     value,
-    label
+    label,
+    labelclass,
+
   }
 ) => (
   <div className={className}>
@@ -27,20 +28,21 @@ const TextInput = (
       value={value}
     />
     { error && <span className="red-text">{error}</span> }
-    <label htmlFor="{label}">{label}</label>
+    <label htmlFor="{label}" className={labelclass}>{label}</label>
   </div>);
 
 TextInput.propTypes = {
-  type: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  error: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired
+  type: PropTypes.string,
+  name: PropTypes.string,
+  className: PropTypes.string,
+  id: PropTypes.string,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  error: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.string,
+  labelclass: PropTypes.string
 };
 
 export default TextInput;

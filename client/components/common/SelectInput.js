@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { PropTypes } from 'react';
 
 const SelectInput = (
   {
@@ -17,11 +16,11 @@ const SelectInput = (
     <select
     id={id}
     name={name}
-    value={value} 
+    value={value}
     className={className}
     onChange={onChange}
     >
-      <option value="" disabled selected> Choose your option </option>
+      <option value="" disabled> Choose your option </option>
       {options && options.map((option) => {
         return (<option key={option.value} value={option.value}>
             {option.text}</option>);
@@ -32,15 +31,15 @@ const SelectInput = (
   </div>);
 
 SelectInput.propTypes = {
-  value: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
-  defaultOption: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  className: PropTypes.string.isRequired
+  value: PropTypes.string,
+  name: PropTypes.string,
+  id: PropTypes.string,
+  onChange: PropTypes.func,
+  options: PropTypes.array,
+  defaultOption: PropTypes.string,
+  error: PropTypes.string,
+  label: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default SelectInput;

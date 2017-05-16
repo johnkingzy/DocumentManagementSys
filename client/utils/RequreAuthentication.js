@@ -20,7 +20,7 @@ export default function (ComposedComponent) {
 
     componentWillMount() {
       const token = localStorage.getItem('jwtToken');
-      jwt.verify(token, key, (error, decoded) => {
+      jwt.verify(token, key, (error) => {
         if (error) {
           this.props.actions.logout();
           this
@@ -59,7 +59,11 @@ export default function (ComposedComponent) {
   Authenticate.contextTypes = {
     router: React.PropTypes.object.isRequired
   };
-
+  /**
+   * mapDispatchToProps - maps dispatch to props value
+   * @param  {Function} dispatch dispatchs function
+   * @return {Object} returns an Object
+   */
   function mapDispatchToProps(dispatch) {
     return {
       actions: bindActionCreators(SignupActions, dispatch)

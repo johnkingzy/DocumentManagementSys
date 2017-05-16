@@ -87,86 +87,67 @@ class LoginModal extends React.Component {
    */
   render() {
     return (
-      <div id="modal1" className="modal modalStyle">
-        <main>
+  <div id="modal1" className="modal modalStyle">
+    <main>
+      <center>
+        <div className="section" />
+        <center>
+          <h6>Welcome, Log in Your Account!</h6>
+        </center>
+        <form className="col s12" onSubmit={this.onSubmit} method="post">
+          <div className="row">
+            <div className="col s12" />
+          </div>
+
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                className="validate"
+                type="text"
+                name="username"
+                id="username"
+                onChange={this.onChange}
+                onFocus={this.clearError}
+                required
+              />
+              <label htmlFor="username">Enter your username</label>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="input-field col s12">
+              <input
+                className="validate"
+                type="password"
+                name="password"
+                id="password"
+                onChange={this.onChange}
+                onFocus={this.clearError}
+              />
+              <label htmlFor="password">Enter your password</label>
+            </div>
+            <span
+              id="right"
+            >
+              <a className="orange-text" href="#!">
+              <b>Forgot Password?</b></a>
+            </span>
+          </div>
+
+          <br />
           <center>
-            <div className="section" />
-            <nav className="light-blue darken-3">
-              <div className="nav-wrapper">
-                <div className="left col s12 m5 l5">
-                  <ul>
-                    <li><a href="#!" className="username-menu">
-                      <i className="modal-action modal-close  mdi-hardware-keyboard-backspace" />
-                    </a>
-                    </li>
-                    <li>
-                      <span className="orange-text">Please, login into your account </span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="col s12 m7 l7 hide-on-med-and-down">
-                  <ul className="right">
-                    <li><a href="#!" className="modal-action modal-close">
-                      <i className="material-icons">close</i></a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </nav>
-            <form className="col s12" onSubmit={this.onSubmit} method="post">
-              <div className="row">
-                <div className="col s12" />
-              </div>
-
-              <div className="row">
-                <div className="input-field col s12">
-                  <input
-                    className="validate"
-                    type="text"
-                    name="username"
-                    id="username"
-                    onChange={this.onChange}
-                    onFocus={this.clearError}
-                    required
-                  />
-                  <label htmlFor="username">Enter your username</label>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="input-field col s12">
-                  <input
-                    className="validate"
-                    type="password"
-                    name="password"
-                    id="password"
-                    onChange={this.onChange}
-                    onFocus={this.clearError}
-                  />
-                  <label htmlFor="password">Enter your password</label>
-                </div>
-                <span
-                  id="right"
-                >
-                  <a className="orange-text" href="#!"><b>Forgot Password?</b></a>
-                </span>
-              </div>
-
-              <br />
-              <center>
-                <div className="row">
-                  <button
-                    type="submit"
-                    name="btn_login"
-                    className="col s12 btn btn-large waves-effect light-blue darken-3"
-                    disabled={this.state.invalid}
-                  >Login</button>
-                </div>
-              </center>
-            </form>
+        <div className="row">
+          <button
+            type="submit"
+            name="btn_login"
+            className="col s12 btn btn-large waves-effect light-blue darken-3"
+            disabled={this.state.invalid}
+          >Login</button>
+        </div>
+      </center>
+        </form>
             <a className="modal-action modal-close">Create An account</a>
           </center>
-
           <div className="section" />
           <div className="section" />
         </main>

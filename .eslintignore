@@ -4,5 +4,4 @@ README.md
 npm-debug.log
 .eslintrc
 client/assets
-client/bundle.js
 coveralls.yml

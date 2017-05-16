@@ -15,13 +15,15 @@ const Authenticate = {
    * @return {void} void no return
    */
   validateInput(req, res, next) {
+    const userNameError = `Please provide a
+    username with atleast 5 characters.`;
     req.checkBody(
       {
         username: {
           notEmpty: true,
           isLength: {
             options: [{ min: 5, max: 15 }],
-            errorMessage: 'Please provide a username with atleast 5 characters. Max 15'
+            errorMessage: userNameError
           },
           errorMessage: 'Your Username is required'
         },
@@ -43,7 +45,8 @@ const Authenticate = {
           notEmpty: true,
           isLength: {
             options: [{ min: 8 }],
-            errorMessage: 'Please provide a valid password with minimum of 8 characters'
+            errorMessage: `Please provide a valid
+            password with minimum of 8 characters`
           },
         }
       }
@@ -389,11 +392,13 @@ const Authenticate = {
         );
       }
       if (!access.includes(req.body.access)) {
+        const message = `Document access level can only
+        be set to public, private, or role`;
         return res.status(400)
         .send(
           {
             success: false,
-            message: 'Document access level can only be set to public, private, or role'
+            message
           }
         );
       }

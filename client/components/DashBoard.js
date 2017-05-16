@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 
 import Modal from './documents/CreateDocument';
 import DocumentList from './documents/DocumentsList';
+import DocumentView from './documents/DocumentView';
+import WelcomeBoard from './WelcomeBoard';
 import SideBar from './common/SideBar';
 import * as DocumentActions from '../actions/DocumentAction';
 
@@ -19,25 +21,32 @@ class Dashboard extends React.Component {
    * @param  {object} context context of parent class
    * @return {void} no return or void
    */
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
-      document: {
-        title: '',
-        content: ''
-      },
-      isOpen: false
+      isOpen: false,
+      selectedId: ''
     };
+    this.openDocument = this.openDocument.bind(this);
+    this.deleteDocument = this.deleteDocument.bind(this);
+    this.toggleOpen = this.toggleOpen.bind(this);
   }
-  componentDidMount() {
+
+  componentWillMount() {
     this.props.actions.loadDocuments();
+  }
+
+  componentDidMount() {
     $('ul.tabs').tabs();
     $('ul.tabs').tabs('select_tab', 'public');
     $('.tooltipped').tooltip({ delay: 50 });
     $('.dropdown-button').dropdown();
   }
-  componentWillUnMount() {
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.allDocuments.id !== nextProps.allDocuments.id) {
+      this.props.allDocuments = nextProps;
+    }
   }
 
   /**
@@ -50,12 +59,41 @@ class Dashboard extends React.Component {
     });
   }
 
+  openDocument(event) {
+    event.preventDefault();
+    const id = event.target.id;
+    this.setState({
+      selectedId: id
+    });
+  }
+
+  deleteDocument(id) {
+    this.props.actions.deleteDocument(id)
+    .then(() => {
+      this.setState({
+        selectedId: ''
+      });
+      Materialize.toast('Document was deleted successfully', 1000, 'green');
+    });
+  }
+
+  toggleOpen() {
+    this.setState({
+      selectedId: ''
+    });
+  }
+
   /**
    * render - renders the class component
    * @return {object} containg the view elements
    */
   render() {
-    const { createDocument } = this.props.actions;
+    const allDocuments = this.props.allDocuments;
+    const { createDocument, updateDocument } = this.props.actions;
+    const selectedId = this.state.selectedId;
+    const selectedDocument = allDocuments.filter((document) => {
+      return (document.id === parseInt(selectedId, 10));
+    });
     return (
         <div>
           <SideBar />
@@ -66,7 +104,17 @@ class Dashboard extends React.Component {
           data-target="modal2">
             <i className="material-icons">create</i></a>
         </div>
-        <DocumentList allDocuments={this.props.allDocuments} />
+         <DocumentList
+         allDocuments={allDocuments}
+         openDocument={this.openDocument}
+         />
+        { selectedId ? <DocumentView
+        updateDocument={updateDocument}
+        currentDocument={selectedDocument}
+        deleteDocument={this.deleteDocument}
+        toggleOpen={this.toggleOpen}
+        /> :
+         <WelcomeBoard /> }
         <Modal
           createDocument={createDocument}
           onClose={this.toggleModal}
@@ -79,17 +127,27 @@ class Dashboard extends React.Component {
 }
 Dashboard.propTypes = {
   allDocuments: React.PropTypes.array.isRequired,
-  actions: React.PropTypes.object.isRequired
+  actions: React.PropTypes.object.isRequired,
 };
-
+/**
+ * mapDispatchToProps - maps dispatch to props value
+ * @param  {Function} dispatch dispatchs function
+ * @return {Object} returns an Object
+ */
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(DocumentActions, dispatch)
   };
 }
+/**
+ * mapStateToProps - maps state value to props
+ * @param  {object} state the store state
+ * @param  {type} ownProps the component state
+ * @return {Object} returns an object
+ */
 function mapStateToProps(state) {
   return {
-    allDocuments: state.Documents
+    allDocuments: state.Documents,
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

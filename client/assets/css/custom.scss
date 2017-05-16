@@ -4,7 +4,11 @@
   max-height: 90%;
 }
 .light-reddish.darken-3 {
-  background-color: #ff3f00 !important;
+  // background-color: #ff3f00 !important;
+  background-color: #1e88e5 !important;
+}
+.section {
+  padding-top: 0px !important;
 }
 #modal2 {
   padding: 30px;
@@ -14,11 +18,62 @@
   font-size: 12px;
   text-align: center
 }
+img.responsive-img {
+  max-width: 50% !important;
+}
+.bar {
+  margin-top: 50px;
+}
 .errors {
   display: inline;
   font-size: 10px;
   font-style: italic;
   color: #cc0000;
+}
+.btn-large {
+  margin-top: 20px;
+}
+
+.icon {
+  color: #ff3f00;
+}
+
+#email-details {
+  margin-left: 10px;
+  width: 630px;
+  min-height: 650px;
+}
+#avatar {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: 300;
+    padding: 10px;
+    text-transform: capitalize;
+}
+
+.email-content {
+  color: #272222;
+}
+
+#truncate {
+  .material-icons{
+    display: inline-flex;
+    vertical-align: top;
+    margin-top: 10px;
+    }
+    #txt3{
+    font-size:15px;
+    line-height:45px;
+    margin-top: 10px;
+    }
 }
 .container {
   width: 100% !important;
@@ -38,9 +93,9 @@
   margin-left: 30px;
 }
 #mail-app {
-  background: url('../img/backgroung.png') no-repeat;
+  background: url('../img/office.png') no-repeat;
   background-size: cover;
-  background-position: center;
+  // background-position: center;
 }
 #createDocument {
   padding: 10px;
@@ -57,7 +112,7 @@
     text-align: center;
           i {
             padding: 12px;
-            color: #ff3f00;
+            color: #1e88e5;
             font-size:28px;
           }
   }
@@ -67,7 +122,9 @@
   padding: 32px 8px 0px 8px;
   border: 1px solid #EEE;
   background-color: #dde0ed;
-  margin-left: 500px;
+  width: 500px;
+  margin-left: 600px;
+  margin-top: 40px;
   .logo {
     width: 350px;
   }
@@ -82,6 +139,14 @@
 }
 .button {
     margin: 10px
+}
+.data-nav {
+  margin-top: 20px;
+}
+#modal1 {
+  padding: 40px;
+  width: 500px;
+  min-height: 550px;
 }
 input[type=text], input[type=password], input[type=email], input[type=url], input[type=time], input[type=date], input[type=datetime-local], input[type=tel], input[type=number], input[type=search], textarea.materialize-textarea {
     margin: 0 0 5px 0;

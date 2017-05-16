@@ -1,10 +1,10 @@
 import isEmpty from 'lodash/isEmpty';
-
+import { isAuthenticated, user } from './initialState';
 import types from '../actions/actionTypes';
 
 const initialState = {
-  isAuthenticated: false,
-  user: {}
+  isAuthenticated,
+  user
 };
 
 export default (state = initialState, action = {}) => {

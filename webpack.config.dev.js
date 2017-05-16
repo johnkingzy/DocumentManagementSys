@@ -45,14 +45,14 @@ module.exports = {
 
       },
       { test: /\.woff2(\?\S*)?$/,
-        loader: 'url-loader?prefix=font/&limit=5000'
+        loader: 'url-loader?limit=100000'
       },
       { test: /\.woff(\?\S*)?$/,
-        loader: 'url-loader?prefix=font/&limit=5000'
+        loader: 'url-loader?limit=100000'
       },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
 
-        loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
+        loader: 'url-loader?limit=100000&mimetype=application/octet-stream'
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,

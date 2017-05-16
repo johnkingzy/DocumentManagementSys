@@ -11,7 +11,8 @@ UserRouter.route('/')
 UserRouter.route('/:id')
   .get(Auth.isLoggedIn, Auth.checkAdmin, User.fetchOne)
   .put(Auth.isLoggedIn, Auth.validateUpdate, User.updateUserData)
-  .delete(Auth.isLoggedIn, Auth.checkAdmin, Auth.validateDelete, User.deleteUser);
+  .delete(Auth.isLoggedIn,
+    Auth.checkAdmin, Auth.validateDelete, User.deleteUser);
 UserRouter.route('/verify/:identifier')
   .get(User.fetchDetails);
 

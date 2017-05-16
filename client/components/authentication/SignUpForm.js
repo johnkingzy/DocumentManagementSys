@@ -12,10 +12,11 @@ class SignUpForm extends React.Component {
   /**
    * constructor - contains the class properties
    * @param  {object} props property value
+   * @param {Object} context class context
    * @return {void} returns void or no return
    */
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       firstname: '',
       lastname: '',

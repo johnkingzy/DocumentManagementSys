@@ -8,7 +8,6 @@ const User = {
    *   Route: POST: /users
    *  @param {object} req request object
    *  @param {object} res response object
-   *  @return {void|Reponse} response object or void
    */
   create(req, res) {
     db.User
@@ -30,7 +29,6 @@ const User = {
    *  Route: POST: /users/login
    * @param {object} req request object
    * @param {object} res response object
-   * @return {void|Response} response object or void
    */
   login(req, res) {
     db.User
@@ -115,7 +113,6 @@ const User = {
    * Route: GET: /users/:id
    * @param {object} req request object
    * @param {object} res response object
-   * @return {void|Response} return response object or void
    */
   fetchOne(req, res) {
     const UserId = req.params.id;
@@ -144,7 +141,6 @@ const User = {
    * Route: PUT: /user/:id
    * @param {object} req request object
    * @param {object} res response object
-   * @return {void|Response} returns response object or void
    */
   updateUserData(req, res) {
     req.userData
@@ -186,6 +182,13 @@ const User = {
     });
   },
 
+
+  /**
+   * fetchDetails - fetch a user details
+   * @param  {Object} req request object
+   * @param  {Object} res response object
+   * @return {Object} returns an object
+   */
   fetchDetails(req, res) {
     return db.User
     .find({

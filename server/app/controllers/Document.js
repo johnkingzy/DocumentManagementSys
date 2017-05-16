@@ -42,11 +42,12 @@ const Document = {
   update(req, res) {
     req.document
     .update(req.body)
-    .then(() => {
+    .then((data) => {
       res.status(200)
       .send(
         {
           success: true,
+          document: data,
           message: 'Document updated successfully'
         }
       );

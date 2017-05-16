@@ -14,10 +14,24 @@ export function loadDocumentSuccess(documents) {
   };
 }
 
+export function viewDocumentSuccess(currentDocument) {
+  return {
+    type: types.VIEW_DOCUMENT_SUCCESS,
+    currentDocument
+  };
+}
+
 export function createDocumentSuccess(documents) {
   return {
-    type: types.CREATE_DOCUMENTS_SUCCESS,
+    type: types.CREATE_DOCUMENT_SUCCESS,
     documents
+  };
+}
+
+export function updateDocumentSuccess(document) {
+  return {
+    type: types.UPDATE_DOCUMENT_SUCCESS,
+    document
   };
 }
 
@@ -25,7 +39,7 @@ export function createDocument(data) {
   return dispatch => axios.post('/documents', data)
     .then((response) => {
       const result = response.data;
-      // dispatch(createDocumentSuccess(result));
+      dispatch(createDocumentSuccess(result));
     })
     .catch((error) => {
       throw (error);
@@ -48,4 +62,28 @@ export function loadDocuments() {
     .catch((error) => {
       throw (error);
     });
+}
+
+export function updateDocument(data) {
+  return (dispatch) => {
+    return axios.put(`/documents/${data.id}`, data)
+    .then(() => {
+      dispatch(loadDocuments());
+    })
+    .catch((error) => {
+      throw (error);
+    });
+  };
+}
+
+export function deleteDocument(documentId) {
+  return (dispatch) => {
+    return axios.delete(`/documents/${documentId}`)
+    .then(() => {
+      dispatch(loadDocuments());
+    })
+    .catch((error) => {
+      throw (error);
+    });
+  };
 }

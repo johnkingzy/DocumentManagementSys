@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import logo from '../assets/img/data-logo1.png';
 import LoginModal from './authentication/LoginModal';
 import SignUpForm from './authentication/SignUpForm';
 import * as SignUpActions from '../actions/SignUpAction';
@@ -44,7 +42,6 @@ class HomePage extends React.Component {
     return (<center>
       <div className="container">
         <div className="z-depth-1 grey lighten-4 row" id="authentication">
-          <img alt={logo} className="responsive-img logo" src={logo} />
           <SignUpForm
             saveUserDetails={saveUserDetails}
             isUserExists={isUserExists}
