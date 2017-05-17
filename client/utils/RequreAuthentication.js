@@ -20,16 +20,17 @@ export default function (ComposedComponent) {
 
     componentWillMount() {
       const token = localStorage.getItem('jwtToken');
-      jwt.verify(token, key, (error) => {
-        if (error) {
-          this.props.actions.logout();
-          this
-            .context
-            .router
-            .push('/login');
-        }
-      });
-      if (!this.props.isAuthenticated) {
+      if (token) {
+        jwt.verify(token, key, (error) => {
+          if (error) {
+            this.props.actions.logout();
+            this
+              .context
+              .router
+              .push('/login');
+          }
+        });
+      } else if (!this.props.isAuthenticated) {
         this
           .context
           .router
@@ -39,7 +40,6 @@ export default function (ComposedComponent) {
 
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
-        this.props.actions.logout();
         this
           .context
           .router
@@ -77,7 +77,13 @@ export default function (ComposedComponent) {
  * @returns {boolean}
  */
   function mapStateToProps(state) {
-    return { isAuthenticated: state.Auth.isAuthenticated };
+    let isAuthenticated;
+    if (state.Auth.isAuthenticated) {
+      isAuthenticated = state.Auth.isAuthenticated;
+    } else {
+      isAuthenticated = false;
+    }
+    return { isAuthenticated };
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(Authenticate);

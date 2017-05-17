@@ -33,7 +33,12 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.loadDocuments();
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      this.props.actions.loadDocuments().catch(() => {
+        this.context.router.push('/login');
+      });
+    }
   }
 
   componentDidMount() {
@@ -43,10 +48,9 @@ class Dashboard extends React.Component {
     $('.dropdown-button').dropdown();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.allDocuments.id !== nextProps.allDocuments.id) {
-      this.props.allDocuments = nextProps;
-    }
+  componentWillReceiveProps() {
+    $('ul.tabs').tabs();
+    $('ul.tabs').tabs('select_tab', 'public');
   }
 
   /**
@@ -108,13 +112,15 @@ class Dashboard extends React.Component {
          allDocuments={allDocuments}
          openDocument={this.openDocument}
          />
-        { selectedId ? <DocumentView
+        { selectedId && allDocuments ? <DocumentView
         updateDocument={updateDocument}
         currentDocument={selectedDocument}
         deleteDocument={this.deleteDocument}
         toggleOpen={this.toggleOpen}
         /> :
-         <WelcomeBoard /> }
+         <WelcomeBoard
+         allDocuments={allDocuments}
+         /> }
         <Modal
           createDocument={createDocument}
           onClose={this.toggleModal}
@@ -128,6 +134,9 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
   allDocuments: React.PropTypes.array.isRequired,
   actions: React.PropTypes.object.isRequired,
+};
+Dashboard.contextTypes = {
+  router: React.PropTypes.object.isRequired
 };
 /**
  * mapDispatchToProps - maps dispatch to props value

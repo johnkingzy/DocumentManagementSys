@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { logout } from '../../actions/SignUpAction';
+import signUpActions from '../../actions/SignUpAction';
+import searchActions from '../../actions/searchActions';
 
 import logo from '../../assets/img/data-logo.png';
 
@@ -17,7 +18,12 @@ class NavigationBar extends React.Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      search: ''
+    };
     this.logout = this.logout.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   /**
@@ -30,6 +36,18 @@ class NavigationBar extends React.Component {
     this.props.logout();
     this.context.router.push('/');
   }
+  onSubmit(event) {
+    event.preventDefault();
+    console.log(this.state.search);
+  }
+  onChange(event) {
+    const field = event.target.name;
+    const state = this.state;
+    state[field] = event.target.value;
+    return this.setState({
+      state
+    });
+  }
   /**
    * render - renders the NavigationBar component
    * @return {object} contains the JSX code
@@ -38,6 +56,20 @@ class NavigationBar extends React.Component {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
       <ul id="nav-mobile" className="right hide-on-med-and-down">
+        <form onSubmit={this.onSubmit} className="form-wrapper cf col s5 m5">
+              <input
+              className="col s8 m8"
+              type="text"
+              placeholder="Type Keyword here..."
+              name="search"
+              onChange={this.onChange}
+              required />
+              <button
+              id="search"
+              className="waves-effect waves-light light-blue btn col s4 m4"
+              type="submit">
+              Search</button>
+          </form>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/dashboard">Dashboard</Link></li>
         <li><Link to="/docs">View Docs</Link></li>
@@ -81,5 +113,11 @@ function mapStateToProps(state) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionsCreators(searchActions, dispatch)
+  };
+}
 
-export default connect(mapStateToProps, { logout })(NavigationBar);
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationBar);

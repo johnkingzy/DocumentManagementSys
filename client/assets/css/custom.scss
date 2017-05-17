@@ -18,6 +18,9 @@
   font-size: 12px;
   text-align: center
 }
+#search {
+  margin-top: 8px;
+}
 img.responsive-img {
   max-width: 50% !important;
 }
@@ -42,6 +45,7 @@ img.responsive-img {
   margin-left: 10px;
   width: 630px;
   min-height: 650px;
+  max-height: 650px;
 }
 #avatar {
     position: absolute;
@@ -97,6 +101,18 @@ img.responsive-img {
   background-size: cover;
   // background-position: center;
 }
+.form-wrapper input {
+        width: 330px;
+        height: 20px;
+        padding: 10px 5px;
+        float: left;    
+        font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
+        border: 0;
+        background: #eee;
+        -moz-border-radius: 3px 0 0 3px;
+        -webkit-border-radius: 3px 0 0 3px;
+        border-radius: 3px 0 0 3px;      
+    }
 #createDocument {
   padding: 10px;
 }
@@ -138,7 +154,7 @@ img.responsive-img {
     border-color: buttonface;
 }
 .button {
-    margin: 10px
+    margin: 10px;
 }
 .data-nav {
   margin-top: 20px;
@@ -160,4 +176,5 @@ a {
 }
 #email-list {
   min-height: 650px;
+  max-height: 650px;
 }

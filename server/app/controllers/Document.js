@@ -16,15 +16,24 @@ const Document = {
       })
       .catch(error => res.status(400).send(error.errors));
   },
+
   fetchAll(req, res) {
     const query = Helpers.createQueryForList(req);
     db.Document
-    .findAll(query)
-    .then((document) => {
+     .findAndCountAll(query)
+    .then((documents) => {
+      const condition = {
+        count: documents.count,
+        limit: query.limit,
+        offset: query.offset
+      };
+      delete documents.count;
+      const pagination = Helper.pagination(condition);
       res.send(
         {
           success: true,
-          document
+          documents,
+          pagination
         });
     })
     .catch((error) => {
@@ -68,6 +77,40 @@ const Document = {
         message: 'Document was deleted successfully'
       }
       ));
+  },
+  /**
+    * Search document
+    * Route: GET: /searchs?query={}
+    * @param {Object} req request object
+    * @param {Object} res response object
+    */
+  search(req, res) {
+    req.searchFilter.attributes = [
+      'id',
+      'title',
+      'content',
+      'access',
+      'ownerId',
+      'createdAt',
+      'updatedAt'
+    ];
+    db.Document
+      .findAndCountAll(req.searchFilter)
+      .then((documents) => {
+        const condition = {
+          count: documents.count,
+          limit: req.searchFilter.limit,
+          offset: req.searchFilter.offset
+        };
+        delete documents.count;
+        const pagination = Helpers.pagination(condition);
+        res.status(200)
+          .send({
+            message: 'This search was successfull',
+            documents,
+            pagination
+          });
+      });
   },
   findAllUserDocument(req, res) {
     return db.Document

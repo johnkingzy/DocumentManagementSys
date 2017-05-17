@@ -1,7 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-export default class WelcomePage extends React.Component {
+
+class WelcomeBoard extends React.Component {
   render() {
+    const { allDocuments, currentUserDetails } = this.props;
+    const userId = currentUserDetails.user.id;
+    const Public = allDocuments.filter((document) => {
+      return document.access === 'public' && document.ownerId === userId;
+    });
+    const Private = allDocuments.filter((document) => {
+      return document.access === 'private' && document.ownerId === userId;
+    });
+    const Role = allDocuments.filter((document) => {
+      return document.access === 'role' && document.ownerId === userId;
+    });
     return (
   <div id="email-details" className="col s12 m7 l7 card-panel">
   <div id="profile-page" className="section">
@@ -20,15 +33,20 @@ export default class WelcomePage extends React.Component {
           Maximuf</p>
       </div>
       <div className="col s2 center-align">
-          <h4 className="card-title grey-text text-darken-4">10</h4>
+          <h4 className="card-title grey-text text-darken-4">
+          { allDocuments && Public.length }</h4>
           <p className="medium-small grey-text">Public Documents</p>
       </div>
       <div className="col s2 center-align">
-          <h4 className="card-title grey-text text-darken-4">6</h4>
+          <h4 className="card-title grey-text text-darken-4">
+          { allDocuments && Private.length }
+          </h4>
           <p className="medium-small grey-text">Private Documents</p>
       </div>
       <div className="col s2 center-align">
-          <h4 className="card-title grey-text text-darken-4">6</h4>
+          <h4 className="card-title grey-text text-darken-4">
+          { allDocuments && Role.length }
+          </h4>
           <p className="medium-small grey-text">Private Documents</p>
       </div>
       <div className="col s1 right-align bar">
@@ -57,3 +75,39 @@ export default class WelcomePage extends React.Component {
     );
   }
 }
+WelcomeBoard.propTypes = {
+  allDocuments: React.PropTypes.array.isRequired,
+  currentUserDetails: React.PropTypes.object.isRequired,
+};
+/**
+ * mapDispatchToProps - maps dispatch to props value
+ * @param  {Function} dispatch dispatchs function
+ * @return {Object} returns an Object
+ */
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     actions: bindActionCreators(DocumentActions, dispatch)
+//   };
+// }
+/**
+ * mapStateToProps - maps state value to props
+ * @param  {object} state the store state
+ * @param  {type} ownProps the component state
+ * @return {Object} returns an object
+ */
+function mapStateToProps(state) {
+  let currentUserDetails;
+  if (!state.Auth.user) {
+    currentUserDetails = {
+      user: {
+        id: 0
+      }
+    };
+  } else {
+    currentUserDetails = state.Auth;
+  }
+  return {
+    currentUserDetails,
+  };
+}
+export default connect(mapStateToProps)(WelcomeBoard);

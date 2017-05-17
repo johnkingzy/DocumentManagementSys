@@ -196,7 +196,8 @@ export default class DocumentView extends React.Component {
             </div>
         );
     }
-    return (
+    if (currentDocument) {
+      return (
         <div id="email-details" className="col s12 m5 l5 card-panel">
             <nav className="data-nav white">
             <ul className="data-section left">
@@ -259,7 +260,9 @@ export default class DocumentView extends React.Component {
             </div>
             </div>
             </div>
-    );
+      );
+    }
+    return <h1> Hello </h1>;
   }
   }
 

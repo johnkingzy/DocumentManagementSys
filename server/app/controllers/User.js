@@ -182,6 +182,42 @@ const User = {
     });
   },
 
+  /**
+     * Search users
+     * Route: GET: /users/searchs?query=
+     * @param {Object} req request object
+     * @param {Object} res response object
+     * @returns {void|Response} response object or void
+     */
+  search(req, res) {
+    const request = req.searchFilter;
+    let condition = {};
+    let pagination;
+    request.attributes = [
+      'id',
+      'username',
+      'firstname',
+      'lastname',
+      'email',
+      'createdAt',
+    ];
+    db.User.findAndCountAll(request)
+     .then((users) => {
+       condition = {
+         count: users.count,
+         limit: request.limit,
+         offset: request.offset
+       };
+       delete users.count;
+       pagination = Helpers.pagination(condition);
+       res.status(200)
+         .send({
+           message: 'Your search was successful',
+           users,
+           pagination
+         });
+     });
+  },
 
   /**
    * fetchDetails - fetch a user details

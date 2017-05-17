@@ -14,38 +14,6 @@ export function loadDocumentSuccess(documents) {
   };
 }
 
-export function viewDocumentSuccess(currentDocument) {
-  return {
-    type: types.VIEW_DOCUMENT_SUCCESS,
-    currentDocument
-  };
-}
-
-export function createDocumentSuccess(documents) {
-  return {
-    type: types.CREATE_DOCUMENT_SUCCESS,
-    documents
-  };
-}
-
-export function updateDocumentSuccess(document) {
-  return {
-    type: types.UPDATE_DOCUMENT_SUCCESS,
-    document
-  };
-}
-
-export function createDocument(data) {
-  return dispatch => axios.post('/documents', data)
-    .then((response) => {
-      const result = response.data;
-      dispatch(createDocumentSuccess(result));
-    })
-    .catch((error) => {
-      throw (error);
-    });
-}
-
 /**
  * loadDocument - fetches documents from database
  * @return {Function} returns a dispatch
@@ -58,6 +26,16 @@ export function loadDocuments() {
     .then((response) => {
       const documents = response.data;
       dispatch(loadDocumentSuccess(documents));
+    })
+    .catch((error) => {
+      throw (error);
+    });
+}
+
+export function createDocument(data) {
+  return dispatch => axios.post('/documents', data)
+    .then(() => {
+      dispatch(loadDocuments());
     })
     .catch((error) => {
       throw (error);

@@ -19,17 +19,15 @@ import HomePage from './components/HomePage';
 // };
 const requireAuth = (nextState, replace) => {
   const token = localStorage.getItem('jwtToken');
-  if (!token) {
-    replace('/login');
-  } else {
-    replace('/dashboard');
+  if (token) {
+    replace('/');
   }
 };
 
 export default (
   <Route path="/" components={App}>
-    <IndexRoute onEnter={requireAuth} components={HomePage} />
-    <Route path="/dashboard" components={requireAuthentication(DashBoard)} />
-    <Route path="login" components={HomePage} />
+    <IndexRoute component={requireAuthentication(DashBoard)} />
+    <Route path="dashboard" components={requireAuthentication(DashBoard)} />
+    <Route path="login" onEnter={requireAuth} components={HomePage} />
   </Route>
 );

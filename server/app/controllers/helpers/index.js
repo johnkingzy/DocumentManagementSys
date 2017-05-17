@@ -35,6 +35,21 @@ const Helpers = {
     return document.access === 'public';
   },
   /**
+   * Query for search terms
+   * @param {Array} terms array of search terms
+   * @returns {Object} return user's data
+   */
+  likeSearch(terms) {
+    const like = {
+      $or:
+      [
+        { title: { $iLike: { $any: terms } } },
+        { content: { $iLike: { $any: terms } } }
+      ]
+    };
+    return like;
+  },
+  /**
    * isAdmin - checks if a user is an admin user
    * @param  {integer} roleId User's roleId
    * @return {boolean} either true or false
@@ -82,26 +97,11 @@ const Helpers = {
     const hasDecodedProperty =
     Object.prototype.hasOwnProperty.call(req, 'decoded');
     if (hasDecodedProperty) {
-      const ownerId = req.decoded.user.id;
       const roleId = req.decoded.user.roleId;
       if (roleId === 1) {
         query.where = {};
       } else {
-        query.where = {
-          $or: [{
-            access: 'public',
-          }, {
-            ownerId,
-          },
-          {
-            $and: [{
-              ownerRoleId: roleId,
-            }, {
-              access: 'role',
-            }],
-          },
-          ],
-        };
+        query.where = this.documentAccess(req);
       }
     } else {
       query.where = {
@@ -109,6 +109,39 @@ const Helpers = {
       };
     }
     return query;
+  },
+  documentAccess(req) {
+    const access = {
+      $or:
+      [
+        { access: 'public' },
+        { ownerId: req.decoded.userId },
+        {
+          $and: [
+            { access: 'role' },
+            { ownerRoleId: req.decoded.roleId }
+          ]
+        }
+      ]
+    };
+    return access;
+  },
+  /**
+   * Pagination
+   * @param {Object} condition pagination condition
+   * @returns {Object} return an object
+   */
+  pagination(condition) {
+    const next = Math.ceil(condition.count / condition.limit);
+    const currentPage = Math.floor((condition.offset / condition.limit) + 1);
+    const pageSize = condition.limit > condition.count
+      ? condition.count : condition.limit;
+    return {
+      page_count: next,
+      page: currentPage,
+      page_size: Number(pageSize),
+      total_count: condition.count
+    };
   },
   /**
    * getErrors - gets all errors

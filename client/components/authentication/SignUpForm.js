@@ -23,6 +23,7 @@ class SignUpForm extends React.Component {
       username: '',
       email: '',
       password: '',
+      bio: '',
       errors: {},
     };
     this.onChange = this.onChange.bind(this);

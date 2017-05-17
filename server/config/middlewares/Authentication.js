@@ -131,10 +131,13 @@ const Authenticate = {
    * @return {void} no return or void
    */
   isLoggedIn(req, res, next) {
-    const authorizationHeader = req.headers.authorization;
+    const authorizationHeader = req.headers.authorization ||
+    req.headers['x-access-token'];
     let token;
-    if (authorizationHeader) {
+    if (req.headers.authorization) {
       token = authorizationHeader.split(' ')[1];
+    } else {
+      token = authorizationHeader;
     }
     if (token) {
       jwt.verify(token, key, (error, decoded) => {
@@ -405,6 +408,99 @@ const Authenticate = {
       req.document = document;
       next();
     });
+  },
+
+  /**
+  * Validate search
+  * @param {Object} req req object
+  * @param {Object} res response object
+  * @param {Object} next Move to next controller handler
+  * @returns {void|Object} response object or void
+  *
+  */
+  validateSearch(req, res, next) {
+    const query = {};
+    const terms = [];
+    const userQuery = req.query.query;
+    const searchArray =
+       userQuery ? userQuery.toLowerCase().match(/\w+/g) : null;
+    const limit = req.query.limit || 10;
+    const offset = req.query.offset || 0;
+    const documentOrder = req.query.documentOrder;
+    const order =
+       documentOrder && documentOrder === 'ASC' ? documentOrder : 'DESC';
+
+    if (limit < 0 || !/^([1-9]\d*|0)$/.test(limit)) {
+      return res.status(400)
+         .send({
+           message: 'Only positive number is allowed for limit value'
+         });
+    }
+    if (offset < 0 || !/^([1-9]\d*|0)$/.test(offset)) {
+      return res.status(400)
+         .send({
+           message: 'Only positive number is allowed for offset value'
+         });
+    }
+
+    if (searchArray) {
+      searchArray.forEach((word) => {
+        terms.push(`%${word}%`);
+      });
+    }
+    query.limit = limit;
+    query.offset = offset;
+    query.order = [['createdAt', order]];
+
+    if (`${req.baseUrl}${req.route.path}` === '/users/search') {
+      if (!req.query.query) {
+        return res.status(400)
+           .send({
+             message: 'Please enter a search query'
+           });
+      }
+      query.where = {
+        $or: [
+           { username: { $iLike: { $any: terms } } },
+           { firstname: { $iLike: { $any: terms } } },
+           { lastname: { $iLike: { $any: terms } } },
+           { email: { $iLike: { $any: terms } } }
+        ]
+      };
+    }
+    if (`${req.baseUrl}${req.route.path}` === '/users/') {
+      query.where = helper.isAdmin(req.decoded.roleId)
+         ? {}
+         : { id: req.decoded.userId };
+    }
+    if (`${req.baseUrl}${req.route.path}` === '/documents/search') {
+      if (!req.query.query) {
+        return res.status(400)
+           .send({
+             message: 'Please enter a search query'
+           });
+      }
+      if (helper.isAdmin(req.decoded.roleId)) {
+        query.where = helper.likeSearch(terms);
+      } else {
+        query.where = {
+          $and: [helper.documentAccess(req), helper.likeSearch(terms)]
+        };
+      }
+    }
+    if (`${req.baseUrl}${req.route.path}` === '/users/:id/documents') {
+      const adminSearch = req.query.query ? helper.likeSearch(terms) : { };
+      const userSearch = req.query.query
+         ? [helper.documentAccess(req), helper.likeSearch(terms)]
+         : helper.documentAccess(req);
+      if (helper.isAdmin(req.decoded.roleId)) {
+        query.where = adminSearch;
+      } else {
+        query.where = userSearch;
+      }
+    }
+    req.searchFilter = query;
+    next();
   },
 
   /**

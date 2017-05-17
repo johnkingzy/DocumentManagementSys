@@ -4,6 +4,14 @@ import { getFirstLetter, getDate } from '../../utils/helper';
 export default class RoleDocuments extends React.Component {
   render() {
     const { document, id, viewDocument } = this.props;
+    if (!document) {
+      return (
+        <ul className="collection" id="public">
+            <span> You have No Public Documents </span>
+            <br />
+            </ul>
+      );
+    }
     return (
            <li key={id} className="collection-item avatar email-unread">
             <span className="circle blue darken-1">

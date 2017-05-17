@@ -8,6 +8,11 @@ UserRouter.route('/')
   .get(Auth.isLoggedIn, Auth.checkAdmin, User.fetchAll)
   .post(Auth.validateInput, User.create);
 
+UserRouter.get('/search',
+    Auth.isLoggedIn,
+    Auth.validateSearch,
+    User.search);
+
 UserRouter.route('/:id')
   .get(Auth.isLoggedIn, Auth.checkAdmin, User.fetchOne)
   .put(Auth.isLoggedIn, Auth.validateUpdate, User.updateUserData)

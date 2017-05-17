@@ -50,90 +50,77 @@ class DocumentList extends React.Component {
 
   render() {
     const { allDocuments, openDocument } = this.props;
-    // console.log(openDocument);
     const { isPublic, isPrivate, isRole } = this.state;
-    if (allDocuments && allDocuments.length > 0) {
-      return (
-            <div id="email-list" className="col s10 m5 l5 card-panel z-depth-1">
-            <div className="card-tabs">
-              <ul id="tabs-swipe-demo" className="tabs light-blue">
-                <li onClick={this.onClick} className="tab">
-                <a className="active white-text"
-                href="#public" name="public">
-                Public
-                </a></li>
-                <li onClick={this.onClick} className="tab">
-                <a className="white-text" href="#private" name="private">
-                Private
-                </a></li>
-                <li onClick={this.onClick} className="tab">
-                  <a className="white-text" href="#role" name="role">
-                  Role
-                  </a></li>
-              </ul>
-            </div>
-           { isPublic && <ul className="collection" id="public">
-            { allDocuments && allDocuments.map((document) => {
-              if (document.access === 'public') {
-                return (<PublicDocument
-                document={document}
-                key={document.id}
-                viewDocument={openDocument}
-                />);
-              }
-            })}
-            <br />
-            </ul>}
-           { isPrivate && <ul className="collection" id="private">
-            { allDocuments && allDocuments.map((document) => {
-              if (document.access === 'private') {
-                return (<PrivateDocument
-                document={document}
-                viewDocument={openDocument}
-                key={document.id}/>);
-              }
-            })}
-            <br />
-            </ul> }
-            { isRole && <ul className="collection" id="role">
-            { allDocuments && allDocuments.map((document) => {
-              if (document.access === 'role') {
-                return (<RoleDocument
-                document={document}
-                id={document.id}
-                viewDocument={openDocument}
-                />);
-              }
-            })}
-            <br />
-              </ul> }
-            </div>
-      );
-    }
     return (
-      <div id="email-list" className="col s10 m5 l5 card-panel z-depth-1">
-        <div className="card-tabs">
-              <ul className="tabs tabs-fixed-width">
-                <li className="tab">
-                <a className="active"
-                href="#public">Public</a></li>
-                <li className="tab"><a href="#private">Private</a></li>
-                <li className="tab"><a href="#role">Role</a></li>
-              </ul>
-            <ul className="collection" id="public">
-            <span> You have No Public Documents </span>
-            <br />
+          <div id="email-list" className="col s10 m5 l5 card-panel z-depth-1">
+          <div className="card-tabs">
+            <ul id="tabs-swipe-demo" className="tabs light-blue">
+              <li onClick={this.onClick} className="tab">
+              <a className="active white-text"
+              href="#public" name="public">
+              Public
+              </a></li>
+              <li onClick={this.onClick} className="tab">
+              <a className="white-text" href="#private" name="private">
+              Private
+              </a></li>
+              <li onClick={this.onClick} className="tab">
+                <a className="white-text" href="#role" name="role">
+                Role
+                </a></li>
             </ul>
-            <ul className="collection" id="private">
-              <span> You have No Private Documents </span>
-            <br />
-            </ul>
-            <ul className="collection" id="role">
-              <span> You have No Role Documents </span>
-            <br />
-            </ul>
-            </div>
-         </div>
+          </div>
+          { isPublic && <ul className="collection" id="public">
+          {
+          allDocuments &&
+          allDocuments
+          .filter(document => document.access === 'public').length > 0 ?
+          allDocuments.map((document) => {
+            if (document.access === 'public') {
+              return (<PublicDocument
+              document={document}
+              key={document.id}
+              viewDocument={openDocument}
+              />);
+            }
+          }) : <span> You have No Public Documents </span>
+          }
+          <br />
+          </ul>}
+          { isPrivate && <ul className="collection" id="private">
+          {
+          allDocuments &&
+          allDocuments
+          .filter(document => document.access === 'private').length > 0 ?
+          allDocuments.map((document) => {
+            if (document.access === 'private') {
+              return (<PrivateDocument
+              document={document}
+              viewDocument={openDocument}
+              key={document.id}/>);
+            }
+          }) : <span> You have No Private Documents </span>
+          }
+          <br />
+          </ul> }
+          { isRole && <ul className="collection" id="role">
+          {
+          allDocuments &&
+          allDocuments
+          .filter(document => document.access === 'role').length > 0 ?
+          allDocuments.map((document) => {
+            if (document.access === 'role') {
+              return (<RoleDocument
+              document={document}
+              id={document.id}
+              viewDocument={openDocument}
+              />);
+            }
+          }) : <span> You have No Role Documents </span>
+          }
+          <br />
+            </ul> }
+          </div>
     );
   }
   }
