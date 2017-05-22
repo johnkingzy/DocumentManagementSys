@@ -76,6 +76,7 @@ export default class DocumentView extends React.Component {
       .then(() => {
         Materialize.toast('Document was updated successfully', 1000, 'green',
         () => {
+          this.props.changeView();
         });
       });
     } else {
@@ -125,7 +126,29 @@ export default class DocumentView extends React.Component {
 
   render() {
     const currentDocument = this.props.currentDocument[0];
+    const { currentUser } = this.props;
     const { title, content, access } = this.state.documents;
+    let actions;
+    if (currentUser && currentUser.id === currentDocument.ownerId) {
+      actions = (
+        <ul className="data-section left">
+            <a
+            className="teal-text left"
+            onClick={this.toggleEdit}
+            name="action"
+            >
+            <i className="material-icons right">create</i>
+            </a>
+            <li> | </li>
+            <a
+            className="red-text right"
+            onClick={this.deleteDocument}
+            type="submit" name="action"
+            >
+            <i className="material-icons">delete_sweep</i>
+            </a>
+            </ul>);
+    }
     let documentBody;
     if (this.state.isEditing) {
       documentBody = (
@@ -200,39 +223,18 @@ export default class DocumentView extends React.Component {
       return (
         <div id="email-details" className="col s12 m5 l5 card-panel">
             <nav className="data-nav white">
-            <ul className="data-section left">
-                <li>
-                <button
-                className="btn waves-effect waves-light"
-                onClick={this.toggleEdit}
-                type="submit" name="action"
-                >
-                <i className="material-icons right">create</i> Edit
-                </button>
-                </li>
-                <li> | </li>
-                <li><button
-                className="btn waves-effect waves-light red"
-                onClick={this.deleteDocument}
-                type="submit" name="action"
-                >
-                <i className="material-icons">delete_sweep</i> Delete
-                </button>
-                </li>
-                <li> | </li>
-              </ul>
+              <div className="nav-wrapper">
+            {actions}
               <ul className="data-section right">
-                  <li>
-                  <button
-                  className="btn waves-effect waves-light red"
+                  <a
+                  className="red-text"
                   onClick={this.props.toggleOpen}
-                  type="submit" name="action"
+                  name="action"
                   >
-                  <i className="material-icons right">clear</i> Close
-                  </button>
-                  </li>
-                  <li> | </li>
+                  <i className="material-icons right">clear</i>
+                  </a>
                 </ul>
+                </div>
             </nav>
             <div className="grey-text text-lighten-2">
             <div className="email-content-wrap">
@@ -271,5 +273,7 @@ DocumentView.propTypes = {
   currentDocument: React.PropTypes.array.isRequired,
   updateDocument: React.PropTypes.func.isRequired,
   toggleOpen: React.PropTypes.func.isRequired,
-  deleteDocument: React.PropTypes.func.isRequired
+  changeView: React.PropTypes.func.isRequired,
+  deleteDocument: React.PropTypes.func.isRequired,
+  currentUser: React.PropTypes.object.isRequired
 };

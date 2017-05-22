@@ -253,6 +253,9 @@ class SignUpForm extends React.Component {
     );
   }
 }
+SignUpForm.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 SignUpForm.propTypes = {
   saveUserDetails: PropTypes.func.isRequired,

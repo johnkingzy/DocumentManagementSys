@@ -53,7 +53,7 @@ class WelcomeBoard extends React.Component {
       <a
       className="btn-floating activator waves-effect waves-light darken-2 right"
       >
-      <i className="mdi-action-perm-identity" />
+      <i className="orange mdi-action-perm-identity" />
         </a>
       </div>
     </div>

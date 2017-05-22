@@ -32,6 +32,11 @@ export function loadDocuments() {
     });
 }
 
+/**
+ * createDocument - creates a new document
+ * @param  {object} data contains the document data
+ * @return {Function} returns a dispatch
+ */
 export function createDocument(data) {
   return dispatch => axios.post('/documents', data)
     .then(() => {
@@ -42,6 +47,11 @@ export function createDocument(data) {
     });
 }
 
+/**
+ * updateDocument - description
+ * @param  {type} data contains the document data
+ * @return {Function} returns a dispatch
+ */
 export function updateDocument(data) {
   return (dispatch) => {
     return axios.put(`/documents/${data.id}`, data)
@@ -54,6 +64,11 @@ export function updateDocument(data) {
   };
 }
 
+/**
+ * deleteDocument - deletes a document
+ * @param  {number} documentId the document id
+ * @return {Function} returns a dispatch
+ */
 export function deleteDocument(documentId) {
   return (dispatch) => {
     return axios.delete(`/documents/${documentId}`)

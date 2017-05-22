@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import * as DocumentActions from '../../actions/DocumentAction';
-import PublicDocument from './PublicDocument';
-import PrivateDocument from './PrivateDocument';
-import RoleDocument from './RoleDocument';
+import DisplayDocument from './DisplayDocument';
 
 class DocumentList extends React.Component {
   constructor(props, context) {
@@ -21,7 +19,12 @@ class DocumentList extends React.Component {
 
   componentDidMount() {
     $('ul.tabs').tabs();
-    $('ul.tabs').tabs('select_tab', 'role');
+    $('ul.tabs').tabs('select_tab', 'public');
+  }
+
+  componentWillUpdatet() {
+    $('ul.tabs').tabs();
+    $('ul.tabs').tabs('select_tab', 'public');
   }
 
   onClick(event) {
@@ -54,7 +57,7 @@ class DocumentList extends React.Component {
     return (
           <div id="email-list" className="col s10 m5 l5 card-panel z-depth-1">
           <div className="card-tabs">
-            <ul id="tabs-swipe-demo" className="tabs light-blue">
+            <ul id="tabs-swipe-demo" className="tabs light-reddish darken-3">
               <li onClick={this.onClick} className="tab">
               <a className="active white-text"
               href="#public" name="public">
@@ -77,7 +80,7 @@ class DocumentList extends React.Component {
           .filter(document => document.access === 'public').length > 0 ?
           allDocuments.map((document) => {
             if (document.access === 'public') {
-              return (<PublicDocument
+              return (<DisplayDocument
               document={document}
               key={document.id}
               viewDocument={openDocument}
@@ -94,7 +97,7 @@ class DocumentList extends React.Component {
           .filter(document => document.access === 'private').length > 0 ?
           allDocuments.map((document) => {
             if (document.access === 'private') {
-              return (<PrivateDocument
+              return (<DisplayDocument
               document={document}
               viewDocument={openDocument}
               key={document.id}/>);
@@ -110,7 +113,7 @@ class DocumentList extends React.Component {
           .filter(document => document.access === 'role').length > 0 ?
           allDocuments.map((document) => {
             if (document.access === 'role') {
-              return (<RoleDocument
+              return (<DisplayDocument
               document={document}
               id={document.id}
               viewDocument={openDocument}

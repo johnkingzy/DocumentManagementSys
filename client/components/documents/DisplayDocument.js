@@ -1,7 +1,7 @@
 import React from 'react';
 import { getFirstLetter, getDate } from '../../utils/helper';
 
-export default class PublicDocuments extends React.Component {
+export default class DisplayDocuments extends React.Component {
   render() {
     const { document, id, viewDocument } = this.props;
     return (
@@ -24,7 +24,7 @@ export default class PublicDocuments extends React.Component {
     );
   }
 }
-PublicDocuments.propTypes = {
+DisplayDocuments.propTypes = {
   document: React.PropTypes.object.isRequired,
   id: React.PropTypes.number,
   viewDocument: React.PropTypes.func.isRequired,

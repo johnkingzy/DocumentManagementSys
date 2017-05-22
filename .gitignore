@@ -7,3 +7,5 @@ gh
 .gitignore
 .vscode/
 .idea/
+setup.js
+server/test

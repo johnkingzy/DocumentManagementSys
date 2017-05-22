@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LoginModal from './authentication/LoginModal';
 import SignUpForm from './authentication/SignUpForm';
-import * as SignUpActions from '../actions/SignUpAction';
+import * as AuthActions from '../actions/AuthAction';
 
 
 /**
@@ -69,12 +69,12 @@ const mapStateToProps = (state => ({
  */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(SignUpActions, dispatch)
+    actions: bindActionCreators(AuthActions, dispatch)
   };
 }
 HomePage.propTypes = {
   actions: PropTypes.object.isRequired
 };
 // const mapDispatchToProps = (dispatch => ({ actions:
-// bindActionCreators(SignUpActions, dispatch) }));
+// bindActionCreators(AuthActions, dispatch) }));
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

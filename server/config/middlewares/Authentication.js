@@ -201,7 +201,7 @@ const Authenticate = {
         }
       );
     }
-    if (!helper.isOwner(req)) {
+    if (!helper.isOwner(req) && currentUser.roleId !== 1) {
       return res.status(401)
       .send({
         success: false,
@@ -469,9 +469,9 @@ const Authenticate = {
       };
     }
     if (`${req.baseUrl}${req.route.path}` === '/users/') {
-      query.where = helper.isAdmin(req.decoded.roleId)
+      query.where = helper.isAdmin(req.decoded.user.roleId)
          ? {}
-         : { id: req.decoded.userId };
+         : { id: req.decoded.user.id };
     }
     if (`${req.baseUrl}${req.route.path}` === '/documents/search') {
       if (!req.query.query) {
@@ -480,20 +480,21 @@ const Authenticate = {
              message: 'Please enter a search query'
            });
       }
-      if (helper.isAdmin(req.decoded.roleId)) {
+      if (helper.isAdmin(req.decoded.user.roleId)) {
         query.where = helper.likeSearch(terms);
       } else {
         query.where = {
           $and: [helper.documentAccess(req), helper.likeSearch(terms)]
         };
       }
+      query.include = [db.User];
     }
     if (`${req.baseUrl}${req.route.path}` === '/users/:id/documents') {
       const adminSearch = req.query.query ? helper.likeSearch(terms) : { };
       const userSearch = req.query.query
          ? [helper.documentAccess(req), helper.likeSearch(terms)]
          : helper.documentAccess(req);
-      if (helper.isAdmin(req.decoded.roleId)) {
+      if (helper.isAdmin(req.decoded.user.roleId)) {
         query.where = adminSearch;
       } else {
         query.where = userSearch;

@@ -43,8 +43,8 @@ const Helpers = {
     const like = {
       $or:
       [
-        { title: { $iLike: { $any: terms } } },
-        { content: { $iLike: { $any: terms } } }
+        { title: { $iLike: `%${terms}%` } },
+        { content: { $iLike: `%${terms}%` } }
       ]
     };
     return like;

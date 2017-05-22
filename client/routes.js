@@ -3,20 +3,12 @@ import { Route, IndexRoute } from 'react-router';
 
 import App from './components/app';
 import requireAuthentication from './utils/RequreAuthentication';
-// import redirectUser from './utils/RedirectUser';
-// import HomePage from './components/home';
+import requireAdminAuthentication from './utils/RequireAdminAccess';
+// import adminAuthentication from './utils/AdminAuthentication';
 import DashBoard from './components/DashBoard';
-// import ConfigureStore from './store/ConfigureStore';
 import HomePage from './components/HomePage';
+import AdminPanel from './components/adminpanel/AdminPanel';
 
-// const store = ConfigureStore();
-// const initialState = store.getState();
-// const requireAuth = (nextState, replaceState) => {
-//   const auth = initialState.Auth.isAuthenticated;
-//   if (auth) {
-//     replaceState('/dashboard');
-//   }
-// };
 const requireAuth = (nextState, replace) => {
   const token = localStorage.getItem('jwtToken');
   if (token) {
@@ -29,5 +21,6 @@ export default (
     <IndexRoute component={requireAuthentication(DashBoard)} />
     <Route path="dashboard" components={requireAuthentication(DashBoard)} />
     <Route path="login" onEnter={requireAuth} components={HomePage} />
+    <Route path="admin" components={requireAdminAuthentication(AdminPanel)} />
   </Route>
 );

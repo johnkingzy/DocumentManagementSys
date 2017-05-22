@@ -12,15 +12,15 @@ import '../node_modules/material-icons/css/material-icons.css';
 import routes from './routes';
 import ConfigureStore from './store/ConfigureStore';
 import setAuthorizationToken from './utils/authorization';
-import { setCurrentUser } from './actions/SignUpAction';
-// import { loadDocuments } from './actions/DocumentAction';
+import { setCurrentUser } from './actions/AuthAction';
 
 const store = ConfigureStore();
 const token = localStorage.jwtToken;
 
 if (token) {
   setAuthorizationToken(token);
-  store.dispatch(setCurrentUser(jwtDecode(token)));
+  const details = jwtDecode(token);
+  store.dispatch(setCurrentUser(details.user));
 }
 
 render(<Provider store={store}>

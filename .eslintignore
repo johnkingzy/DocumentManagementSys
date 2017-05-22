@@ -5,3 +5,7 @@ npm-debug.log
 .eslintrc
 client/assets
 coveralls.yml
+nightwatch.conf.js
+setup.js
+.gitignore
+server/test

@@ -30,11 +30,18 @@ export default function (ComposedComponent) {
               .push('/login');
           }
         });
-      } else if (!this.props.isAuthenticated) {
+      }
+      if (!this.props.isAuthenticated) {
         this
           .context
           .router
           .push('/login');
+      }
+      if (this.props.isAuthenticated && this.props.roleId !== 1) {
+        this
+          .context
+          .router
+          .push('/dashboard');
       }
     }
 
@@ -53,7 +60,8 @@ export default function (ComposedComponent) {
 
   Authenticate.propTypes = {
     isAuthenticated: React.PropTypes.bool.isRequired,
-    actions: React.PropTypes.object.isRequired
+    actions: React.PropTypes.object.isRequired,
+    roleId: React.PropTypes.number.isRequired
   };
 
   Authenticate.contextTypes = {
@@ -83,7 +91,10 @@ export default function (ComposedComponent) {
     } else {
       isAuthenticated = false;
     }
-    return { isAuthenticated };
+    return {
+      isAuthenticated,
+      roleId: state.Auth.user.roleId
+    };
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(Authenticate);

@@ -47,9 +47,8 @@ export function setCurrentUser(user) {
  */
 export function saveUserDetails(userDetails) {
   return dispatch => axios.post('/users', userDetails)
-    .then((res) => {
-      const token = res.data.token;
-      dispatch(createUserSuccess(res.data.user));
+    .then((result) => {
+      const token = result.data.token;
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
       axios.defaults.headers.common.Authorization = token;

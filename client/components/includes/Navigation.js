@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import signUpActions from '../../actions/SignUpAction';
-import searchActions from '../../actions/searchActions';
-
+import { bindActionCreators } from 'redux';
+import * as AuthActions from '../../actions/AuthAction';
 import logo from '../../assets/img/data-logo.png';
 
 /** @class NavigationBar
@@ -22,8 +21,6 @@ class NavigationBar extends React.Component {
       search: ''
     };
     this.logout = this.logout.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
   }
 
   /**
@@ -33,20 +30,8 @@ class NavigationBar extends React.Component {
    */
   logout(event) {
     event.preventDefault();
-    this.props.logout();
+    this.props.actions.logout();
     this.context.router.push('/');
-  }
-  onSubmit(event) {
-    event.preventDefault();
-    console.log(this.state.search);
-  }
-  onChange(event) {
-    const field = event.target.name;
-    const state = this.state;
-    state[field] = event.target.value;
-    return this.setState({
-      state
-    });
   }
   /**
    * render - renders the NavigationBar component
@@ -55,26 +40,14 @@ class NavigationBar extends React.Component {
   render() {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
+  <div>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
-        <form onSubmit={this.onSubmit} className="form-wrapper cf col s5 m5">
-              <input
-              className="col s8 m8"
-              type="text"
-              placeholder="Type Keyword here..."
-              name="search"
-              onChange={this.onChange}
-              required />
-              <button
-              id="search"
-              className="waves-effect waves-light light-blue btn col s4 m4"
-              type="submit">
-              Search</button>
-          </form>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/dashboard">Dashboard</Link></li>
         <li><Link to="/docs">View Docs</Link></li>
         <li><a href="" onClick={this.logout}>Logout</a></li>
       </ul>
+      </div>
     );
     const guestLinks = (
       <ul id="nav-mobile" className="right hide-on-med-and-down">
@@ -95,7 +68,7 @@ class NavigationBar extends React.Component {
 }
 NavigationBar.propTypes = {
   auth: React.PropTypes.object.isRequired,
-  logout: React.PropTypes.func.isRequired,
+  actions: React.PropTypes.object.isRequired,
 };
 
 NavigationBar.contextTypes = {
@@ -113,9 +86,14 @@ function mapStateToProps(state) {
   };
 }
 
+/**
+ * mapDispatchToProps - dispatch actions as props
+ * @param  {Function} dispatch an actios
+ * @return {object} returns an object
+ */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionsCreators(searchActions, dispatch)
+    actions: bindActionCreators(AuthActions, dispatch)
   };
 }
 

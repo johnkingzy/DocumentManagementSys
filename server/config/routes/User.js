@@ -5,7 +5,7 @@ import Auth from '../middlewares/Authentication';
 const UserRouter = express.Router();
 
 UserRouter.route('/')
-  .get(Auth.isLoggedIn, Auth.checkAdmin, User.fetchAll)
+  .get(Auth.isLoggedIn, Auth.validateSearch, User.fetchAll)
   .post(Auth.validateInput, User.create);
 
 UserRouter.get('/search',

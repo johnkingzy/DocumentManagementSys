@@ -15,7 +15,9 @@ export default function SideBar() {
       alt="" className="circle responsive-img valign profile-image" />
     </li>
     <li>
-      <a href="#!"><i className="material-icons">folder_shared</i></a>
+      <a href="#!"><i className="material-icons">folder_shared</i>
+      <p>Dashboard</p>
+      </a>
     </li>
     <li>
       <a href="#!"><i className="material-icons responsive-img">widgets</i></a>

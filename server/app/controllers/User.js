@@ -78,35 +78,27 @@ const User = {
    * Route: GET: /users/
    * @param {object} req request object
    * @param {object} res response object
-   * @returns {void|Response} return response object or void
    */
   fetchAll(req, res) {
-    let query;
-    if (req.query.limit && req.query.offset) {
-      if (isNaN(req.query.limit) || isNaN(req.query.offset)) {
-        return res.status(403)
-        .send(
-          {
-            success: false,
-            message: 'limit and offset should be integers'
-          }
-        );
-      }
-      query = {
-        offset: parseInt(req.query.offset, 10),
-        limit: parseInt(req.query.limit, 10)
-      };
-    } else {
-      query = {};
-    }
     db.User
-    .findAll(query)
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((error) => {
-      res.send(error);
-    });
+      .findAndCountAll(req.searchFilter)
+      .then((users) => {
+        if (users) {
+          const condition = {
+            count: users.count,
+            limit: req.searchFilter.limit,
+            offset: req.searchFilter.offset
+          };
+          delete users.count;
+          const pagination = Helpers.pagination(condition);
+          res.status(200)
+            .send({
+              message: 'You have successfully retrived all users',
+              users,
+              pagination
+            });
+        }
+      });
   },
 
   /** fetchOne - Fetches One User based on params ID
@@ -187,7 +179,6 @@ const User = {
      * Route: GET: /users/searchs?query=
      * @param {Object} req request object
      * @param {Object} res response object
-     * @returns {void|Response} response object or void
      */
   search(req, res) {
     const request = req.searchFilter;
@@ -200,6 +191,7 @@ const User = {
       'lastname',
       'email',
       'createdAt',
+      'roleId',
     ];
     db.User.findAndCountAll(request)
      .then((users) => {

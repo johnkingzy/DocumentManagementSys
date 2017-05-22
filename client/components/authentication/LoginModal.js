@@ -12,10 +12,11 @@ class LoginModal extends React.Component {
   /**
    * constructor - contains the constructor
    * @param  {type} props the properties of the class component
+   * @param {object} context
    * @return {void} no return or void
    */
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       username: '',
       password: '',
