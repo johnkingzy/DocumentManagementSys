@@ -22,6 +22,7 @@ const DocumentsModel = (sequelize, DataTypes) => {
         }
       }
     },
+
     access: {
       type: DataTypes.STRING,
       allowNull: false,
