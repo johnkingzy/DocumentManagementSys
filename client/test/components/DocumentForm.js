@@ -1,17 +1,18 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import expect from 'expect';
 import DocumentForm from '../../components/documents/DocumentForm';
 
+const props = {
+  documents: {},
+  onSave: () => {},
+  onChange: () => {},
+  clearError: () => {},
+  loading: true,
+  errors: {},
+};
+
 const setup = () => {
-  const props = {
-    documents: {},
-    onSave: () => {},
-    onChange: () => {},
-    clearError: () => {},
-    loading: true,
-    errors: {},
-  };
   const wrapper = shallow(<DocumentForm {...props}/>);
   return {
     wrapper,
@@ -26,8 +27,11 @@ describe('<DocumentForm />', () => {
     });
 
     it('should have an input submit button', () => {
-      const { wrapper } = setup();
-      expect(wrapper.find('button').length).toBe(1);
+      const wrapper = shallow(<DocumentForm {...props}/>);
+      const submitButton = wrapper.find('button').last();
+      expect(submitButton.length).toBe(1);
+      expect(submitButton.prop('type')).toBe('submit');
+      submitButton.simulate('click');
     });
 
     it('should contain a <TextInput/> component', () => {
