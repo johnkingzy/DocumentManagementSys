@@ -14,6 +14,10 @@ export default function userReducer(
     return Object.assign({}, ...state, {
       allUsers: action.data.users.rows,
       pageCount: Math.ceil(action.data.pagination.page_count) });
+  case types.FETCH_USERS_SUCCESS:
+    return Object.assign({}, ...state, {
+      authUser: action.data
+    });
   default:
     return state;
   }

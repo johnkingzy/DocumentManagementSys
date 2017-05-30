@@ -10,6 +10,10 @@
 .section {
   padding-top: 0px !important;
 }
+#user {
+    margin-left: 3px;
+    vertical-align: top;
+}
 #modal2 {
   padding: 30px;
   min-height: 620px;
@@ -20,6 +24,9 @@
 }
 #search {
   margin-top: 8px;
+}
+.tabs {
+  margin-top: 10px !important;
 }
 img.responsive-img {
   max-width: 50% !important;
@@ -43,10 +50,22 @@ img.responsive-img {
 .close {
   margin-right: 10px;
 }
-
+textarea {
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
 #email-details {
   margin-left: 10px;
   width: 620px;
+  min-height: 650px;
+  max-height: 650px;
+  overflow: auto;
+  position: relative;
+}
+#side-panel {
+  margin-left: 10px;
+  width: 500px;
   min-height: 650px;
   max-height: 650px;
 }
@@ -69,6 +88,8 @@ img.responsive-img {
 .email-content {
   color: #272222;
   padding: 15px;
+  position: absolute;
+  overflow: auto;
 }
 
 #truncate {
@@ -118,13 +139,13 @@ img.responsive-img {
         height: 20px;
         padding: 10px 5px;
         margin-left: 500px;
-        float: right;    
-        
+        float: right;
+
         border: 0;
-        
+
         -moz-border-radius: 3px 0 0 3px;
         -webkit-border-radius: 3px 0 0 3px;
-        border-radius: 3px 0 0 3px;      
+        border-radius: 3px 0 0 3px;
     }
 #form-wrapper {
   margin-left: 150px !important;

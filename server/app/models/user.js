@@ -56,11 +56,6 @@ const UsersModel = (sequelize, DataTypes) => {
         }
       }
     },
-    bio: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: ''
-    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -21,6 +21,9 @@ const Users = {
         type: Sequelize.STRING,
         unique: true,
       },
+      bio: {
+        type: Sequelize.STRING
+      },
       password: {
         type: Sequelize.STRING
       },
@@ -48,4 +51,3 @@ const Users = {
   down: queryInterface => queryInterface.dropTable('Users')
 };
 module.exports = Users;
-

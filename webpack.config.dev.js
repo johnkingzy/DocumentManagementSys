@@ -6,9 +6,13 @@ module.exports = {
     // 'webpack-hot-middleware',
     './client/index.js'],
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/client'
+    path: path.join(__dirname, 'client/dist/'),
+    publicPath: '/client/',
+    filename: 'bundle.js'
+  },
+  devServer: {
+    contentBase: './client/dist',
+    hot: true
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),

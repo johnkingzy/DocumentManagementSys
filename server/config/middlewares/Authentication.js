@@ -15,14 +15,13 @@ const Authenticate = {
    * @return {void} void no return
    */
   validateInput(req, res, next) {
-    const userNameError = `Please provide a
-    username with atleast 5 characters.`;
+    const userNameError = 'Please provide a username with atleast 5 characters.'; //eslint-disable-line
     req.checkBody(
       {
         username: {
           notEmpty: true,
           isLength: {
-            options: [{ min: 5, max: 15 }],
+            options: [{ min: 5 }],
             errorMessage: userNameError
           },
           errorMessage: 'Your Username is required'
@@ -30,32 +29,39 @@ const Authenticate = {
         email: {
           notEmpty: true,
           isEmail: {
-            errorMessage: 'Please provide a valid a Email Adrress'
+            errorMessage: 'Provide a valid a Email Adrress'
           }
         },
         firstname: {
           notEmpty: true,
+          isAlpha: {
+            errorMessage: 'firstname should contain chararcters only'
+          },
           errorMessage: 'Your Firstname is required'
         },
         lastname: {
           notEmpty: true,
+          isAlpha: {
+            errorMessage: 'lastname should contain chararcters only'
+          },
           errorMessage: 'Your Lastname is required'
         },
         password: {
           notEmpty: true,
           isLength: {
             options: [{ min: 8 }],
-            errorMessage: `Please provide a valid
-            password with minimum of 8 characters`
+            errorMessage: 'Provide a valid password with minimum of 8 characters' // eslint-disable-line
           },
         }
       }
     );
     const errors = req.validationErrors();
     if (errors) {
-      const allErrors = helper.getErrors(errors);
-      return res.status(400)
-      .send(allErrors);
+      const error = helper.getErrors(errors);
+      return res.status(409)
+      .send({
+        error
+      });
     }
     const password = bcrypt.hashSync(req.body.password, 10);
     req.userData = {
@@ -79,11 +85,16 @@ const Authenticate = {
   .then((user) => {
     if (user) {
       if (user.dataValues.username === req.body.username) {
-        return res.status(400)
-      .send(user.dataValues.email);
+        return res.status(409)
+        .send(
+          {
+            success: false,
+            message: 'Email Address already exist'
+          }
+        );
       }
       if (user.dataValues.email === req.body.email) {
-        return res.status(400)
+        return res.status(409)
       .send(
           {
             success: false,
@@ -104,6 +115,13 @@ const Authenticate = {
    * @return {void} no return or void
    */
   authenticate(req, res, next) {
+    if (!req.body.username || !req.body.password) {
+      return res.status(400)
+        .json({
+          success: false,
+          message: 'Please provide your username or password to login'
+        });
+    }
     db.User.findOne(
       {
         where: {
@@ -190,8 +208,51 @@ const Authenticate = {
    * @return  {void} no return or void
    */
   validateUpdate(req, res, next) {
+    const userNameError = 'Provide a valid username with atleast 5 characters.(alphanumeric)'; //eslint-disable-line
+    if (req.body.email) {
+      req.checkBody('email',
+      'Please provide a valid email address').isEmail();
+    }
+    if (req.body.username) {
+      req.checkBody('username',
+      userNameError).isUsername();
+    }
+    if (req.body.firstname) {
+      req.checkBody('firstname',
+    'firstname should contain chararcters only').isAlpha();
+    }
+    if (req.body.lastname) {
+      req.checkBody('lastname',
+    'lastname should contain chararcters only').isAlpha();
+    }
+    if (req.body.password) {
+      req.checkBody(
+        {
+          password: {
+            isLength: {
+              options: [{ min: 8 }],
+              errorMessage: 'Provide a valid password with a minimum of 8 characters' // eslint-disable-line
+            }
+          }
+        });
+      req.body.password = bcrypt.hashSync(req.body.password, 10);
+    }
+    const errors = req.validationErrors();
+    if (errors) {
+      const error = helper.getErrors(errors);
+      return res.status(409)
+      .send({
+        error
+      });
+    }
     const currentUser = req.decoded.user,
       userId = req.params.id;
+    if (isNaN(userId)) {
+      return res.status(400)
+          .send({
+            message: 'An Error occured, please contact admin'
+          });
+    }
     if (!helper.isAdmin(currentUser.roleId) && userId === 1) {
       return res.status(403)
       .send(
@@ -202,10 +263,10 @@ const Authenticate = {
       );
     }
     if (!helper.isOwner(req) && currentUser.roleId !== 1) {
-      return res.status(401)
+      return res.status(403)
       .send({
         success: false,
-        message: 'You are not allowed to edit someone\'s else profile'
+        message: 'Unauthorized Access'
       });
     }
     if (req.body.id) {
@@ -220,7 +281,7 @@ const Authenticate = {
         return res.status(403)
         .send({
           success: false,
-          message: 'You are not allowed to set the admin roleId'
+          message: 'You are not allowed to set the roleId'
         });
       }
     }
@@ -248,23 +309,38 @@ const Authenticate = {
   validateDelete(req, res, next) {
     const userId = req.params.id;
     const currentUserId = req.decoded.user.id;
+    if (isNaN(userId)) {
+      return res.status(400)
+        .send({
+          success: false,
+          message: 'An Error Occured while deleting user'
+        });
+    }
     db.User.findById(userId)
     .then((user) => {
       if (user) {
-        if (!helper.isAdmin(user.roleId) && user.id !== currentUserId) {
-          req.userData = user;
-          next();
-        } else {
+        if (helper.isAdmin(user.roleId) && user.id === 1) {
           return res.status(403)
           .send(
             {
               success: false,
-              message: 'You are not allowed to delete an Admin'
+              message: 'You are not allowed to delete the default Admin'
             }
           );
         }
+        if (helper.isAdmin(user.roleId) && user.id === currentUserId) {
+          return res.status(403)
+          .send(
+            {
+              success: false,
+              message: 'You are not allowed to delete your own account'
+            }
+          );
+        }
+        req.userData = user;
+        next();
       } else {
-        return res.status(403)
+        return res.status(404)
         .send(
           {
             success: false,
@@ -320,6 +396,11 @@ const Authenticate = {
    * @return {void} no return or void
    */
   checkAccess(req, res, next) {
+    if (isNaN(req.params.id)) {
+      return res.status(400).send({
+        message: 'Error occurred while retrieving documents'
+      });
+    }
     db.Document.findById(req.params.id)
     .then((result) => {
       if (!result) {
@@ -327,7 +408,7 @@ const Authenticate = {
         .send(
           {
             success: false,
-            message: 'Document not found'
+            message: 'Document Not found'
           }
         );
       }
@@ -343,14 +424,15 @@ const Authenticate = {
           }
         );
       }
-      if (!helper.publicAccess && !helper.roleAccess) {
+      if (!helper.publicAccess(document) && !helper.roleAccess(document)) {
         return res.status(500)
         .send(
           { success: false,
             message: 'You are not allowed to view this documents'
           });
       }
-      if (helper.roleAccess && currentUser.roleId !== document.ownerRoleId) {
+      if (helper.roleAccess(document)
+      && currentUser.roleId !== document.ownerRoleId) {
         return res.status(500)
         .send(
           {
@@ -372,6 +454,11 @@ const Authenticate = {
    * @return {void} no return or void
    */
   checkDocument(req, res, next) {
+    if (isNaN(req.params.id)) {
+      return res.status(400).send({
+        message: 'Error occured while retrieving role'
+      });
+    }
     const currentUser = req.decoded.user;
     const access = ['public', 'private', 'role'];
     db.Document.findById(req.params.id)
@@ -394,7 +481,7 @@ const Authenticate = {
           }
         );
       }
-      if (!access.includes(req.body.access)) {
+      if (req.body.access && !access.includes(req.body.access)) {
         const message = `Document access level can only
         be set to public, private, or role`;
         return res.status(400)
@@ -402,6 +489,15 @@ const Authenticate = {
           {
             success: false,
             message
+          }
+        );
+      }
+      if (req.body.id) {
+        return res.status(403)
+        .send(
+          {
+            success: false,
+            message: 'You are not allowed to edit the document id'
           }
         );
       }
@@ -473,6 +569,15 @@ const Authenticate = {
          ? {}
          : { id: req.decoded.user.id };
     }
+    if (`${req.baseUrl}${req.route.path}` === '/users/:id') {
+      if (!helper.isOwner(req) && req.decoded.user.roleId !== 1) {
+        return res.status(403)
+        .send({
+          success: false,
+          message: 'Unauthorized Access'
+        });
+      }
+    }
     if (`${req.baseUrl}${req.route.path}` === '/documents/search') {
       if (!req.query.query) {
         return res.status(400)
@@ -505,6 +610,37 @@ const Authenticate = {
   },
 
   /**
+   * Check for role edit and delete permission
+   * @param {Object} req req object
+   * @param {Object} res response object
+   * @param {Object} next Move to next controller handler
+   */
+  checkRolePermission(req, res, next) {
+    if (isNaN(req.params.id)) {
+      return res.status(400).send({
+        message: 'Error occured while retrieving role'
+      });
+    }
+    db.Role.findById(req.params.id)
+      .then((role) => {
+        if (!role) {
+          return res.status(404)
+            .send({
+              message: 'This role does not exist'
+            });
+        }
+        if (helper.isAdmin(role.id) || helper.isRegular(role.id)) {
+          return res.status(403)
+            .send({
+              message: 'You are not permitted to modify this role'
+            });
+        }
+        req.roleInstance = role;
+        next();
+      });
+  },
+
+  /**
    * deleteDocument - delete a document
    * @param  {object} req  request object
    * @param  {object} res  response object
@@ -512,6 +648,11 @@ const Authenticate = {
    * @return {void} no return or void
    */
   deleteDocument(req, res, next) {
+    if (isNaN(req.params.id)) {
+      return res.status(400).send({
+        message: 'Error occured while deleting document'
+      });
+    }
     db.Document.findById(req.params.id)
     .then((document) => {
       if (!document) {

@@ -117,7 +117,7 @@ class DashBoard extends React.Component {
 
   /**
    * render - renders the class component
-   * @return {object} containg the view elements
+   * @return {object} containing the view elements
    */
   render() {
     const { allDocuments, search, currentUser } = this.props;
@@ -156,7 +156,8 @@ class DashBoard extends React.Component {
           data-target="modal2">
             <i className="material-icons">create</i></a>
         </div>
-         { searching ? <SearchResultList
+         { searching ?
+         <SearchResultList
          searchedResult={searchedResult}
          openDocument={this.openDocument}
          changeView={this.changeView}
@@ -165,7 +166,8 @@ class DashBoard extends React.Component {
          allDocuments={allDocuments}
          openDocument={this.openDocument}
          />}
-        { selectedId && allDocuments ? <DocumentView
+        { selectedId && allDocuments ?
+        <DocumentView
         updateDocument={updateDocument}
         currentDocument={selectedDocument}
         deleteDocument={this.deleteDocument}
@@ -174,6 +176,7 @@ class DashBoard extends React.Component {
         /> :
          <WelcomeBoard
          allDocuments={allDocuments}
+          openDocument={this.openDocument}
          /> }
         <Modal
           createDocument={createDocument}
@@ -219,3 +222,4 @@ function mapStateToProps(state) {
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
+// export { DashaBoard as PureComponent };

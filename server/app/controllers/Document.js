@@ -45,7 +45,7 @@ const Document = {
     .send(
       {
         success: true,
-        message: req.document
+        document: req.document
       });
   },
   update(req, res) {
@@ -104,43 +104,19 @@ const Document = {
         };
         delete documents.count;
         const pagination = Helpers.pagination(condition);
+        let message;
+        if (documents.rows.length === 0) {
+          message = 'Document not Found';
+        } else {
+          message = 'Your search was successful';
+        }
         res.status(200)
           .send({
-            message: 'This search was successfull',
+            message,
             documents,
             pagination
           });
       });
-  },
-  findAllUserDocument(req, res) {
-    return db.Document
-    .findAll({
-      where: {
-        $or: [
-          { access: 'public' },
-          {
-            ownerRoleId: req.decoded.roleId
-          },
-          {
-            ownerId: req.params.id
-          }
-        ]
-      },
-      include: [db.User],
-      order: [['updatedAt', 'DESC']]
-    })
-    .then((document) => {
-      if (!document) {
-        return res.status(404).send({
-          message: 'Document Not Found',
-        });
-      }
-      return res.status(200).send(document);
-    })
-    .catch(error => res.status(400).send({
-      error,
-      message: 'Error occurred while retrieving documents'
-    }));
   },
 };
 

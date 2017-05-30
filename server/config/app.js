@@ -21,7 +21,7 @@ app.use(webpackMiddleware(compiler));
 app.use(webpackHotMidlleware(compiler, {
   hot: true,
   publicPath: webpackConfig.output.publicPath,
-  noInfo: true
+  noInfo: false
 }));
 
 app.use(BodyParser.json());
@@ -29,6 +29,13 @@ app.use(BodyParser.urlencoded({
   extended: false
 }));
 app.use(validator());
+app.use(validator({
+  customValidators: {
+    isUsername: (value) => {
+      return value.length >= 5;
+    }
+  }
+}));
 app.use('/users', UserRouter);
 app.use('/documents', DocumentRouter);
 app.use('/roles', RoleRouter);

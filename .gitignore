@@ -7,5 +7,6 @@ gh
 .gitignore
 .vscode/
 .idea/
-setup.js
-server/test
+dist/
+.nyc_output/
+coverage/

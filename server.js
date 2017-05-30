@@ -12,7 +12,7 @@ const server = http.createServer(app);
 server.listen(port, (error) => {
   if (!error) {
     log.success(`listening to app ${port}`);
-    open(`http://localhost:${port}`);
+    // open(`http://localhost:${port}`);
   } else {
     log.error(error);
   }

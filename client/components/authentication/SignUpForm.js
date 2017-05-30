@@ -23,7 +23,6 @@ class SignUpForm extends React.Component {
       username: '',
       email: '',
       password: '',
-      bio: '',
       errors: {},
     };
     this.onChange = this.onChange.bind(this);
@@ -31,6 +30,7 @@ class SignUpForm extends React.Component {
     this.checkUserExists = this.checkUserExists.bind(this);
     this.clearError = this.clearError.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.onConfirm = this.onConfirm.bind(this);
   }
 
   /**
@@ -41,6 +41,20 @@ class SignUpForm extends React.Component {
   onChange(event) {
     this.setState({
       [event.target.name]: event.target.value
+    });
+  }
+  onConfirm(event) {
+    const input = event.target.value;
+    const errors = {};
+    let invalid = false;
+    const password = this.state.password;
+    if (input !== password) {
+      errors.confirm = 'Password do not match';
+      invalid = true;
+    }
+    this.setState({
+      errors,
+      invalid
     });
   }
 
@@ -225,12 +239,12 @@ class SignUpForm extends React.Component {
         />
         <TextInput
           className="input-field col m6 s12"
-          type="text"
-          name="bio"
-          id="bio"
-          onChange={this.onChange}
-          error={errors.bio}
-          label="Bio"
+          type="password"
+          name="confirm"
+          id="confirm"
+          onChange={this.onConfirm}
+          error={errors.confirm}
+          label="Confirm Password"
           required
         />
       </div>

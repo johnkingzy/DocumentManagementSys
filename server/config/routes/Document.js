@@ -16,8 +16,5 @@ DocumentRouter.route('/:id')
   .put(Auth.isLoggedIn, Auth.checkDocument, document.update)
   .delete(Auth.isLoggedIn, Auth.deleteDocument, document.delete);
 
-DocumentRouter.route('/users/:id/alldocuments')
-  .get(Auth.isLoggedIn, document.findAllUserDocument);
-
 
 export default DocumentRouter;

@@ -8,6 +8,9 @@ import './assets/css/custom.scss';
 import '../node_modules/materialize-css/dist/js/materialize.min';
 import '../node_modules/materialize-css/dist/css/materialize.min.css';
 import '../node_modules/material-icons/css/material-icons.css';
+import '../node_modules/sweetalert/dist/sweetalert.min';
+import '../node_modules/sweetalert/dist/sweetalert.css';
+
 
 import routes from './routes';
 import ConfigureStore from './store/ConfigureStore';

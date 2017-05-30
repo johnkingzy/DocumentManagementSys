@@ -1,4 +1,5 @@
 // import jwt from 'jsonwebtoken';
+import omit from 'lodash/omit';
 import db from '../models/';
 import Helpers from './helpers';
 
@@ -16,6 +17,7 @@ const User = {
         const token = Helpers.createToken(user);
         res.status(200)
           .send({
+            message: 'User was created Successfully',
             user,
             token
           });
@@ -66,7 +68,11 @@ const User = {
         {
           active: false,
         }).then(() => {
-          res.send('Logged Out Successfully');
+          res.status(200)
+          .send({
+            success: true,
+            message: 'You have successfully logged out'
+          });
         });
     })
     .catch(error =>
@@ -108,18 +114,32 @@ const User = {
    */
   fetchOne(req, res) {
     const UserId = req.params.id;
+    if (isNaN(UserId)) {
+      return res.status(400)
+        .send({
+          success: false,
+          message: 'Invalid type of user id. numbers only'
+        });
+    }
     db.User
     .findOne({
       where: { id: UserId }
     })
     .then((user) => {
       if (user) {
-        res.send(user);
+        const filteredData = omit(user.dataValues, [
+            'password',
+          ]);
+        res.status(200)
+        .send({
+          user: filteredData
+        });
       } else {
-        res.send(
+        res.status(404)
+        .send(
           {
             success: false,
-            message: `User with id:${UserId} does not exist`
+            message: 'User does not exist'
           }
           );
       }
@@ -137,14 +157,23 @@ const User = {
   updateUserData(req, res) {
     req.userData
       .update(req.body)
-        .then(() => {
-          res.send({
+        .then((user) => {
+          const filteredData = omit(user.dataValues, [
+            'password',
+          ]);
+          res.status(200)
+          .send({
+            user: filteredData,
             success: true,
             message: 'Profile Info Updated Successfully'
           });
         })
-        .catch((error) => {
-          res.send(error);
+        .catch(() => {
+          res.status(403)
+          .send({
+            success: false,
+            message: 'An Error Ocurred'
+          });
         });
   },
 
@@ -202,9 +231,15 @@ const User = {
        };
        delete users.count;
        pagination = Helpers.pagination(condition);
+       let message;
+       if (users.rows.length === 0) {
+         message = 'User not Found';
+       } else {
+         message = 'Your search was successful';
+       }
        res.status(200)
          .send({
-           message: 'Your search was successful',
+           message,
            users,
            pagination
          });
@@ -231,21 +266,73 @@ const User = {
     })
     .then((user) => {
       if (!user) {
-        res.send(
+        res.status(404)
+        .send(
           {
             success: false,
             message: 'User does not exist'
           }
           );
       } else {
-        return res
-          .status(200)
-          .send({ user });
+        return res.status(200)
+          .send(
+          { user
+          });
       }
     })
     .catch((error) => {
       res.send(error);
     });
-  }
+  },
+  findAllUserDocument(req, res) {
+    if (isNaN(req.params.id)) {
+      return res.status(400)
+      .send({
+        success: false,
+        message: 'Error occurred while retrieving user document'
+      });
+    }
+    db.User.findById(req.params.id)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: 'User Not Found'
+        });
+      }
+      db.Document
+      .findAll({
+        where: {
+          $or: [
+            { access: 'public' },
+            {
+              ownerRoleId: req.decoded.roleId
+            },
+            {
+              ownerId: req.params.id
+            }
+          ]
+        },
+        include: [db.User],
+        order: [['updatedAt', 'DESC']]
+      })
+      .then((document) => {
+        if (!document) {
+          return res.status(404).send({
+            message: 'Document Not Found',
+          });
+        }
+        return res.status(200)
+        .send({
+          document,
+          message: 'Document was retrieved successfully'
+        });
+      })
+      .catch(error => res.status(400).send({
+        error,
+        message: 'Error occurred while retrieving documents'
+      }));
+    });
+  },
 };
 export default User;

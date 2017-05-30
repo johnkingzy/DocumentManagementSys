@@ -1,4 +1,5 @@
 import axios from 'axios';
+import omit from 'lodash/omit';
 import jwtDecode from 'jwt-decode';
 import types from './actionTypes';
 
@@ -22,10 +23,10 @@ export function loadDocuments() {
   const token = localStorage.getItem('jwtToken');
   const details = jwtDecode(token);
   const userId = details.user.id;
-  return dispatch => axios.get(`/documents/users/${userId}/alldocuments`)
+  return dispatch => axios.get(`/users/${userId}/documents`)
     .then((response) => {
       const documents = response.data;
-      dispatch(loadDocumentSuccess(documents));
+      dispatch(loadDocumentSuccess(documents.document));
     })
     .catch((error) => {
       throw (error);
@@ -53,8 +54,11 @@ export function createDocument(data) {
  * @return {Function} returns a dispatch
  */
 export function updateDocument(data) {
+  const updatedData = omit(data, [
+    'id'
+  ]);
   return (dispatch) => {
-    return axios.put(`/documents/${data.id}`, data)
+    return axios.put(`/documents/${data.id}`, updatedData)
     .then(() => {
       dispatch(loadDocuments());
     })

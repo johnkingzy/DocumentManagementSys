@@ -10,11 +10,13 @@ UserRouter.route('/')
 
 UserRouter.get('/search',
     Auth.isLoggedIn,
+    Auth.checkAdmin,
     Auth.validateSearch,
     User.search);
-
+UserRouter.route('/:id/documents')
+  .get(Auth.isLoggedIn, User.findAllUserDocument);
 UserRouter.route('/:id')
-  .get(Auth.isLoggedIn, Auth.checkAdmin, User.fetchOne)
+  .get(Auth.isLoggedIn, Auth.validateSearch, User.fetchOne)
   .put(Auth.isLoggedIn, Auth.validateUpdate, User.updateUserData)
   .delete(Auth.isLoggedIn,
     Auth.checkAdmin, Auth.validateDelete, User.deleteUser);
@@ -26,5 +28,6 @@ UserRouter.route('/logout')
 
 UserRouter.route('/login')
   .post(Auth.authenticate, User.login);
+
 
 export default UserRouter;

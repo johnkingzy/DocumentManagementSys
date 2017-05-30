@@ -8,4 +8,7 @@ coveralls.yml
 nightwatch.conf.js
 setup.js
 .gitignore
-server/test
+coverage
+dist
+.nyc_output
+node_modules

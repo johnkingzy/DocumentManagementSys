@@ -75,7 +75,7 @@ class UsersView extends React.Component {
     const currentUser = userDetails[0];
     const { isEditing, roleId } = this.state;
     return (
-      <div id="email-details" className="col s6 m3 l3 card-panel">
+      <div id="side-panel" className="col s6 m3 l3 card-panel">
         <div className="grey-text text-lighten-2">
         <div className="email-content-wrap">
           <div className="row">

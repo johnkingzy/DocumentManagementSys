@@ -1,6 +1,7 @@
 /* global Materialize */
 /* global $ */
 import React from 'react';
+import TextInput from '../common/TextInput';
 
 
 /** @class CreateDocumentModal
@@ -36,8 +37,10 @@ class LoginModal extends React.Component {
    * @return {void} no return or void
    */
   onChange(event) {
+    const invalid = false;
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      invalid
     });
   }
   /**
@@ -101,32 +104,29 @@ class LoginModal extends React.Component {
           </div>
 
           <div className="row">
-            <div className="input-field col s12">
-              <input
-                className="validate"
-                type="text"
-                name="username"
-                id="username"
-                onChange={this.onChange}
-                onFocus={this.clearError}
-                required
-              />
-              <label htmlFor="username">Enter your username</label>
-            </div>
+            <TextInput
+              className="input-field col m12 s12"
+              type="text"
+              name="username"
+              id="username"
+              onChange={this.onChange}
+              onFocus={this.clearError}
+              label="Username"
+              required
+            />
           </div>
 
           <div className="row">
-            <div className="input-field col s12">
-              <input
-                className="validate"
-                type="password"
-                name="password"
-                id="password"
-                onChange={this.onChange}
-                onFocus={this.clearError}
-              />
-              <label htmlFor="password">Enter your password</label>
-            </div>
+            <TextInput
+              className="input-field col m12 s12"
+              type="password"
+              name="password"
+              id="password"
+              onChange={this.onChange}
+              onFocus={this.clearError}
+              label="Enter your password"
+              required
+            />
             <span
               id="right"
             >

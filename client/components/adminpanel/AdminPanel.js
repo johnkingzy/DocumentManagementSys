@@ -49,12 +49,11 @@ class AdminPanel extends React.Component {
     }
   }
   updateRole(selectedUser) {
-    event.preventDefault();
     if (this.state.classValue === 'col s7 m12 l12 card-panel z-depth-1') {
-      const classValue = 'col s7 m6 l6 card-panel z-depth-1';
+      const classValue = 'col s7 m7 l7 card-panel z-depth-1';
       this.setState({
         selectedUser,
-        display: true,
+        display: !this.state.display,
         classValue
       });
     } else {
@@ -86,7 +85,7 @@ class AdminPanel extends React.Component {
     }
   }
   changeView() {
-    if (this.state.classValue === 'col s7 m6 l6 card-panel z-depth-1') {
+    if (this.state.classValue === 'col s7 m7 l7 card-panel z-depth-1') {
       const classValue = 'col s7 m12 l12 card-panel z-depth-1';
       this.setState({
         selectedUser: '',

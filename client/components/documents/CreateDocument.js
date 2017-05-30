@@ -23,10 +23,12 @@ class CreateDocumentModal extends React.Component {
     this.state = {
       documents: Object.assign({}, this.props.document),
       errors: {},
+      labelclass: ''
     };
     this.onSave = this.onSave.bind(this);
     this.clearError = this.clearError.bind(this);
     this.updateDocumentState = this.updateDocumentState.bind(this);
+    this.handleFileUpload = this.handleFileUpload.bind(this);
   }
 
   componentDidMount() {
@@ -69,6 +71,13 @@ class CreateDocumentModal extends React.Component {
           $('#modal2').closeModal({ dismissible: true });
           $('.lean-overlay').css({ display: 'none' });
           $('.lean-overlay').remove();
+          this.setState({
+            documents: {
+              title: '',
+              content: '',
+              access: ''
+            }
+          });
           // this.context.router.push('/');
         });
       });
@@ -111,6 +120,29 @@ class CreateDocumentModal extends React.Component {
       isValid
     };
   }
+
+  handleFileUpload(event) {
+    const file = event.target.files[0],
+      extension = file.name.split('.').pop();
+    if (extension === 'txt' || extension !== 'json') {
+      Materialize.toast('Invalid File Extension (.txt/.json)', 1000, 'red');
+      return false;
+    }
+    const fileReader = new FileReader();
+    fileReader.onload = (() =>
+        (upload) => {
+          const documents = this.state.documents;
+          const fileName = file.name,
+            fileContent = upload.target.result;
+          documents.title = fileName;
+          documents.content = fileContent;
+          this.setState({
+            documents,
+            labelclass: 'active'
+          });
+        })(file);
+    fileReader.readAsText(file);
+    }
   /**
    * render - renders the class component
    * @return {object} returns an object
@@ -136,11 +168,15 @@ class CreateDocumentModal extends React.Component {
               </div>
               <div className="col s12 m7 l7 hide-on-med-and-down">
                 <ul className="right">
-                  <li><a href="#!"><i className="material-icons">attach_file</i>
-                  </a>
+                  <li>
+                    <div className="file-field input-field">
+                      <a><i className="material-icons">attach_file</i>
+                        <input type="file"
+                        onChange={this.handleFileUpload} /></a>
+                    </div>
                   </li>
-                  <li><a href="#!" className="modal-action modal-close">
-                    <i className="material-icons">close</i></a>
+                  <li><a className="modal-action modal-close">
+                    <i href="#!" className="material-icons">close</i></a>
                   </li>
                 </ul>
               </div>
@@ -154,6 +190,7 @@ class CreateDocumentModal extends React.Component {
             documents={this.state.documents}
             error={errors}
             onSave={this.onSave}
+            labelclass={this.state.labelclass}
             />
           </div>
         </div>

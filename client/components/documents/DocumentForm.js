@@ -12,6 +12,7 @@ const DocumentForm = (
     clearError,
     loading,
     errors,
+    labelclass
   }
 ) => {
   return (
@@ -27,6 +28,7 @@ const DocumentForm = (
                 value={documents.title}
                 errors={errors}
                 label="Title"
+                labelclass={labelclass}
                 />
                 </div>
                 <div className="row">
@@ -39,6 +41,7 @@ const DocumentForm = (
                 onFocus={clearError}
                 value={documents.content}
                 errors={errors}
+                labelclass={labelclass}
                 label="Content"
                 />
               </div>
@@ -72,6 +75,7 @@ DocumentForm.propTypes = {
   onChange: PropTypes.func,
   loading: PropTypes.bool,
   errors: PropTypes.object,
-  clearError: PropTypes.func
+  clearError: PropTypes.func,
+  labelclass: PropTypes.string
 };
 export default DocumentForm;

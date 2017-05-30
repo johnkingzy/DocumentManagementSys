@@ -1,8 +1,8 @@
 /* eslint array-callback-return: "off" */
+/* global $ */
 import React from 'react';
 
-import TextInput from '../common/TextInput';
-import TextArea from '../common/TextArea';
+import EditDocument from './EditDocument';
 import options from '../../data/options';
 import { getFirstLetter, getDate } from '../../utils/helper';
 
@@ -21,12 +21,13 @@ export default class DocumentView extends React.Component {
         access: ''
       },
       errors: {},
-      isEditing: false
+      isEditing: false,
+      invalid: false
     };
   }
 
   componentDidMount() {
-    $('select').material_select();
+    // $('select').material_select();
   }
 
   componentWillReceiveProps() {
@@ -121,7 +122,23 @@ export default class DocumentView extends React.Component {
 
   deleteDocument() {
     const { id } = this.props.currentDocument[0];
-    this.props.deleteDocument(id);
+    swal({
+      title: 'Are you sure you want this document?',
+      text: ' press cancel to quit this operation',
+      type: 'warning',
+      showCancelButton: true,
+      closeOnConfirm: true,
+      confirmButtonText: 'Yes, delete it!',
+      confirmButtonColor: '#ec6c62'
+    }, (isConfirm) => {
+      if (isConfirm) {
+        swal('Deleted!',
+        'Your document has been deleted successfully!', 'success');
+        this.props.deleteDocument(id);
+      } else {
+        swal('Cancelled', 'Your document is safe :)', 'error');
+      }
+    });
   }
 
   render() {
@@ -131,9 +148,9 @@ export default class DocumentView extends React.Component {
     let actions;
     if (currentUser && currentUser.id === currentDocument.ownerId) {
       actions = (
-        <ul className="data-section left">
+        <ul id="actions" className="data-section left">
             <a
-            className="teal-text left"
+            className="teal-text left edit"
             onClick={this.toggleEdit}
             name="action"
             >
@@ -151,68 +168,23 @@ export default class DocumentView extends React.Component {
     }
     let documentBody;
     if (this.state.isEditing) {
-      documentBody = (
-        <div className="email-content">
-        <form className="col s12" onSubmit={this.onSubmit} method="post">
-        <TextInput
-          className="input-field col m6 s12"
-          type="text"
-          name="title"
-          id="title"
-          onChange={this.onChange}
-          error=""
-          label="Title"
-          labelclass="active"
-          value={title}
-          required
-        />
-        <TextArea
-            id="content"
-            type="text"
-            name="content"
-            className="materialize-textarea"
-            onChange={this.onChange}
-            labelclass="active"
-            value={content}
-            errors="{errors}"
-            label="Content"
-          />
-          <div className="input-field col s12">
-            {options && options.map((option, index) => {
-              return (
-                <p key={index}><input
-                  name="access"
-                  type="radio"
-                  value={option.value}
-                  onChange={this.onChange}
-                  id={option.text}
-                  checked={option.value === access}
-                   />
-                  <label
-                  htmlFor={option.text}>
-                  {option.text}
-                  </label></p>);
-            })}
-          </div>
-          <br />
-          <br />
-          <br />
-           <button
-              type="submit"
-              name="btn_login"
-              className="col s12 btn btn-large waves-effect light-blue darken-3"
-              disabled={this.state.invalid}
-            >Submit</button>
-            </form>
-          </div>
-      );
+      documentBody =
+      <EditDocument
+      onChange={this.onChange}
+      onSubmit={this.onSubmit}
+      invalid={this.state.invalid}
+      options={options}
+      title={title}
+      content={content}
+      access={access}
+       />;
     } else {
       documentBody = (
             <div className="email-content">
              <p className="email-subject truncate">
                 {currentDocument && currentDocument.title}
             </p>
-            <p>
+            <p id="document-content">
                 {currentDocument && currentDocument.content}
             </p>
             <br />
@@ -245,10 +217,10 @@ export default class DocumentView extends React.Component {
                     <span id="avatar" className="circle blue darken-1">
                       {getFirstLetter(currentDocument.User.username)}
                       </span>
-                    <span className="email-title black-text">
+                    <span id="username" className="email-title black-text">
                     {currentDocument.User.username}
                     </span>
-                    <p className="truncate grey-text ultra-small">
+                    <p id="bio" className="truncate grey-text ultra-small">
                         {currentDocument.User.bio}
                         </p>
                     <p className="grey-text ultra-small">

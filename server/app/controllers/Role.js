@@ -8,10 +8,17 @@ const Role = {
     })
     .then(role =>
       res.status(200)
-        .send(role))
-    .catch(error =>
+        .send({
+          success: true,
+          message: 'Role created succesfully',
+          role
+        }))
+    .catch(() =>
       res.status(400)
-        .send(error));
+        .send({
+          success: false,
+          message: 'Error creating new role'
+        }));
   },
   /**
     * Get all roles
@@ -26,6 +33,7 @@ const Role = {
       .then((roles) => {
         res.status(200)
         .send({
+          success: true,
           message: 'All roles was retrieved successfully',
           roles
         });
@@ -40,7 +48,12 @@ const Role = {
     * @returns {void} no returns
     */
   update(req, res) {
-    return Roles
+    if (isNaN(req.params.id)) {
+      return res.status(400).send({
+        message: 'Error occured while updating role'
+      });
+    }
+    db.Role
       .findById(req.params.id)
       .then((role) => {
         if (!role) {
@@ -56,14 +69,12 @@ const Role = {
             role,
             message: 'Role updated successfully.'
           }))
-          .catch(error => res.status(400).send({
-            error,
+          .catch(() => res.status(400).send({
             message: 'Role did not update successfully.'
           }));
       })
-      .catch(error => res.status(400).send({
-        error,
-        message: 'Error updating role'
+      .catch(() => res.status(400).send({
+        message: 'Error occured while updating role'
       }));
   },
 
@@ -79,7 +90,7 @@ const Role = {
       .then(() => {
         res.status(200)
           .send({
-            message: 'This role has been deleted'
+            message: 'This role has been deleted successfully'
           });
       });
   },
@@ -92,6 +103,11 @@ const Role = {
     * @returns {void} no returns
     */
   getRole(req, res) {
+    if (isNaN(req.params.id)) {
+      return res.status(400).send({
+        message: 'Error occured while retrieving role'
+      });
+    }
     db.Role
       .findById(req.params.id)
       .then((role) => {
