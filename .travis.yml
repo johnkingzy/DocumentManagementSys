@@ -7,9 +7,9 @@ services:
 
 before_script:
   - psql -c 'create database dms_test;' -U postgres
+  - npm install -g mocha
 script:
 - npm test
-
 
 after_success:
   - npm run coveralls

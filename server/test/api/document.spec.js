@@ -79,17 +79,6 @@ describe('Document API', () => {
         });
     });
 
-    it('should 200 for authorized user with token', (done) => {
-      server
-        .get('/documents/?limit=10&offset=1')
-        .set('x-access-token', adminUser.token)
-        .end((err, res) => {
-          expect(res.status).toEqual(200);
-          if (err) return done(err);
-          done();
-        });
-    });
-
     it('should 200 without limit and offset', (done) => {
       server
         .get('/documents/')

@@ -23,7 +23,6 @@ export const users = [{
   username: 'maximuf',
   email: 'Solomon@email.com',
   password: hashPassword('password123'),
-  bio: 'i love coding',
   roleId: 1
 
 }, {

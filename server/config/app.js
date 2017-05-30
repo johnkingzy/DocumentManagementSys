@@ -16,13 +16,15 @@ const app = express(),
 
 app.use(express.static(path.join(__dirname, '../../')));
 
-app.use(webpackMiddleware(compiler));
+if (process.env.NODE_ENV !== 'test') {
+  app.use(webpackMiddleware(compiler));
 
-app.use(webpackHotMidlleware(compiler, {
-  hot: true,
-  publicPath: webpackConfig.output.publicPath,
-  noInfo: false
-}));
+  app.use(webpackHotMidlleware(compiler, {
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: false
+  }));
+}
 
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({
