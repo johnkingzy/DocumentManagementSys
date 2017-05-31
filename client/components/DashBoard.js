@@ -10,6 +10,8 @@ import WelcomeBoard from './WelcomeBoard';
 import SideBar from './common/SideBar';
 import * as DocumentActions from '../actions/DocumentAction';
 import * as SearchActions from '../actions/SearchActions';
+import * as UserActions from '../actions/UserAction';
+import * as AuthActions from '../actions/AuthAction';
 
 /**
 * @class CreateDocument
@@ -36,6 +38,7 @@ class DashBoard extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.changeView = this.changeView.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentWillMount() {
@@ -44,6 +47,8 @@ class DashBoard extends React.Component {
       this.props.actions.loadDocuments().catch(() => {
         this.context.router.push('/login');
       });
+      const userId = this.props.currentUser.id;
+      this.props.actions.fetchUsers(userId);
     }
   }
 
@@ -69,8 +74,7 @@ class DashBoard extends React.Component {
     });
   }
 
-  changeView(event) {
-    event.preventDefault();
+  changeView() {
     $('ul.tabs').tabs();
     $('ul.tabs').tabs('select_tab', 'public');
     this.setState({
@@ -94,16 +98,20 @@ class DashBoard extends React.Component {
     });
   }
   onSubmit(event) {
+    const searchQuery = this.state.search;
     event.preventDefault();
-    const searchQuery = this.state.search,
-      filtered = searchQuery.trim();
-    if (!filtered) {
+    if (!searchQuery) {
       Materialize.toast('Please type in a Keyword', 1000, 'red');
     } else {
-      this.props.actions.searchDocuments(searchQuery);
-      this.setState({
-        searching: true
-      });
+      const filtered = searchQuery.trim();
+      if (!filtered) {
+        Materialize.toast('Please type in a Keyword', 1000, 'red');
+      } else {
+        this.props.actions.searchDocuments(searchQuery);
+        this.setState({
+          searching: true
+        });
+      }
     }
   }
   onChange(event) {
@@ -114,13 +122,23 @@ class DashBoard extends React.Component {
       state
     });
   }
+   /**
+   * logout - logout a user out
+   * @param  {type} event the event handler
+   * @return {void} no return or void
+   */
+  logout(event) {
+    event.preventDefault();
+    this.props.actions.logout();
+    this.context.router.push('/');
+  }
 
   /**
    * render - renders the class component
    * @return {object} containing the view elements
    */
   render() {
-    const { allDocuments, search, currentUser } = this.props;
+    const { allDocuments, search, currentUser, activeUser } = this.props;
     const searchedResult = search.searchedDocuments;
     const { createDocument, updateDocument } = this.props.actions;
     const { selectedId, searching } = this.state;
@@ -129,33 +147,57 @@ class DashBoard extends React.Component {
     });
     return (
       <div>
-      <nav id="horizontal-nav" className="white hide-on-med-and-down">
-      <div className="nav-wrapper">
-        <form onSubmit={this.onSubmit}
-        id="form-wrapper" className="col s5 m5 left">
-          <input
-          className="col s8 m8"
-          type="text"
-          placeholder="Search For a Document"
-          name="search"
-          onChange={this.onChange}
-          required />
-          <button
-          id="search"
-          className="waves-effect waves-light orange btn col s3 m3"
-          type="submit">
-          <i className="material-icons">search</i> Search</button>
-      </form>
-                </div>
-                </nav>
-          <SideBar />
-        <div className="fixed-action-btn actionStyle">
-          <a
-          id="createbtn"
-          className="btn-floating btn-large orange modal-trigger"
-          data-target="modal2">
-            <i className="material-icons">create</i></a>
-        </div>
+      <nav className="red">
+        <div className="nav-wrapper">
+          <div className="left col s12 m5 l5">
+            <ul id="dropdown1" className="dropdown-content">
+              <li><a href="#useredit">Edit Profile</a></li>
+              <li className="divider"></li>
+              <li><a onClick={this.logout} href="">Logout</a></li>
+            </ul>
+            <ul>
+              <li><a href="#!" className="email-menu">
+                <i className="material-icons">tag_faces</i>
+                </a>
+              </li>
+              <li>
+                <a href="#!" className="email-type">DataHub</a>
+              </li>
+            </ul>
+          </div>
+              <div className="col s12 m7 l7 hide-on-med-and-down">
+                <ul className="right">
+                  <div className="wrap">
+                  <div className="search">
+                    <form onSubmit={this.onSubmit}>
+                      <input type="text"
+                      className="searchTerm"
+                      placeholder="What are you looking for?"
+                      onChange={this.onChange}
+                      name="search"
+                      required
+                      />
+                      <a onClick={this.onSubmit} className="searchButton">
+                        <i className="mdi-action-search"></i>
+                    </a>
+                    </form>
+                  </div>
+                  </div>
+                  <li><a id="createbtn" data-target="modal2" className="dropdown-button modal-trigger">
+                    <i className="material-icons left">create</i>
+                    Create New Document
+                    </a></li>
+                  <li><a className="dropdown-button" href="#!" data-activates="dropdown1">
+                    <i className="material-icons left">account_circle</i>
+                    {activeUser.username}
+                    </a></li>
+                </ul>
+              </div>
+
+            </div>
+          </nav>
+          <div id="email-sidebar" className="col s1 m1 s1 card-panel">
+            </div>
          { searching ?
          <SearchResultList
          searchedResult={searchedResult}
@@ -173,10 +215,12 @@ class DashBoard extends React.Component {
         deleteDocument={this.deleteDocument}
         toggleOpen={this.toggleOpen}
         currentUser={currentUser}
+        changeView={this.changeView}
         /> :
          <WelcomeBoard
          allDocuments={allDocuments}
           openDocument={this.openDocument}
+          activeUser={activeUser}
          /> }
         <Modal
           createDocument={createDocument}
@@ -205,7 +249,11 @@ DashBoard.contextTypes = {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(
-      Object.assign({}, DocumentActions, SearchActions), dispatch)
+      Object.assign({},
+      AuthActions,
+      UserActions,
+      DocumentActions,
+      SearchActions), dispatch)
   };
 }
 /**
@@ -218,7 +266,8 @@ function mapStateToProps(state) {
   return {
     allDocuments: state.Documents,
     search: state.Search,
-    currentUser: state.Auth.user
+    currentUser: state.Auth.user,
+    activeUser: state.Users.authUser
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);

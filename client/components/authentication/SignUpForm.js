@@ -248,9 +248,6 @@ class SignUpForm extends React.Component {
           required
         />
       </div>
-      <center>
-        <a className="orange-text" href="#!"><b>Forgot Password?</b></a>
-      </center>
       <br />
       <br />
       <center>

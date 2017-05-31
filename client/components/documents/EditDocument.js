@@ -36,7 +36,7 @@ const EditDocument = (
         onChange={onChange}
         labelclass="active"
         value={content}
-        errors="{errors}"
+        errors=""
         label="Content"
       />
       <div className="input-field col s12">

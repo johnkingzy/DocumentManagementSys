@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import NavigationBar from './includes/Navigation';
 
  /* eslint-disable react/prefer-stateless-function */
 /**
@@ -15,7 +14,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <NavigationBar />
         {this.props.children}
       </div>
     );

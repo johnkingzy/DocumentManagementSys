@@ -1,8 +1,21 @@
-import FroalaEditor from 'react-froala-wysiwyg';
-import FroalaEditorView from 'react-froala-wysiwyg/FroalaEditorView';
+import React, { PropTypes } from 'react';
+import TinyMCE from 'react-tinymce';
 
-import 'froala-editor/js/froala_editor.pkgd.min';
-import 'froala-editor/css/froala_style.min.css';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-
-export { FroalaEditor, FroalaEditorView };
+const TextEditor = ({ document, onChange }) => {
+  return (
+    <div>
+        <TinyMCE
+            content={document.content}
+            config={{
+              plugins: 'link image preview',
+              toolbar: 'undo redo | bold italic | alignleft aligncenter alignright'
+            }}
+            onChange={onChange}
+            />
+    </div>);
+};
+TextEditor.propTypes = {
+  document: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired
+};
+export default TextEditor;

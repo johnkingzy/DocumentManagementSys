@@ -101,6 +101,7 @@
     "react-hot-loader": "^3.0.0-beta.6",
     "react-materialize": "^0.18.4",
     "react-redux": "4.4.5",
+    "react-render-html": "^0.1.6",
     "react-router": "2.4.0",
     "react-router-redux": "4.0.4",
     "react-tabs": "^1.0.0",

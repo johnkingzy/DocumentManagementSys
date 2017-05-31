@@ -4,6 +4,7 @@ import React from 'react';
 
 import EditDocument from './EditDocument';
 import options from '../../data/options';
+import renderHTML from 'react-render-html';
 import { getFirstLetter, getDate } from '../../utils/helper';
 
 export default class DocumentView extends React.Component {
@@ -24,10 +25,6 @@ export default class DocumentView extends React.Component {
       isEditing: false,
       invalid: false
     };
-  }
-
-  componentDidMount() {
-    // $('select').material_select();
   }
 
   componentWillReceiveProps() {
@@ -148,15 +145,14 @@ export default class DocumentView extends React.Component {
     let actions;
     if (currentUser && currentUser.id === currentDocument.ownerId) {
       actions = (
-        <ul id="actions" className="data-section left">
+        <ul>
             <a
-            className="teal-text left edit"
+            className="teal-text right edit"
             onClick={this.toggleEdit}
             name="action"
             >
             <i className="material-icons right">create</i>
             </a>
-            <li> | </li>
             <a
             className="red-text right"
             onClick={this.deleteDocument}
@@ -181,62 +177,50 @@ export default class DocumentView extends React.Component {
     } else {
       documentBody = (
             <div className="email-content">
-             <p className="email-subject truncate">
-                {currentDocument && currentDocument.title}
-            </p>
-            <p id="document-content">
-                {currentDocument && currentDocument.content}
-            </p>
-            <br />
+             {currentDocument && renderHTML(currentDocument.content)}
             </div>
         );
     }
     if (currentDocument) {
       return (
-        <div id="email-details" className="col s12 m5 l5 card-panel">
-            <nav className="data-nav white">
-              <div className="nav-wrapper">
-            {actions}
-              <ul className="data-section right">
-                  <a
-                  className="red-text"
-                  onClick={this.props.toggleOpen}
-                  name="action"
-                  >
-                  <i className="material-icons right">clear</i>
-                  </a>
-                </ul>
-                </div>
-            </nav>
-            <div className="grey-text text-lighten-2">
-            <div className="email-content-wrap">
+        <div id="email-details" className="col s12 m7 l7 card-panel">
+          <p className="email-subject truncate">{currentDocument && currentDocument.title}
+          <a
+          className="red-text"
+          onClick={this.props.toggleOpen}
+          name="action"
+          >
+          <i className="material-icons right">clear</i>
+          </a>
+          </p>
+          <hr className="grey-text text-lighten-2" />
+          <div className="email-content-wrap">
             <div className="row">
-                <div className="col s10 m10 l10">
+              <div className="col s10 m10 l10">
                 <ul className="collection">
-                    <li className="collection-item avatar">
+                  <li className="collection-item avatar">
                     <span id="avatar" className="circle blue darken-1">
                       {getFirstLetter(currentDocument.User.username)}
                       </span>
-                    <span id="username" className="email-title black-text">
-                    {currentDocument.User.username}
-                    </span>
-                    <p id="bio" className="truncate grey-text ultra-small">
-                        {currentDocument.User.bio}
-                        </p>
+                    <span className="email-title">{currentDocument.User.firstname} {currentDocument.User.lastname}</span>
+                    <p className="truncate grey-text ultra-small">
+                      @{currentDocument.User.username}
+                      </p>
                     <p className="grey-text ultra-small">
-                    created at: {getDate(currentDocument.createdAt)}
-                    </p>
-                    </li>
+                      created at: {getDate(currentDocument.createdAt)}
+                      </p>
+                  </li>
                 </ul>
-                </div>
+              </div>
+              <div className="col s2 m2 l2 email-actions">
+               {actions}
+              </div>
             </div>
             {documentBody}
-            </div>
-            </div>
-            </div>
+          </div>
+        </div>
       );
     }
-    return <h1> Hello </h1>;
   }
   }
 

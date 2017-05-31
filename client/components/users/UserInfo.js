@@ -1,6 +1,12 @@
 import React from 'react';
 
 class UserInfo extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      user: props.userDetails
+    };
+  }
 
   render() {
     const {
@@ -9,13 +15,11 @@ class UserInfo extends React.Component {
       firstname,
       email
     } = this.props.userDetails;
-    const { Public, Private, Role, isEditing } = this.props;
+    const { Public, Private, Role } = this.props;
     return (<div className="card-content">
     <i className="material-icons">account_circle</i>
     <span id="user">
     {firstname} {lastname}</span>
-    <span className="right">
-    <a onClick={isEditing}> + Edit Profile</a> </span>
     <p className="small grey-text">Username:  @{username} </p>
     <p className="small grey-text">Email: {email} </p>
     <div className="row">
@@ -41,11 +45,10 @@ class UserInfo extends React.Component {
   }
 }
 UserInfo.propTypes = {
-  userDetails: React.PropTypes.isRequired,
+  userDetails: React.PropTypes.object.isRequired,
   Public: React.PropTypes.array.isRequired,
   Private: React.PropTypes.array.isRequired,
   Role: React.PropTypes.array.isRequired,
-  isEditing: React.PropTypes.func.isRequired
 };
 export default UserInfo;
 

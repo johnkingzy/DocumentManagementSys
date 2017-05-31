@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import TextInput from '../common/TextInput';
+import TextEditor from '../common/TextEditor';
 import TextArea from '../common/TextArea';
 import SelectInput from '../common/SelectInput';
 import options from '../../data/options';
@@ -12,7 +13,8 @@ const DocumentForm = (
     clearError,
     loading,
     errors,
-    labelclass
+    labelclass,
+    editorChange
   }
 ) => {
   return (
@@ -32,18 +34,9 @@ const DocumentForm = (
                 />
                 </div>
                 <div className="row">
-                <TextArea
-                id="content"
-                type="text"
-                name="content"
-                className="materialize-textarea"
-                onChange={onChange}
-                onFocus={clearError}
-                value={documents.content}
-                errors={errors}
-                labelclass={labelclass}
-                label="Content"
-                />
+                <TextEditor
+                document={documents}
+                onChange={editorChange} />
               </div>
               <div className="row">
                 <SelectInput

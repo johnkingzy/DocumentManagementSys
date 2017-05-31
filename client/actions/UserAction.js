@@ -55,7 +55,7 @@ export function fetchUsers(userId) {
   return dispatch => axios.get(`/users/${userId}`)
     .then((response) => {
       const result = response.data;
-      dispatch(fetchUserSuccess(result));
+      dispatch(fetchUserSuccess(result.user));
     })
     .catch((error) => {
       throw (error);

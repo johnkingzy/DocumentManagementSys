@@ -55,7 +55,7 @@ class DocumentList extends React.Component {
     const { allDocuments, openDocument } = this.props;
     const { isPublic, isPrivate, isRole } = this.state;
     return (
-          <div id="email-list" className="col s10 m5 l5 card-panel z-depth-1">
+          <div id="email-list" className="col s10 m10 l5 card-panel z-depth-1">
           <div className="card-tabs">
             <ul id="tabs-swipe-demo" className="tabs light-reddish darken-3">
               <li onClick={this.onClick} className="tab">

@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import LoginModal from './authentication/LoginModal';
 import SignUpForm from './authentication/SignUpForm';
 import * as AuthActions from '../actions/AuthAction';
+import NavigationBar from './includes/Navigation';
+
 
 
 /**
@@ -39,7 +41,10 @@ class HomePage extends React.Component {
    */
   render() {
     const { saveUserDetails, isUserExists, loginRequest } = this.props.actions;
-    return (<center>
+    return (
+      <div>
+      <NavigationBar />
+    <center>
       <div className="container">
         <div className="z-depth-1 grey lighten-4 row" id="authentication">
           <SignUpForm
@@ -55,7 +60,7 @@ class HomePage extends React.Component {
       >
         Heres some content for the modal
       </LoginModal>
-    </center>);
+    </center></div>);
   }
 }
 const mapStateToProps = (state => ({

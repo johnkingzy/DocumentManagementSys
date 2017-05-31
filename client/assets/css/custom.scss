@@ -138,7 +138,6 @@ textarea {
         width: 330px;
         height: 20px;
         padding: 10px 5px;
-        margin-left: 500px;
         float: right;
 
         border: 0;
@@ -151,7 +150,7 @@ textarea {
   margin-left: 150px !important;
   input {
     font: bold 15px 'lucida sans', 'trebuchet MS', 'Tahoma';
-    color: #000;
+    color: #fff;
   }
   i {
     line-height: 35px;
@@ -163,9 +162,60 @@ textarea {
 #mainPage {
   width: 100%
 }
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body{
+  background: #f2f2f2;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.search {
+  width: 100%;
+  position: relative
+}
+
+.searchTerm {
+  float: left;
+  width: 100%;
+  border: 3px solid #FFF;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px;
+  outline: none;
+  color: #FFF;
+}
+
+.searchTerm:focus{
+  color: #FFF;
+}
+
+.searchButton {
+  position: absolute;  
+  right: -20px;
+  width: 40px;
+  height: 36px;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+nav {
+  color: #fff !important;
+}
 #email-sidebar {
   min-height: 650px;
   margin-right: 5px;
+  width: 3% !important;
   li {
     padding: 10px 0;
     text-align: center;
@@ -193,7 +243,7 @@ textarea {
 }
 
 #create {
-  background-color: #26a69a;
+  background-color: #1e88e5;
   padding: 0px 0px 0px;
     border-width: 0px;
     border-style: none;
@@ -243,4 +293,7 @@ a {
   color: #000;
   font-size: 20px;
   font-weight: 400;
+}
+#profile-page-header {
+  background-color: #f8fcff;
 }

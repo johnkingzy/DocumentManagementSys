@@ -29,6 +29,7 @@ class CreateDocumentModal extends React.Component {
     this.clearError = this.clearError.bind(this);
     this.updateDocumentState = this.updateDocumentState.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
+    this.editorChange = this.editorChange.bind(this);
   }
 
   componentDidMount() {
@@ -121,6 +122,12 @@ class CreateDocumentModal extends React.Component {
     };
   }
 
+  editorChange(event) {
+    const document = this.state.documents;
+    document.content = event.target.getContent({ format: 'raw' });
+    return this.setState({ document });
+  }
+
   handleFileUpload(event) {
     const file = event.target.files[0],
       extension = file.name.split('.').pop();
@@ -191,6 +198,7 @@ class CreateDocumentModal extends React.Component {
             error={errors}
             onSave={this.onSave}
             labelclass={this.state.labelclass}
+            editorChange={this.editorChange}
             />
           </div>
         </div>
