@@ -1,0 +1,16 @@
+dist: trusty
+language: node_js
+node_js:
+  - "6"
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database dms_test;' -U postgres
+  - npm install -g mocha
+script:
+- npm test
+
+after_success:
+  - npm run coveralls
+  - psql -c 'drop database dms_test;' -U postgres

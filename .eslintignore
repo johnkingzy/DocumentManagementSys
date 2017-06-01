@@ -1,0 +1,14 @@
+package.json
+LICENSE
+README.md
+npm-debug.log
+.eslintrc
+client/assets
+coveralls.yml
+nightwatch.conf.js
+setup.js
+.gitignore
+coverage
+dist
+.nyc_output
+node_modules

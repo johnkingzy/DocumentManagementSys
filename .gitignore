@@ -1,0 +1,12 @@
+node_modules
+.env
+./index.js
+npm-debug.log
+.vscode
+gh
+.gitignore
+.vscode/
+.idea/
+dist/
+.nyc_output/
+coverage/
