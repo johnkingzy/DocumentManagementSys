@@ -44,11 +44,15 @@ const User = {
           active: true,
         }).then((result) => {
           const token = Helpers.createToken(result);
+          const filteredData = omit(result.dataValues, [
+            'password',
+          ]);
           res.status(200)
           .json({
             success: true,
             message: 'Logged In Successfully',
-            token
+            token,
+            user: filteredData
           });
         });
     });
@@ -111,6 +115,7 @@ const User = {
    * Route: GET: /users/:id
    * @param {object} req request object
    * @param {object} res response object
+   * @return {Object} returns a response
    */
   fetchOne(req, res) {
     const UserId = req.params.id;
@@ -128,8 +133,8 @@ const User = {
     .then((user) => {
       if (user) {
         const filteredData = omit(user.dataValues, [
-            'password',
-          ]);
+          'password',
+        ]);
         res.status(200)
         .send({
           user: filteredData

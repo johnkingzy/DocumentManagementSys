@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 
 import Modal from './documents/CreateDocument';
@@ -7,7 +8,7 @@ import DocumentList from './documents/DocumentsList';
 import SearchResultList from './documents/SearchResultList';
 import DocumentView from './documents/DocumentView';
 import WelcomeBoard from './WelcomeBoard';
-import SideBar from './common/SideBar';
+
 import * as DocumentActions from '../actions/DocumentAction';
 import * as SearchActions from '../actions/SearchActions';
 import * as UserActions from '../actions/UserAction';
@@ -145,15 +146,16 @@ class DashBoard extends React.Component {
     const selectedDocument = allDocuments.filter((document) => {
       return (document.id === parseInt(selectedId, 10));
     });
+    const isAdmin = activeUser.roleId === 1;
     return (
       <div>
       <nav className="red">
         <div className="nav-wrapper">
           <div className="left col s12 m5 l5">
             <ul id="dropdown1" className="dropdown-content">
-              <li><a href="#useredit">Edit Profile</a></li>
-              <li className="divider"></li>
-              <li><a onClick={this.logout} href="">Logout</a></li>
+            {isAdmin &&
+              (<div><li><Link to="/admin">Admin Panel</Link></li>
+                <li className="divider" /></div>)}
             </ul>
             <ul>
               <li><a href="#!" className="email-menu">
@@ -178,16 +180,21 @@ class DashBoard extends React.Component {
                       required
                       />
                       <a onClick={this.onSubmit} className="searchButton">
-                        <i className="mdi-action-search"></i>
+                        <i className="mdi-action-search" />
                     </a>
                     </form>
                   </div>
                   </div>
-                  <li><a id="createbtn" data-target="modal2" className="dropdown-button modal-trigger">
+                  <li>
+                  <a id="createbtn" data-target="modal2"
+                  className="dropdown-button modal-trigger">
                     <i className="material-icons left">create</i>
                     Create New Document
                     </a></li>
-                  <li><a className="dropdown-button" href="#!" data-activates="dropdown1">
+                    <li><a onClick={this.logout} href="">Logout</a></li>
+                  <li>
+                  <a className="dropdown-button"
+                  href="#!" data-activates="dropdown1">
                     <i className="material-icons left">account_circle</i>
                     {activeUser.username}
                     </a></li>
@@ -196,8 +203,7 @@ class DashBoard extends React.Component {
 
             </div>
           </nav>
-          <div id="email-sidebar" className="col s1 m1 s1 card-panel">
-            </div>
+          <div id="email-sidebar" className="col s1 m1 s1 card-panel" />
          { searching ?
          <SearchResultList
          searchedResult={searchedResult}
@@ -237,6 +243,7 @@ DashBoard.propTypes = {
   search: React.PropTypes.object.isRequired,
   currentUser: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
+  activeUser: React.PropTypes.object.isRequired
 };
 DashBoard.contextTypes = {
   router: React.PropTypes.object.isRequired

@@ -11,13 +11,10 @@ process.env.NODE_ENV = 'test';
 const server = agent(app);
 const adminUser = helper.adminUser;
 const regUser = helper.regUser;
-const regular = helper.regular;
 
 describe('User API', () => {
   let userData;
   let regUserData;
-  let adminToken;
-  let regularToken;
 
   before((done) => {
     server
@@ -435,7 +432,6 @@ describe('User API', () => {
         .post('/users/login')
           .send(adminUser)
           .end((err, res) => {
-            adminToken = res.body.token;
             expect(res.status).toEqual(200);
             expect(res.body.token).toNotEqual(null);
             expect(res.body.message)

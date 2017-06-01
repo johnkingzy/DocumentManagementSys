@@ -44,15 +44,6 @@ const helper = {
     password: 'pythagoras',
     roleId: 2
   },
-  regularUser: {
-    id: 4,
-    firstname: (`${faker.name.findName()}sure`).replace(/\W+/g, ''),
-    lastname: (`${faker.name.findName()}last`).replace(/\W+/g, ''),
-    username: 'pythagoras',
-    email: 'pythagoras@gmail.com',
-    password: 'pythagoras',
-    roleId: 2
-  },
   firstUser: {
     username: (`${faker.internet.userName()}username`).replace(/\s+/, ''),
     firstname: (`${faker.name.findName()}sure`).replace(/\W+/g, ''),

@@ -14,9 +14,34 @@
     margin-left: 3px;
     vertical-align: top;
 }
+.loader {
+  margin-top: 80px;
+}
 #modal2 {
   padding: 30px;
   min-height: 620px;
+}
+.collection .collection-item.avatar .circle {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: 300;
+    padding: 10px;
+    text-transform: capitalize;
+}
+.progress {
+  width: 50% !important;
+  margin-top: 150px !important;
+}
+#pagination {
+  z-index: -1;
 }
 .side-icons {
   font-size: 12px;
@@ -190,7 +215,7 @@ body{
 }
 
 .searchButton {
-  position: absolute;  
+  position: absolute;
   right: -20px;
   width: 40px;
   height: 36px;
@@ -206,7 +231,7 @@ body{
   width: 30%;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 40%;
   transform: translate(-50%, -50%);
 }
 nav {

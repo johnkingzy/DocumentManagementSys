@@ -161,7 +161,7 @@ const Authenticate = {
       jwt.verify(token, key, (error, decoded) => {
         if (error) {
           res.status(401)
-              .json({
+              .send({
                 success: false,
                 message: 'Failed to Authenticate Token',
                 error

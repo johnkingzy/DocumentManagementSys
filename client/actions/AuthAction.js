@@ -18,6 +18,15 @@ export function isUserExists(identifier) {
 }
 
 /**
+//  * errorMessage - create documents action
+ * @param  {object} message message to be displayed
+ * @return {object} return an object
+ */
+export function errorMessage(message) {
+  return Materialize.toast(message, 1000, 'red');
+}
+
+/**
  * action dispatched on creating new user success
  *
  * @export
@@ -53,6 +62,8 @@ export function saveUserDetails(userDetails) {
       setAuthorizationToken(token);
       axios.defaults.headers.common.Authorization = token;
       dispatch(setCurrentUser(jwtDecode(token)));
+    }).catch(() => {
+      dispatch(errorMessage('An error occured please try again'));
     });
 }
 
@@ -74,6 +85,8 @@ export function loginRequest(userDetails) {
       'updatedAt'
     ]);
     dispatch(setCurrentUser(decoded));
+  }).catch(() => {
+    dispatch(errorMessage('Request Failed, Please Try again'));
   });
 }
 

@@ -24,6 +24,14 @@ export function fetchUserSuccess(data) {
   };
 }
 /**
+//  * errorMessage - create documents action
+ * @param  {object} message message to be displayed
+ * @return {object} return an object
+ */
+export function errorMessage(message) {
+  return Materialize.toast(message, 1000, 'red');
+}
+/**
  * action dispatched on creating new user success
  *
  * @export
@@ -43,12 +51,13 @@ export function loadUsers() {
       const result = response.data;
       dispatch(loadUserSuccess(result));
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured while retrieving users'));
     });
 }
 /**
  * fetchUsers - fetches users from database
+ * @param {Number} userId - the user Id
  * @return {Function} returns a dispatch
  */
 export function fetchUsers(userId) {
@@ -57,8 +66,8 @@ export function fetchUsers(userId) {
       const result = response.data;
       dispatch(fetchUserSuccess(result.user));
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured while retrieving users'));
     });
 }
 /**
@@ -73,13 +82,14 @@ export function deleteUser(userId) {
         dispatch(loadUsers());
       }
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured please try again'));
     });
 }
 /**
  * editUsers - fetches users from database
  * @param {Number} userId - the user id
+ * @param {Object} details the user details
  * @return {Function} returns a dispatch
  */
 export function editUser(userId, details) {
@@ -89,7 +99,7 @@ export function editUser(userId, details) {
         dispatch(fetchUserSuccess(response.data.user));
       }
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('Unable to perform operation, Please try again'));
     });
 }

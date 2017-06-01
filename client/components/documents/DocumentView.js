@@ -1,11 +1,12 @@
 /* eslint array-callback-return: "off" */
 /* global $ */
 import React from 'react';
+import renderHTML from 'react-render-html';
+import moment from 'moment';
 
 import EditDocument from './EditDocument';
 import options from '../../data/options';
-import renderHTML from 'react-render-html';
-import { getFirstLetter, getDate } from '../../utils/helper';
+import { getFirstLetter } from '../../utils/helper';
 
 export default class DocumentView extends React.Component {
   constructor(props, context) {
@@ -26,13 +27,28 @@ export default class DocumentView extends React.Component {
       invalid: false
     };
   }
-
-  componentWillReceiveProps() {
-    this.setState(
-      {
-        isEditing: false,
-      }
-      );
+  componentWillMount() {
+    this.setState({
+      isUpdating: true
+    });
+    setTimeout(() => this.setState({
+      isUpdating: false
+    }), 1000);
+  }
+  componentWillReceiveProps(nextProps) {
+    const { id } = this.props.currentDocument[0];
+    const nextPropsId = nextProps.currentDocument[0].id;
+    if (parseInt(nextPropsId, 10) !== parseInt(id, 10)) {
+      this.setState(
+        {
+          isEditing: false,
+          isUpdating: true,
+        }
+        );
+      setTimeout(() => this.setState({
+        isUpdating: false
+      }), 1000);
+    }
   }
 
   onChange(event) {
@@ -142,6 +158,7 @@ export default class DocumentView extends React.Component {
     const currentDocument = this.props.currentDocument[0];
     const { currentUser } = this.props;
     const { title, content, access } = this.state.documents;
+    const { isEditing, isUpdating } = this.state;
     let actions;
     if (currentUser && currentUser.id === currentDocument.ownerId) {
       actions = (
@@ -163,7 +180,7 @@ export default class DocumentView extends React.Component {
             </ul>);
     }
     let documentBody;
-    if (this.state.isEditing) {
+    if (isEditing) {
       documentBody =
       <EditDocument
       onChange={this.onChange}
@@ -184,7 +201,8 @@ export default class DocumentView extends React.Component {
     if (currentDocument) {
       return (
         <div id="email-details" className="col s12 m7 l7 card-panel">
-          <p className="email-subject truncate">{currentDocument && currentDocument.title}
+          <p className="email-subject truncate">
+          {currentDocument && currentDocument.title}
           <a
           className="red-text"
           onClick={this.props.toggleOpen}
@@ -202,12 +220,16 @@ export default class DocumentView extends React.Component {
                     <span id="avatar" className="circle blue darken-1">
                       {getFirstLetter(currentDocument.User.username)}
                       </span>
-                    <span className="email-title">{currentDocument.User.firstname} {currentDocument.User.lastname}</span>
+                    <span className="email-title">
+                    {currentDocument.User.firstname}
+                    {currentDocument.User.lastname}
+                    </span>
                     <p className="truncate grey-text ultra-small">
                       @{currentDocument.User.username}
                       </p>
                     <p className="grey-text ultra-small">
-                      created at: {getDate(currentDocument.createdAt)}
+                      published on: {moment(currentDocument.createdAt)
+                      .format('MM/DD/YYYY')}
                       </p>
                   </li>
                 </ul>
@@ -216,7 +238,10 @@ export default class DocumentView extends React.Component {
                {actions}
               </div>
             </div>
-            {documentBody}
+            {isUpdating ? <center><div className="progress">
+                <div className="indeterminate" />
+            </div>
+            </center> : documentBody}
           </div>
         </div>
       );

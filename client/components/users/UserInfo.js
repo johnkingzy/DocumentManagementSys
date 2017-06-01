@@ -38,7 +38,7 @@ class UserInfo extends React.Component {
           <h4 className="card-title grey-text text-darken-4">
           { Role.length }
           </h4>
-          <p className="medium-small grey-text">Private Documents</p>
+          <p className="medium-small grey-text">Role Documents</p>
       </div>
     </div>
     </div>);
@@ -51,4 +51,3 @@ UserInfo.propTypes = {
   Role: React.PropTypes.array.isRequired,
 };
 export default UserInfo;
-

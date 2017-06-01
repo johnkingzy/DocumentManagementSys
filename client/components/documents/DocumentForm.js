@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import TextInput from '../common/TextInput';
 import TextEditor from '../common/TextEditor';
-import TextArea from '../common/TextArea';
 import SelectInput from '../common/SelectInput';
 import options from '../../data/options';
 
@@ -69,6 +68,7 @@ DocumentForm.propTypes = {
   loading: PropTypes.bool,
   errors: PropTypes.object,
   clearError: PropTypes.func,
-  labelclass: PropTypes.string
+  labelclass: PropTypes.string,
+  editorChange: PropTypes.func
 };
 export default DocumentForm;

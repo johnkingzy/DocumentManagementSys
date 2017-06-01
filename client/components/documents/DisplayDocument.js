@@ -9,7 +9,8 @@ export default class DisplayDocument extends React.Component {
             <span id="username" className="circle blue darken-1">
               {getFirstLetter(document.User.username)}
               </span>
-            <a onClick={viewDocument} id={document.id} className="email-title title">
+            <a onClick={viewDocument}
+            id={document.id} className="email-title title">
               {document.title}
               </a>
             <p id="truncate" className="truncate grey-text ultra-small">

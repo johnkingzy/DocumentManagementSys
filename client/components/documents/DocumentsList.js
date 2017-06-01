@@ -86,7 +86,7 @@ class DocumentList extends React.Component {
               viewDocument={openDocument}
               />);
             }
-          }) : <span> You have No Public Documents </span>
+          }) : <center>You have No Public Document</center>
           }
           <br />
           </ul>}
@@ -102,7 +102,7 @@ class DocumentList extends React.Component {
               viewDocument={openDocument}
               key={document.id}/>);
             }
-          }) : <span> You have No Private Documents </span>
+          }) : <center>You have No Private Document</center>
           }
           <br />
           </ul> }
@@ -117,10 +117,11 @@ class DocumentList extends React.Component {
               document={document}
               id={document.id}
               viewDocument={openDocument}
-              />);
+              />
+              );
             }
-          }) : <span> You have No Role Documents </span>
-          }
+          }) : <center>You have No Role Document</center>
+        }
           <br />
             </ul> }
           </div>

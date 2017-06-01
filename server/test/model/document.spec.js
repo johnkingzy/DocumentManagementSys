@@ -7,7 +7,6 @@ describe('Document Model', () => {
   let regularUser;
   const requiredFields = ['title', 'content'];
   const emptyFields = ['title', 'content', 'access'];
-
   before((done) => {
     db.User.create(helper.regularUser)
       .then((user) => {

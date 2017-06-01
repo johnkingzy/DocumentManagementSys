@@ -14,7 +14,14 @@ export function loadDocumentSuccess(documents) {
     documents
   };
 }
-
+/**
+//  * errorMessage - create documents action
+ * @param  {object} message message to be displayed
+ * @return {object} return an object
+ */
+export function errorMessage(message) {
+  return Materialize.toast(message, 1000, 'red');
+}
 /**
  * loadDocument - fetches documents from database
  * @return {Function} returns a dispatch
@@ -28,8 +35,8 @@ export function loadDocuments() {
       const documents = response.data;
       dispatch(loadDocumentSuccess(documents.document));
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured while retrieving documents'));
     });
 }
 
@@ -43,8 +50,8 @@ export function createDocument(data) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured please try again'));
     });
 }
 
@@ -62,8 +69,8 @@ export function updateDocument(data) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error retrieving documents'));
     });
   };
 }
@@ -79,8 +86,8 @@ export function deleteDocument(documentId) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured please try again'));
     });
   };
 }

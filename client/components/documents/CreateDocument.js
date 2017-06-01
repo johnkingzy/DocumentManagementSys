@@ -10,8 +10,6 @@ import * as DocumentActions from '../../actions/DocumentAction';
  * @classdesc component for create document modal
  */
 class CreateDocumentModal extends React.Component {
-  /* eslint-disable Unexpected alert */
-
   /**
    * constructor - contains the constructor
    * @param  {object} props the properties of the class component
@@ -79,7 +77,6 @@ class CreateDocumentModal extends React.Component {
               access: ''
             }
           });
-          // this.context.router.push('/');
         });
       });
     } else {
@@ -149,7 +146,7 @@ class CreateDocumentModal extends React.Component {
           });
         })(file);
     fileReader.readAsText(file);
-    }
+  }
   /**
    * render - renders the class component
    * @return {object} returns an object

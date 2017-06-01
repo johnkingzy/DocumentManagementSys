@@ -14,6 +14,15 @@ export function loadRoleSuccess(data) {
 }
 
 /**
+//  * errorMessage - create documents action
+ * @param  {object} message message to be displayed
+ * @return {object} return an object
+ */
+export function errorMessage(message) {
+  return Materialize.toast(message, 1000, 'red');
+}
+
+/**
  * loadRoles - fetches role from database
  * @return {Function} returns a dispatch
  */
@@ -23,8 +32,8 @@ export function loadRoles() {
       const result = response.data;
       dispatch(loadRoleSuccess(result.roles));
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured while retrieving roles'));
     });
 }
 
@@ -39,8 +48,8 @@ export function updateRole(data, id) {
     .then(() => {
       dispatch(loadRoles());
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured while updating roles'));
     });
 }
 
@@ -54,7 +63,7 @@ export function addRole(data) {
     .then(() => {
       dispatch(loadRoles());
     })
-    .catch((error) => {
-      throw (error);
+    .catch(() => {
+      dispatch(errorMessage('An error occured, Please try again'));
     });
 }

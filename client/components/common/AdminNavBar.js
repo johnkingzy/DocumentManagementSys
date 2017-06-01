@@ -1,4 +1,5 @@
 import React from 'react';
+import Navigation from '../includes/Navigation.js';
 
 class NavBar extends React.Component {
   render() {
@@ -10,6 +11,8 @@ class NavBar extends React.Component {
       closeSearch
     } = this.props;
     return (
+      <div>
+      <Navigation />
       <nav className="blue">
         <div className="nav-wrapper">
           <form onSubmit={onSubmit}
@@ -47,6 +50,7 @@ class NavBar extends React.Component {
           </ul>
         </div>
       </nav>
+      </div>
     );
   }
 }
