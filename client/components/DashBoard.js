@@ -45,9 +45,7 @@ class DashBoard extends React.Component {
   componentWillMount() {
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      this.props.actions.loadDocuments().catch(() => {
-        this.context.router.push('/login');
-      });
+      this.props.actions.loadDocuments();
       const userId = this.props.currentUser.id;
       this.props.actions.fetchUsers(userId);
     }
@@ -55,7 +53,7 @@ class DashBoard extends React.Component {
 
   componentDidMount() {
     $('ul.tabs').tabs();
-    $('ul.tabs').tabs('select_tab', 'public');
+    // $('ul.tabs').tabs('select_tab', 'public');
   }
   /**
    * toggleModal - its use to toggel the modal
@@ -139,7 +137,12 @@ class DashBoard extends React.Component {
    * @return {object} containing the view elements
    */
   render() {
-    const { allDocuments, search, currentUser, activeUser } = this.props;
+    const {
+      allDocuments,
+      pagination,
+      search,
+      currentUser,
+      activeUser } = this.props;
     const searchedResult = search.searchedDocuments;
     const { createDocument, updateDocument } = this.props.actions;
     const { selectedId, searching } = this.state;
@@ -152,11 +155,7 @@ class DashBoard extends React.Component {
       <nav className="red">
         <div className="nav-wrapper">
           <div className="left col s12 m5 l5">
-            <ul id="dropdown1" className="dropdown-content">
-            {isAdmin &&
-              (<div><li><Link to="/admin">Admin Panel</Link></li>
-                <li className="divider" /></div>)}
-            </ul>
+            <ul id="dropdown1" className="dropdown-content" />
             <ul>
               <li><a href="#!" className="email-menu">
                 <i className="material-icons">tag_faces</i>
@@ -191,13 +190,13 @@ class DashBoard extends React.Component {
                     <i className="material-icons left">create</i>
                     Create New Document
                     </a></li>
-                    <li><a onClick={this.logout} href="">Logout</a></li>
                   <li>
-                  <a className="dropdown-button"
-                  href="#!" data-activates="dropdown1">
+                  <a href="#!">
                     <i className="material-icons left">account_circle</i>
                     {activeUser.username}
                     </a></li>
+                    <li><a onClick={this.logout} href="">Logout</a></li>
+                    {isAdmin && <li><Link to="/admin">Admin Panel</Link></li>}
                 </ul>
               </div>
 
@@ -212,7 +211,9 @@ class DashBoard extends React.Component {
          /> :
          <DocumentList
          allDocuments={allDocuments}
+         pagination={pagination}
          openDocument={this.openDocument}
+         loadDocuments={this.props.actions.loadDocuments}
          />}
         { selectedId && allDocuments ?
         <DocumentView
@@ -243,7 +244,8 @@ DashBoard.propTypes = {
   search: React.PropTypes.object.isRequired,
   currentUser: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
-  activeUser: React.PropTypes.object.isRequired
+  activeUser: React.PropTypes.object.isRequired,
+  isAuthenticated: React.PropTypes.bool.isRequired
 };
 DashBoard.contextTypes = {
   router: React.PropTypes.object.isRequired
@@ -270,11 +272,19 @@ function mapDispatchToProps(dispatch) {
  * @return {Object} returns an object
  */
 function mapStateToProps(state) {
+  let allDocuments = [];
+  let pagination = {};
+  if (state.Auth.isAuthenticated) {
+    allDocuments = state.Documents.allDocuments;
+    pagination = state.Documents.Pagination;
+  }
   return {
-    allDocuments: state.Documents,
+    allDocuments,
     search: state.Search,
     currentUser: state.Auth.user,
-    activeUser: state.Users.authUser
+    isAuthenticated: state.Auth.isAuthenticated,
+    activeUser: state.Users.authUser,
+    pagination
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);

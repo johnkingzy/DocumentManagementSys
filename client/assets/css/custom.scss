@@ -231,7 +231,7 @@ body{
   width: 30%;
   position: absolute;
   top: 50%;
-  left: 40%;
+  left: 30%;
   transform: translate(-50%, -50%);
 }
 nav {
@@ -298,6 +298,7 @@ a {
 #email-list {
   min-height: 650px;
   max-height: 650px;
+  overflow: scroll;
   #text {
     background-color: #1e88e5;
     color: #fff;

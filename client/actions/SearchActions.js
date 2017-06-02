@@ -45,7 +45,6 @@ export function searchDocuments(query) {
   .then((result) => {
     dispatch(searchDocumentsSuccess(result.data));
   }).catch(() => {
-    dispatch(errorMessage('An error occured while retrieving results'));
   });
 }
 
@@ -59,6 +58,5 @@ export function searchUsers(query) {
   .then((result) => {
     dispatch(searchUsersSuccess(result.data));
   }).catch(() => {
-    dispatch(errorMessage('An error occured while retrieving results'));
   });
 }

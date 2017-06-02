@@ -4,7 +4,10 @@ export default {
     isAuthenticated: false,
     user: {},
   },
-  manageDocuments: [],
+  manageDocuments: {
+    allDocuments: [],
+    Pagination: {}
+  },
   manageRoles: { roles: [] },
   manageSearch: { searchedUsers: [], searchedDocuments: [] },
   currentlySelected: {},

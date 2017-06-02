@@ -22,7 +22,7 @@ class DocumentList extends React.Component {
     $('ul.tabs').tabs('select_tab', 'public');
   }
 
-  componentWillUpdatet() {
+  componentWillUpdate() {
     $('ul.tabs').tabs();
     $('ul.tabs').tabs('select_tab', 'public');
   }

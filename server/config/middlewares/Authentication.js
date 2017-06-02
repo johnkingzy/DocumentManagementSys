@@ -564,6 +564,28 @@ const Authenticate = {
         ]
       };
     }
+    if (`${req.baseUrl}${req.route.path}` === '/users/:id/documents') {
+      if (isNaN(req.params.id)) {
+        return res.status(400)
+        .send({
+          success: false,
+          message: 'Error occurred while retrieving user document'
+        });
+      }
+      query.where = {
+        $or: [
+          { access: 'public' },
+          {
+            ownerRoleId: req.decoded.roleId
+          },
+          {
+            ownerId: req.params.id
+          }
+        ]
+      };
+      query.include = [db.User];
+      query.order = [['updatedAt', 'DESC']];
+    }
     if (`${req.baseUrl}${req.route.path}` === '/users/') {
       query.where = helper.isAdmin(req.decoded.user.roleId)
          ? {}

@@ -290,13 +290,9 @@ const User = {
     });
   },
   findAllUserDocument(req, res) {
-    if (isNaN(req.params.id)) {
-      return res.status(400)
-      .send({
-        success: false,
-        message: 'Error occurred while retrieving user document'
-      });
-    }
+    const request = req.searchFilter;
+    let condition = {};
+    let pagination;
     db.User.findById(req.params.id)
     .then((user) => {
       if (!user) {
@@ -306,30 +302,24 @@ const User = {
         });
       }
       db.Document
-      .findAll({
-        where: {
-          $or: [
-            { access: 'public' },
-            {
-              ownerRoleId: req.decoded.roleId
-            },
-            {
-              ownerId: req.params.id
-            }
-          ]
-        },
-        include: [db.User],
-        order: [['updatedAt', 'DESC']]
-      })
+      .findAndCountAll(request)
       .then((document) => {
         if (!document) {
           return res.status(404).send({
             message: 'Document Not Found',
           });
         }
+        condition = {
+          count: document.count,
+          limit: request.limit,
+          offset: request.offset
+        };
+        delete document.count;
+        pagination = Helpers.pagination(condition);
         return res.status(200)
         .send({
           document,
+          pagination,
           message: 'Document was retrieved successfully'
         });
       })

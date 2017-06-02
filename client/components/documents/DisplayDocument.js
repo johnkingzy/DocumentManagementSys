@@ -1,6 +1,7 @@
 import React from 'react';
 import { getFirstLetter, getDate } from '../../utils/helper';
 
+
 export default class DisplayDocument extends React.Component {
   render() {
     const { document, id, viewDocument } = this.props;

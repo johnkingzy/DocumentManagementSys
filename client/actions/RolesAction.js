@@ -33,7 +33,6 @@ export function loadRoles() {
       dispatch(loadRoleSuccess(result.roles));
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured while retrieving roles'));
     });
 }
 
@@ -49,7 +48,6 @@ export function updateRole(data, id) {
       dispatch(loadRoles());
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured while updating roles'));
     });
 }
 
@@ -64,6 +62,5 @@ export function addRole(data) {
       dispatch(loadRoles());
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured, Please try again'));
     });
 }

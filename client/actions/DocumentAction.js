@@ -8,10 +8,10 @@ import types from './actionTypes';
  * @param  {object} documents document data
  * @return {object} return an object
  */
-export function loadDocumentSuccess(documents) {
+export function loadDocumentSuccess(data) {
   return {
     type: types.LOAD_DOCUMENTS_SUCCESS,
-    documents
+    data
   };
 }
 /**
@@ -24,19 +24,25 @@ export function errorMessage(message) {
 }
 /**
  * loadDocument - fetches documents from database
+ * @param {Number} offset value for pagination
  * @return {Function} returns a dispatch
  */
-export function loadDocuments() {
+export function loadDocuments(offset) {
+  const pageOffset = offset || 0;
   const token = localStorage.getItem('jwtToken');
   const details = jwtDecode(token);
   const userId = details.user.id;
-  return dispatch => axios.get(`/users/${userId}/documents`)
+  return dispatch =>
+  axios.get(`/users/${userId}/documents?offset=${pageOffset}`)
     .then((response) => {
-      const documents = response.data;
-      dispatch(loadDocumentSuccess(documents.document));
+      const { document, pagination } = response.data;
+      const data = {
+        document: document.rows,
+        pagination
+      };
+      dispatch(loadDocumentSuccess(data));
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured while retrieving documents'));
     });
 }
 
@@ -51,7 +57,6 @@ export function createDocument(data) {
       dispatch(loadDocuments());
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured please try again'));
     });
 }
 
@@ -70,7 +75,6 @@ export function updateDocument(data) {
       dispatch(loadDocuments());
     })
     .catch(() => {
-      dispatch(errorMessage('An error retrieving documents'));
     });
   };
 }
@@ -87,7 +91,6 @@ export function deleteDocument(documentId) {
       dispatch(loadDocuments());
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured please try again'));
     });
   };
 }
