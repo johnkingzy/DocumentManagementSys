@@ -16,7 +16,10 @@ export default function documentReducer(
       action.documents)
     ];
   case types.LOAD_DOCUMENTS_SUCCESS:
-    return action.documents;
+    return Object.assign({}, ...state, {
+      allDocuments: action.data.document,
+      Pagination: action.data.pagination
+    });
   default:
     return state;
   }

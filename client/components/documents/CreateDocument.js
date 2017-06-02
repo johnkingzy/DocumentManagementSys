@@ -120,9 +120,9 @@ class CreateDocumentModal extends React.Component {
   }
 
   editorChange(event) {
-    const document = this.state.documents;
-    document.content = event.target.getContent({ format: 'raw' });
-    return this.setState({ document });
+    const documents = this.state.documents;
+    documents.content = event;
+    return this.setState({ documents });
   }
 
   handleFileUpload(event) {

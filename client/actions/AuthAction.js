@@ -60,10 +60,15 @@ export function saveUserDetails(userDetails) {
       const token = result.data.token;
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
-      axios.defaults.headers.common.Authorization = token;
-      dispatch(setCurrentUser(jwtDecode(token)));
+      const decodedData = jwtDecode(token);
+      const decoded = omit(decodedData.user, [
+        'password',
+        'createdAt',
+        'updatedAt'
+      ]);
+      console.log(decoded);
+      dispatch(setCurrentUser(decoded));
     }).catch(() => {
-      dispatch(errorMessage('An error occured please try again'));
     });
 }
 

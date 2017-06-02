@@ -1,6 +1,27 @@
 import axios from 'axios';
 import types from './actionTypes';
-
+import setAuthorizationToken from '../utils/authorization';
+/**
+ * action dispatched on creating new user success
+ *
+ * @export
+ * @param {any} user
+ * @returns {Object} json object
+ */
+export function setCurrentUser(user) {
+  return { type: types.SET_CURRENT_USER, user };
+}
+/**
+ * logout - logout Action
+ * @return {Function}  dispatch an action
+ */
+export function logout() {
+  return (dispatch) => {
+    localStorage.removeItem('jwtToken');
+    setAuthorizationToken(false);
+    dispatch(setCurrentUser({}));
+  };
+}
 /**
 //  * loadUserSuccess - load users success
  * @param  {object} data user data
@@ -32,16 +53,6 @@ export function errorMessage(message) {
   return Materialize.toast(message, 1000, 'red');
 }
 /**
- * action dispatched on creating new user success
- *
- * @export
- * @param {any} user
- * @returns {Object} json object
- */
-export function setCurrentUser(user) {
-  return { type: types.SET_CURRENT_USER, user };
-}
-/**
  * loadUsers - fetches users from database
  * @return {Function} returns a dispatch
  */
@@ -52,7 +63,6 @@ export function loadUsers() {
       dispatch(loadUserSuccess(result));
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured while retrieving users'));
     });
 }
 /**
@@ -67,7 +77,6 @@ export function fetchUsers(userId) {
       dispatch(fetchUserSuccess(result.user));
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured while retrieving users'));
     });
 }
 /**
@@ -83,7 +92,6 @@ export function deleteUser(userId) {
       }
     })
     .catch(() => {
-      dispatch(errorMessage('An error occured please try again'));
     });
 }
 /**
@@ -100,6 +108,5 @@ export function editUser(userId, details) {
       }
     })
     .catch(() => {
-      dispatch(errorMessage('Unable to perform operation, Please try again'));
     });
 }

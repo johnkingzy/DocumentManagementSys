@@ -14,7 +14,7 @@ UserRouter.get('/search',
     Auth.validateSearch,
     User.search);
 UserRouter.route('/:id/documents')
-  .get(Auth.isLoggedIn, User.findAllUserDocument);
+  .get(Auth.isLoggedIn, Auth.validateSearch, User.findAllUserDocument);
 UserRouter.route('/:id')
   .get(Auth.isLoggedIn, Auth.validateSearch, User.fetchOne)
   .put(Auth.isLoggedIn, Auth.validateUpdate, User.updateUserData)
