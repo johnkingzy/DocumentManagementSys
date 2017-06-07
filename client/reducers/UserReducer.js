@@ -13,7 +13,7 @@ export default function userReducer(
   case types.LOAD_USERS_SUCCESS:
     return Object.assign({}, ...state, {
       allUsers: action.data.users.rows,
-      pageCount: Math.ceil(action.data.pagination.page_count) });
+      pageCount: action.data.pagination });
   case types.FETCH_USERS_SUCCESS:
     return Object.assign({}, ...state, {
       authUser: action.data

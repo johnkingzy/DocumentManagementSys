@@ -16,5 +16,4 @@ DocumentRouter.route('/:id')
   .put(Auth.isLoggedIn, Auth.checkDocument, document.update)
   .delete(Auth.isLoggedIn, Auth.deleteDocument, document.delete);
 
-
 export default DocumentRouter;

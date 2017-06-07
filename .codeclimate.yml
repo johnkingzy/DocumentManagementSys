@@ -1,17 +1,23 @@
 engines:
-  eslint:
-    enabled: true
-  duplication:
-    enabled: true
+  duplications:
+    enabled: false
     config:
       languages:
-      - javascript
+        - javascript
+  eslint:
+    enabled: true
+    checks:
+      comma-dangle:
+        enabled: false
+  fixme:
+    enabled: true
 ratings:
   paths:
-  - server/**
-
-## other configuration excluded from example...
+  - "server/**/*.js"
+  - "client/**/*.js"
+languages:
+  JavaScript: true
 exclude_paths:
-- "lib/"
-- "build/"
-- "node_modules/"
+  - "lib/"
+  - "build/"
+  - "node_modules/"

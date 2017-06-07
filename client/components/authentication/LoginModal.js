@@ -65,7 +65,6 @@ class LoginModal extends React.Component {
         invalid: 'Invalid Credentials'
       };
       const invalid = true;
-      Materialize.toast('Invalid Credentials', 2000, 'red');
       this.setState({
         errors,
         invalid
@@ -131,7 +130,7 @@ class LoginModal extends React.Component {
               id="right"
             >
               <a className="orange-text" href="#!">
-              <b>Forgot Password?</b></a>
+              <b></b></a>
             </span>
           </div>
 
@@ -141,7 +140,7 @@ class LoginModal extends React.Component {
           <button
             type="submit"
             name="btn_login"
-            className="col s12 btn btn-large waves-effect light-blue darken-3"
+            className="col s12 btn btn-large waves-effect light-reddish darken-3"
             disabled={this.state.invalid}
           >Login</button>
         </div>

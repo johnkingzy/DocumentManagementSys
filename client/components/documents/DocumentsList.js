@@ -5,125 +5,133 @@ import { bindActionCreators } from 'redux';
 
 import * as DocumentActions from '../../actions/DocumentAction';
 import DisplayDocument from './DisplayDocument';
+import SelectInput from '../common/SelectInput';
+import access from '../../data/options';
 
 class DocumentList extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      isPublic: true,
-      isPrivate: false,
-      isRole: false
+      currentSection: 'public',
+      allDocuments: [],
+      currentPage: 1,
+      totalCount: 1
     };
-    this.onClick = this.onClick.bind(this);
+    this.filterAccess = this.filterAccess.bind(this);
+    this.filterDocument = this.filterDocument.bind(this);
+    this.onSelectPage = this.onSelectPage.bind(this);
   }
-
+  componentWillMount() {
+    this.filterDocument();
+  }
   componentDidMount() {
-    $('ul.tabs').tabs();
-    $('ul.tabs').tabs('select_tab', 'public');
+    $('select').material_select();
+    $('#section').on('change', this.filterAccess);
   }
 
-  componentWillUpdate() {
-    $('ul.tabs').tabs();
-    $('ul.tabs').tabs('select_tab', 'public');
+  componentWillReceiveProps(nextProps) {
+    const allDocuments = nextProps.allDocuments.filter(document =>
+    document.access === this.state.currentSection).slice(0, 6);
+    const totalCount = Math.ceil((nextProps.allDocuments.filter(document =>
+    document.access === this.state.currentSection).length) / 6);
+    this.setState({
+      allDocuments,
+      totalCount
+    });
+  }
+  filterDocument() {
+    const pageNo = this.state.currentPage;
+    const showing = this.props.allDocuments.slice();
+    const pageLimit = 6;
+    const pageOffset = (pageNo - 1) * pageLimit;
+    const newShow = showing.filter(document =>
+    document.access === this.state.currentSection);
+    const allDocuments = newShow.slice(pageOffset, pageOffset + pageLimit);
+    const totalCount = Math.ceil(newShow.length / 6);
+    this.setState({
+      allDocuments,
+      totalCount
+    });
+  }
+  filterAccess(event) {
+    this.setState({
+      currentSection: event.target.value,
+      currentPage: 1
+    }, this.filterDocument);
   }
 
-  onClick(event) {
-    const id = event.target.name;
-    if (id === 'public') {
+  onSelectPage = (event) => {
+    const { id } = event.target;
+    const { totalCount, currentPage } = this.state;
+    if (id === 'next' && currentPage !== totalCount) {
+      const pageNumber = parseInt(currentPage, 10) + 1;
       this.setState({
-        isPublic: true,
-        isPrivate: false,
-        isRole: false
-      });
-    } else if (id === 'private') {
+        currentPage: pageNumber
+      }, () => this.filterDocument());
+    } else if (id === 'previous' && currentPage > 1) {
+      const pageNumber = parseInt(currentPage, 10) - 1;
       this.setState({
-        isPrivate: true,
-        isPublic: false,
-        isRole: false
-
-      });
-    } else if (id === 'role') {
-      this.setState({
-        isRole: true,
-        isPrivate: false,
-        isPublic: false,
-      });
+        currentPage: pageNumber
+      }, () => this.filterDocument());
     }
   }
 
   render() {
-    const { allDocuments, openDocument } = this.props;
-    const { isPublic, isPrivate, isRole } = this.state;
+    const { openDocument } = this.props;
+    const { allDocuments, currentPage, totalCount } = this.state;
     return (
           <div id="email-list" className="col s10 m10 l5 card-panel z-depth-1">
-          <div className="card-tabs">
-            <ul id="tabs-swipe-demo" className="tabs light-reddish darken-3">
-              <li onClick={this.onClick} className="tab">
-              <a className="active white-text"
-              href="#public" name="public">
-              Public
-              </a></li>
-              <li onClick={this.onClick} className="tab">
-              <a className="white-text" href="#private" name="private">
-              Private
-              </a></li>
-              <li onClick={this.onClick} className="tab">
-                <a className="white-text" href="#role" name="role">
-                Role
-                </a></li>
-            </ul>
-          </div>
-          { isPublic && <ul className="collection" id="public">
-          {
-          allDocuments &&
-          allDocuments
-          .filter(document => document.access === 'public').length > 0 ?
-          allDocuments.map((document) => {
-            if (document.access === 'public') {
-              return (<DisplayDocument
-              document={document}
-              key={document.id}
-              viewDocument={openDocument}
-              />);
-            }
-          }) : <center>You have No Public Document</center>
-          }
-          <br />
-          </ul>}
-          { isPrivate && <ul className="collection" id="private">
-          {
-          allDocuments &&
-          allDocuments
-          .filter(document => document.access === 'private').length > 0 ?
-          allDocuments.map((document) => {
-            if (document.access === 'private') {
-              return (<DisplayDocument
-              document={document}
-              viewDocument={openDocument}
-              key={document.id}/>);
-            }
-          }) : <center>You have No Private Document</center>
-          }
-          <br />
-          </ul> }
-          { isRole && <ul className="collection" id="role">
-          {
-          allDocuments &&
-          allDocuments
-          .filter(document => document.access === 'role').length > 0 ?
-          allDocuments.map((document) => {
-            if (document.access === 'role') {
-              return (<DisplayDocument
-              document={document}
-              id={document.id}
-              viewDocument={openDocument}
+            <br />
+            <div>
+            <div className="row">
+            <div className="col s6 m6 l6">
+              <SelectInput
+              id="section"
+              name="section"
+              options={access}
+              label="Filter Documents by Access"
               />
-              );
-            }
-          }) : <center>You have No Role Document</center>
+              </div>
+              <ul className="pagination col s6 m6 l6">
+                <li
+                className="waves-effect"
+                onClick={this.onSelectPage}
+                >
+                  <a href="#!">
+                    <i id="previous" className="material-icons">
+                    navigate_before</i>
+                  </a>
+                </li>
+                <li className="blue-text ultra-small">
+                <h6> Showing Page {currentPage} of {totalCount} </h6></li>
+                <li
+                className="waves-effect"
+                onClick={this.onSelectPage}
+                currentPage={currentPage}
+                >
+                  <a href="#!">
+                    <i id="next" className="material-icons">navigate_next</i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          <ul className="collection">
+          {
+          allDocuments &&
+          allDocuments
+          .length > 0 ?
+          (allDocuments.map((document) => {
+            return (<DisplayDocument
+            document={document}
+            key={document.id}
+            viewDocument={openDocument}
+            />);
+          })) :
+          <center>You currently have no {this.state.currentSection} documents
+          </center>
         }
-          <br />
-            </ul> }
+          </ul>
+          </div>
           </div>
     );
   }
@@ -144,6 +152,7 @@ function mapDispatchToProps(dispatch) {
 DocumentList.propTypes = {
   allDocuments: React.PropTypes.array.isRequired,
   openDocument: React.PropTypes.func.isRequired,
-  actions: React.PropTypes.object.isRequired
+  actions: React.PropTypes.object.isRequired,
+  pagination: React.PropTypes.object.isRequired
 };
 export default connect(null, mapDispatchToProps)(DocumentList);

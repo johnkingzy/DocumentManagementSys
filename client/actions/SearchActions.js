@@ -40,8 +40,10 @@ export function searchUsersSuccess(result) {
  * @param  {String} query the search keyword
  * @return {Function} returns a dispatch
  */
-export function searchDocuments(query) {
-  return dispatch => axios.get(`/documents/search?query=${query}`)
+export function searchDocuments(query, offset) {
+  const pageOffset = offset || 0;
+  return dispatch => axios
+  .get(`/documents/search?query=${query}&limit=6&offset=${pageOffset}`)
   .then((result) => {
     dispatch(searchDocumentsSuccess(result.data));
   }).catch(() => {
@@ -53,8 +55,10 @@ export function searchDocuments(query) {
  * @param  {String} query the searck keyword
  * @return {Function} returns a dispatch
  */
-export function searchUsers(query) {
-  return dispatch => axios.get(`/users/search?query=${query}`)
+export function searchUsers(query, offset) {
+  const pageOffset = offset || 0;
+  return dispatch => axios
+  .get(`/users/search?query=${query}&limit=6&offset=${pageOffset}`)
   .then((result) => {
     dispatch(searchUsersSuccess(result.data));
   }).catch(() => {

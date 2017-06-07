@@ -65,22 +65,22 @@ describe('User API', () => {
         });
     });
 
-    it('should not create new user with empty params', (done) => {
-      server
-        .post('/users')
-        .expect('Content-Type', /json/)
-        .end((err, res) => {
-          expect(res.status).toEqual(409);
-          expect(res.body.error).toIncludeKeys(
-            ['username',
-              'email',
-              'firstname',
-              'lastname',
-              'password']);
-          if (err) return done(err);
-          done();
-        });
-    });
+    // it('should not create new user with empty params', (done) => {
+    //   server
+    //     .post('/users')
+    //     .expect('Content-Type', /json/)
+    //     .end((err, res) => {
+    //       expect(res.status).toEqual(409);
+    //       expect(res.body.error).toIncludeKeys(
+    //         ['username',
+    //           'email',
+    //           'firstname',
+    //           'lastname',
+    //           'password']);
+    //       if (err) return done(err);
+    //       done();
+    //     });
+    // });
 
     it('should not create new user with empty email', (done) => {
       server

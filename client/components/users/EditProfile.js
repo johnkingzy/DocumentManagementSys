@@ -9,7 +9,6 @@ const EditProfile = (
     errors,
     checkUserExists,
     clearError,
-    onConfirm,
     invalid
   }
 ) => {
@@ -74,40 +73,18 @@ const EditProfile = (
           required
         />
       </div>
-      <div className="row">
-        <TextInput
-          className="input-field col m6 s12"
-          type="password"
-          name="password"
-          id="password"
-          onChange={onChange}
-          error={errors.password}
-          onFocus={clearError}
-          label="Password"
-        />
-         <TextInput
-          className="input-field col m6 s12"
-          type="password"
-          name="confirm"
-          id="confirm"
-          onChange={onConfirm}
-          error={errors.confirm}
-          label="Confirm Password"
-          required
-        />
-      </div>
       <center>
         <div className="row">
           <button
             type="submit"
             name="btn_login"
-            className="col s12 btn btn-large waves-effect light-blue darken-3"
+            className="col s12 btn btn-large waves-effect light-reddish darken-3"
             disabled={invalid}
           > Update Account </button>
         </div>
       </center>
     </form>
-    );
+  );
 };
 
 EditProfile.propTypes = {
@@ -116,6 +93,7 @@ EditProfile.propTypes = {
   userDetail: React.PropTypes.object.isRequired,
   checkUserExists: React.PropTypes.func.isRequired,
   clearError: React.PropTypes.func.isRequired,
-  errors: React.PropTypes.object.isRequired
+  errors: React.PropTypes.object.isRequired,
+  invalid: React.PropTypes.bool.isRequired
 };
 export default EditProfile;

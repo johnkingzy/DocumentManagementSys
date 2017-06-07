@@ -1,6 +1,7 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import omit from 'lodash/omit';
+import { browserHistory } from 'react-router';
 
 import types from './actionTypes';
 import setAuthorizationToken from '../utils/authorization';
@@ -15,6 +16,20 @@ import setAuthorizationToken from '../utils/authorization';
  */
 export function isUserExists(identifier) {
   return () => axios.get(`/users/verify/${identifier}`);
+}
+
+/**
+//  * errorMessage - create documents action
+ * @param  {object} message message to be displayed
+ * @return {object} return an object
+ */
+export function successMessage(message, path) {
+  if (path) {
+    return Materialize.toast(message, 1000, 'green', () => {
+      browserHistory.push(path);
+    });
+  }
+  return Materialize.toast(message, 1000, 'green');
 }
 
 /**
@@ -66,9 +81,9 @@ export function saveUserDetails(userDetails) {
         'createdAt',
         'updatedAt'
       ]);
-      console.log(decoded);
       dispatch(setCurrentUser(decoded));
-    }).catch(() => {
+    }).catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
 }
 
@@ -90,8 +105,8 @@ export function loginRequest(userDetails) {
       'updatedAt'
     ]);
     dispatch(setCurrentUser(decoded));
-  }).catch(() => {
-    dispatch(errorMessage('Request Failed, Please Try again'));
+  }).catch((error) => {
+    dispatch(errorMessage(error.response.data.message));
   });
 }
 

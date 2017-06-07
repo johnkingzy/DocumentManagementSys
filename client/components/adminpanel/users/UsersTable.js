@@ -1,4 +1,5 @@
 import React from 'react';
+import { Pagination } from 'react-materialize';
 import setRole from '../../../utils/setRole';
 
 class UsersTable extends React.Component {
@@ -28,8 +29,18 @@ class UsersTable extends React.Component {
   }
 
   render() {
-    const { rows, classValue, allRoles } = this.props;
+    const { rows,
+      classValue,
+      allRoles,
+      onSelect,
+      pagination } = this.props;
+    let pageCount, currentPage;
+    if (pagination) {
+      pageCount = pagination.page_count;
+      currentPage = pagination.page;
+    }
     const usersTable = (
+      <div>
         <table>
         <thead>
           <tr>
@@ -63,6 +74,14 @@ class UsersTable extends React.Component {
           }
           )}
       </table>
+      <center>
+        <Pagination
+                items={pageCount} activePage={currentPage}
+                maxButtons={pageCount}
+                onSelect={onSelect}
+            />
+        </center>
+        </div>
     );
     return (
       <div className={classValue}>

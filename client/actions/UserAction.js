@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 import types from './actionTypes';
 import setAuthorizationToken from '../utils/authorization';
 /**
@@ -50,19 +51,21 @@ export function fetchUserSuccess(data) {
  * @return {object} return an object
  */
 export function errorMessage(message) {
-  return Materialize.toast(message, 1000, 'red');
+  return Materialize.toast(message, 1500, 'red');
 }
 /**
  * loadUsers - fetches users from database
  * @return {Function} returns a dispatch
  */
-export function loadUsers() {
-  return dispatch => axios.get('/users/')
+export function loadUsers(offset) {
+  const pageOffset = offset || 0;
+  return dispatch => axios.get(`/users/?limit=8&offset=${pageOffset}`)
     .then((response) => {
       const result = response.data;
       dispatch(loadUserSuccess(result));
     })
-    .catch(() => {
+    .catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
 }
 /**
@@ -76,7 +79,8 @@ export function fetchUsers(userId) {
       const result = response.data;
       dispatch(fetchUserSuccess(result.user));
     })
-    .catch(() => {
+    .catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
 }
 /**
@@ -91,7 +95,8 @@ export function deleteUser(userId) {
         dispatch(loadUsers());
       }
     })
-    .catch(() => {
+    .catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
 }
 /**
@@ -103,10 +108,9 @@ export function deleteUser(userId) {
 export function editUser(userId, details) {
   return dispatch => axios.put(`/users/${userId}`, details)
     .then((response) => {
-      if (response.data.success) {
-        dispatch(fetchUserSuccess(response.data.user));
-      }
+      dispatch(fetchUserSuccess(response.data.user));
     })
-    .catch(() => {
+    .catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
 }

@@ -159,16 +159,9 @@ class CreateDocumentModal extends React.Component {
           <nav className="light-reddish darken-3">
             <div className="nav-wrapper">
               <div className="left col s12 m5 l5">
-                <ul>
-                  <li><a href="#!" className="email-menu">
-                    <i className="material-icons">keyboard_backspace</i>
-                  </a>
-                  </li>
-                  <li><a href="#!" className="email-menu">
-                  <i className="material-icons">tag_faces</i>
-                  </a>
-                  </li>
-                </ul>
+                <span>
+                  Create a New Document
+                </span>
               </div>
               <div className="col s12 m7 l7 hide-on-med-and-down">
                 <ul className="right">

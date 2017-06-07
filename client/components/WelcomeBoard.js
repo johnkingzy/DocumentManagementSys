@@ -17,10 +17,11 @@ class WelcomeBoard extends React.Component {
         lastname: '',
         username: '',
         email: '',
-        password: '',
-        errors: {},
       },
-      errors: {}
+      password: '',
+      changePassword: false,
+      errors: {},
+      invalid: false
     };
     this.isEditing = this.isEditing.bind(this);
     this.onSave = this.onSave.bind(this);
@@ -28,6 +29,9 @@ class WelcomeBoard extends React.Component {
     this.checkUserExists = this.checkUserExists.bind(this);
     this.clearError = this.clearError.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+    this.changePassword = this.changePassword.bind(this);
+    this.passwordChange = this.passwordChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
   isEditing() {
     const activeUser = this.props.activeUser;
@@ -56,7 +60,6 @@ class WelcomeBoard extends React.Component {
       .then(() => {
         Materialize.toast('Your details has been updated', 1000, 'green');
         this.isEditing();
-        this.context.router.push('/');
       });
     } else {
       this.setState({
@@ -87,7 +90,6 @@ class WelcomeBoard extends React.Component {
     const field = event.target.name;
     const value = event.target.value;
     const currentDetail = this.props.activeUser[field];
-    console.log(currentDetail, 'hello my code');
     if (value !== '' && value !== currentDetail) {
       this
       .props
@@ -104,6 +106,23 @@ class WelcomeBoard extends React.Component {
           invalid = false;
         }
         this.setState({ errors, invalid });
+      }).catch(() => {});
+    }
+  }
+  onSubmit(event) {
+    event.preventDefault();
+    this.setState({
+      errors: {}
+    });
+    if (!this.state.invalid && this.state.password) {
+      const details = {
+        password: this.state.password
+      };
+      this.props.actions.editUser(this.props.activeUser.id, details)
+      .then(() => {
+        Materialize
+        .toast('Your password was changed successfully', 1000, 'green');
+        this.changePassword();
       });
     }
   }
@@ -111,7 +130,7 @@ class WelcomeBoard extends React.Component {
     const input = event.target.value;
     const errors = {};
     let invalid = false;
-    const password = this.state.user.password;
+    const password = this.state.password;
     if (input !== password) {
       errors.confirm = 'Password do not match';
       invalid = true;
@@ -119,6 +138,17 @@ class WelcomeBoard extends React.Component {
     this.setState({
       errors,
       invalid
+    });
+  }
+  changePassword() {
+    this.setState({
+      changePassword: !this.state.changePassword
+    });
+  }
+  passwordChange(event) {
+    const password = event.target.value;
+    this.setState({
+      password
     });
   }
   /**
@@ -135,9 +165,6 @@ class WelcomeBoard extends React.Component {
     }
     if (!(state.username.length >= 5)) {
       errors.username = 'Username must have a minimum of 5 characters';
-    }
-    if (!(state.password.length >= 8)) {
-      errors.password = 'Password should have a minimum of 8 characters';
     }
     if (Object.keys(errors).length !== 0) {
       isValid = true;
@@ -159,7 +186,6 @@ class WelcomeBoard extends React.Component {
     this.setState({
       user
     });
-    // console.log(field);
   }
 
   render() {
@@ -168,7 +194,7 @@ class WelcomeBoard extends React.Component {
       activeUser } = this.props;
     const activeUserLength = Object.keys(activeUser).length;
     const userId = currentUserDetails.user.id;
-    const { editProfile, errors } = this.state; 
+    const { editProfile, errors, invalid, changePassword } = this.state;
     const Public = allDocuments.filter((document) => {
       return document.access === 'public' && document.ownerId === userId;
     });
@@ -196,9 +222,15 @@ class WelcomeBoard extends React.Component {
             <th
             className="right"
             data-field="name">
-            <a onClick={this.isEditing}>
+            {editProfile ?
+              <a
+              className="red-text"
+              onClick={this.isEditing}>
+              Cancel
+              </a> :
+              <a onClick={this.isEditing}>
               Edit Profile
-              </a>
+              </a>}
               </th>
           </tr>
         </thead>
@@ -233,15 +265,40 @@ class WelcomeBoard extends React.Component {
           </tr>
           <tr>
             <td>Password</td>
-            <td>
-              &#8226;
-              &#8226;
-              &#8226;
-              &#8226;
-              &#8226;
-              &#8226;
-              &#8226;
-              </td>
+            {changePassword ?
+              <div>
+              <input
+              className="passkey col s5 m5 l5"
+              type="password"
+              name="Password"
+              onChange={this.passwordChange}
+              placeholder="Enter New Password"
+              value={this.state.password}
+              required
+              />
+              <input className="passkey col s5 m5 l5" type="password"
+              name="confirmPassword"
+              onChange={this.onConfirm}
+              placeholder="Confirm New Password"
+              required
+              />
+              <button
+              className="btn light-reddish darken-3 passbtn waves-light"
+              disabled={invalid}
+              onClick={this.onSubmit}
+              type="submit">
+              <i className="material-icons">
+              send
+              </i>
+              </button>
+              <p>
+              <span className="left red-text">{errors.confirm}</span>
+              <a
+              className="red-text"
+              onClick={this.changePassword}>Cancel</a> </p>
+              </div>
+              :
+              <td><a onClick={this.changePassword}> Change Password </a></td>}
           </tr>
         </tbody>}
       </table>

@@ -2,11 +2,9 @@
 /* global $ */
 import React from 'react';
 import renderHTML from 'react-render-html';
-import moment from 'moment';
 
 import EditDocument from './EditDocument';
 import options from '../../data/options';
-import { getFirstLetter } from '../../utils/helper';
 
 export default class DocumentView extends React.Component {
   constructor(props, context) {
@@ -214,28 +212,11 @@ export default class DocumentView extends React.Component {
           <hr className="grey-text text-lighten-2" />
           <div className="email-content-wrap">
             <div className="row">
-              <div className="col s10 m10 l10">
-                <ul className="collection">
-                  <li className="collection-item avatar">
-                    <span id="avatar" className="circle blue darken-1">
-                      {getFirstLetter(currentDocument.User.username)}
-                      </span>
-                    <span className="email-title">
-                    {currentDocument.User.firstname}
-                    {currentDocument.User.lastname}
-                    </span>
-                    <p className="truncate grey-text ultra-small">
-                      @{currentDocument.User.username}
-                      </p>
-                    <p className="grey-text ultra-small">
-                      published on: {moment(currentDocument.createdAt)
-                      .format('MM/DD/YYYY')}
-                      </p>
-                  </li>
-                </ul>
-              </div>
-              <div className="col s2 m2 l2 email-actions">
-               {actions}
+              <div
+              id="truncate"
+              className="col s12 m12 l12 email-actions red-text">
+               {actions} <i className="material-icons">visibility</i>
+               <span id="txt3"> {currentDocument.access} access </span>
               </div>
             </div>
             {isUpdating ? <center><div className="progress">
@@ -248,7 +229,6 @@ export default class DocumentView extends React.Component {
     }
   }
   }
-
 
 DocumentView.propTypes = {
   currentDocument: React.PropTypes.array.isRequired,

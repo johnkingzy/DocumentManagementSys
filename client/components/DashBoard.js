@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
+import logo from '../assets/img/data-logo.png';
 
 import Modal from './documents/CreateDocument';
 import DocumentList from './documents/DocumentsList';
@@ -31,7 +32,8 @@ class DashBoard extends React.Component {
     this.state = {
       isOpen: false,
       selectedId: '',
-      searching: false
+      searching: false,
+      allDocuments: []
     };
     this.openDocument = this.openDocument.bind(this);
     this.deleteDocument = this.deleteDocument.bind(this);
@@ -40,20 +42,23 @@ class DashBoard extends React.Component {
     this.changeView = this.changeView.bind(this);
     this.onChange = this.onChange.bind(this);
     this.logout = this.logout.bind(this);
+    this.onSelect = this.onSelect.bind(this);
+    this.redirect = this.redirect.bind(this);
   }
 
   componentWillMount() {
+    this.props.actions.loadDocuments();
     const token = localStorage.getItem('jwtToken');
     if (token) {
-      this.props.actions.loadDocuments();
       const userId = this.props.currentUser.id;
       this.props.actions.fetchUsers(userId);
     }
   }
 
-  componentDidMount() {
-    $('ul.tabs').tabs();
-    // $('ul.tabs').tabs('select_tab', 'public');
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      allDocuments: nextProps.allDocuments
+    });
   }
   /**
    * toggleModal - its use to toggel the modal
@@ -113,6 +118,11 @@ class DashBoard extends React.Component {
       }
     }
   }
+  onSelect(pageNumber) {
+      const searchQuery = this.state.search;
+      const offset = (pageNumber - 1) * 6;
+      this.props.actions.searchDocuments(searchQuery, offset);
+  }
   onChange(event) {
     const field = event.target.name;
     const state = this.state;
@@ -129,7 +139,10 @@ class DashBoard extends React.Component {
   logout(event) {
     event.preventDefault();
     this.props.actions.logout();
-    this.context.router.push('/');
+    this.context.router.push('/login');
+  }
+  redirect(path) {
+    return browserHistory.push(path);
   }
 
   /**
@@ -143,7 +156,7 @@ class DashBoard extends React.Component {
       search,
       currentUser,
       activeUser } = this.props;
-    const searchedResult = search.searchedDocuments;
+    const { searchedDocuments, searchedPageCount } = search;
     const { createDocument, updateDocument } = this.props.actions;
     const { selectedId, searching } = this.state;
     const selectedDocument = allDocuments.filter((document) => {
@@ -152,19 +165,11 @@ class DashBoard extends React.Component {
     const isAdmin = activeUser.roleId === 1;
     return (
       <div>
-      <nav className="red">
+      <nav className="light-reddish darken-3">
         <div className="nav-wrapper">
           <div className="left col s12 m5 l5">
-            <ul id="dropdown1" className="dropdown-content" />
-            <ul>
-              <li><a href="#!" className="email-menu">
-                <i className="material-icons">tag_faces</i>
-                </a>
-              </li>
-              <li>
-                <a href="#!" className="email-type">DataHub</a>
-              </li>
-            </ul>
+            <a onClick={() => this.redirect('/')}>
+            <img alt={logo} src={logo} className="log" /></a>
           </div>
               <div className="col s12 m7 l7 hide-on-med-and-down">
                 <ul className="right">
@@ -184,30 +189,34 @@ class DashBoard extends React.Component {
                     </form>
                   </div>
                   </div>
+                  <li id="username" className="noHover">
+                  <i className="material-icons left">account_circle</i>{activeUser.username}</li>
                   <li>
                   <a id="createbtn" data-target="modal2"
                   className="dropdown-button modal-trigger">
                     <i className="material-icons left">create</i>
                     Create New Document
                     </a></li>
-                  <li>
-                  <a href="#!">
-                    <i className="material-icons left">account_circle</i>
-                    {activeUser.username}
-                    </a></li>
-                    <li><a onClick={this.logout} href="">Logout</a></li>
-                    {isAdmin && <li><Link to="/admin">Admin Panel</Link></li>}
+                    {isAdmin &&
+                    <li><a onClick={() => this.redirect('/admin')} href="">
+                    Admin Panel
+                    </a>
+                      </li>}
+                    <li><a onClick={this.logout} href="">
+                      <i className="material-icons">power_settings_new</i>
+                      </a></li>
                 </ul>
               </div>
 
             </div>
           </nav>
-          <div id="email-sidebar" className="col s1 m1 s1 card-panel" />
          { searching ?
          <SearchResultList
-         searchedResult={searchedResult}
+         searchedResult={searchedDocuments}
+         pagination={searchedPageCount}
          openDocument={this.openDocument}
          changeView={this.changeView}
+         onSelect={this.onSelect}
          /> :
          <DocumentList
          allDocuments={allDocuments}
@@ -245,7 +254,8 @@ DashBoard.propTypes = {
   currentUser: React.PropTypes.object.isRequired,
   actions: React.PropTypes.object.isRequired,
   activeUser: React.PropTypes.object.isRequired,
-  isAuthenticated: React.PropTypes.bool.isRequired
+  isAuthenticated: React.PropTypes.bool.isRequired,
+  pagination: React.PropTypes.object.isRequired
 };
 DashBoard.contextTypes = {
   router: React.PropTypes.object.isRequired

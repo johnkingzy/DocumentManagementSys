@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
 import * as AuthActions from '../../actions/AuthAction';
 import logo from '../../assets/img/data-logo.png';
@@ -21,6 +21,7 @@ class NavigationBar extends React.Component {
       search: ''
     };
     this.logout = this.logout.bind(this);
+    this.redirect = this.redirect.bind(this);
   }
 
   /**
@@ -33,6 +34,9 @@ class NavigationBar extends React.Component {
     this.props.actions.logout();
     this.context.router.push('/');
   }
+  redirect(path) {
+    return browserHistory.push(path);
+  }
   /**
    * render - renders the NavigationBar component
    * @return {object} contains the JSX code
@@ -42,25 +46,25 @@ class NavigationBar extends React.Component {
     const userLinks = (
   <div>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/dashboard">Dashboard</Link></li>
-        <li><Link to="/docs">View Docs</Link></li>
+        <li><a onClick={() => this.redirect('/')}>Home</a></li>
+        <li><a onClick={() => this.redirect('/dashboard')}>Dashboard</a></li>
+        <li><a onClick={() => this.redirect('/docs')}>View Docs</a></li>
         <li><a href="" onClick={this.logout}>Logout</a></li>
       </ul>
       </div>
     );
     const guestLinks = (
       <ul id="nav-mobile" className="right hide-on-med-and-down">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/docs">View Docs</Link></li>
+        <li><a onClick={() => this.redirect('/')}>Home</a></li>
+        <li><a onClick={() => this.redirect('/docs')}>View Docs</a></li>
       </ul>
     );
     return (
       <nav className="light-reddish darken-3" id="navbar">
         <div classNameName="nav-wrapper">
-          <Link to="#" className="brand-logo">
-            <img alt={logo} src={logo} className="logo" /></Link>
-          { isAuthenticated ? userLinks : guestLinks }
+          <a onClick={() => this.redirect('/')}>
+            <img alt={logo} src={logo} className="logo" /></a>
+          { guestLinks }
         </div>
       </nav>
     );

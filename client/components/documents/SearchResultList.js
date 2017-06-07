@@ -1,15 +1,24 @@
 /* eslint array-callback-return: "off" */
 import React from 'react';
 import { connect } from 'react-redux';
+import { Pagination } from 'react-materialize';
 import { bindActionCreators } from 'redux';
 
 import * as DocumentActions from '../../actions/DocumentAction';
 import DisplayDocument from './DisplayDocument';
 
 class SearchResultList extends React.Component {
-
   render() {
-    const { searchedResult, openDocument, changeView } = this.props;
+    const { searchedResult,
+      onSelect,
+      pagination,
+      openDocument,
+      changeView } = this.props;
+    let pageCount, currentPage;
+    if (pagination) {
+      pageCount = pagination.page_count;
+      currentPage = pagination.page;
+    }
     return (
           <div id="email-list" className="col s10 m5 l5 card-panel z-depth-1">
             <nav className="light-reddish darken-3">
@@ -44,7 +53,12 @@ class SearchResultList extends React.Component {
             />);
           }) : <center><span> No result was Found </span></center>
           }
-          <br />
+            <center><Pagination
+                items={pageCount} activePage={currentPage}
+                maxButtons={pageCount}
+                onSelect={onSelect}
+            /></center>
+          <div className="center-align" />
           </ul>
           </div>
     );
@@ -67,6 +81,8 @@ SearchResultList.propTypes = {
   searchedResult: React.PropTypes.array.isRequired,
   openDocument: React.PropTypes.func.isRequired,
   changeView: React.PropTypes.func.isRequired,
-  actions: React.PropTypes.object.isRequired
+  actions: React.PropTypes.object.isRequired,
+  onSelect: React.PropTypes.func.isRequired,
+  pagination: React.PropTypes.object.isRequired
 };
 export default connect(null, mapDispatchToProps)(SearchResultList);

@@ -157,7 +157,7 @@ class UsersView extends React.Component {
 }
 UsersView.propTypes = {
   allRoles: React.PropTypes.array.isRequired,
-  allUsers: React.PropTypes.object.isRequired,
+  allUsers: React.PropTypes.array.isRequired,
   selectedUser: React.PropTypes.string.isRequired,
   loadUser: React.PropTypes.func.isRequired,
   deleteUser: React.PropTypes.func.isRequired,

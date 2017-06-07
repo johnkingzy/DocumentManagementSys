@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import db from '../models';
 import Helpers from './helpers';
 
@@ -18,26 +19,43 @@ const Document = {
   },
 
   fetchAll(req, res) {
-    const query = Helpers.createQueryForList(req);
-    db.Document
-     .findAndCountAll(query)
-    .then((documents) => {
-      const condition = {
-        count: documents.count,
-        limit: query.limit,
-        offset: query.offset
-      };
-      delete documents.count;
-      const pagination = Helper.pagination(condition);
-      res.send(
-        {
-          success: true,
-          documents,
-          pagination
+    const request = Helpers.createQueryForList(req);
+    let condition = {};
+    let pagination;
+    db.User.findById(req.decoded.user.id)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: 'User Not Found'
         });
-    })
-    .catch((error) => {
-      res.send(error);
+      }
+      db.Document
+      .findAndCountAll(request)
+      .then((document) => {
+        if (!document) {
+          return res.status(404).send({
+            message: 'Document Not Found',
+          });
+        }
+        condition = {
+          count: document.count,
+          limit: request.limit,
+          offset: request.offset
+        };
+        delete document.count;
+        pagination = Helpers.pagination(condition);
+        return res.status(200)
+        .send({
+          document,
+          pagination,
+          message: 'Document was retrieved successfully'
+        });
+      })
+      .catch(error => res.status(400).send({
+        error,
+        message: 'Error occurred while retrieving documents'
+      }));
     });
   },
   fetchOne(req, res) {
