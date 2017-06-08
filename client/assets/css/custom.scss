@@ -52,10 +52,14 @@ a {
     padding: 10px;
     text-transform: capitalize;
 }
+#foot {
+  display: inherit;
+}
 .progress {
   width: 50% !important;
   margin-top: 150px !important;
 }
+
 #pagination {
   z-index: -1;
 }
@@ -65,6 +69,12 @@ a {
 }
 #search {
   margin-top: 8px;
+}
+.preloader-wrapper {
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
 }
 .tabs {
   margin-top: 10px !important;

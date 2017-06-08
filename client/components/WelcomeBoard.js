@@ -5,6 +5,7 @@ import EditProfile from './users/EditProfile';
 import UserInfo from './users/UserInfo';
 import * as UserActions from '../actions/UserAction';
 import * as AuthActions from '../actions/AuthAction';
+import helpers from '../utils/helper';
 
 
 class WelcomeBoard extends React.Component {
@@ -54,7 +55,7 @@ class WelcomeBoard extends React.Component {
     this.setState({
       errors: {}
     });
-    const { errors, isValid } = this.validateUserInput(this.state.user);
+    const { errors, isValid } = helpers.validateUserInput(this.state.user);
     if (!isValid) {
       this.props.actions.editUser(this.props.activeUser.id, this.state.user)
       .then(() => {
@@ -151,29 +152,7 @@ class WelcomeBoard extends React.Component {
       password
     });
   }
-  /**
-   * validateUserInput - validate users input
-   * @param  {Object} state contains the user details
-   * @return {Boolean} returns true or false
-   */
-  validateUserInput(state) {
-    const errors = {};
-    let isValid = false;
-    const regexp = /\S+@\S+\.\S+/;
-    if (!(regexp.test(state.email))) {
-      errors.email = 'Please Enter a valid email address';
-    }
-    if (!(state.username.length >= 5)) {
-      errors.username = 'Username must have a minimum of 5 characters';
-    }
-    if (Object.keys(errors).length !== 0) {
-      isValid = true;
-    }
-    return {
-      errors,
-      isValid
-    };
-  }
+
    /**
    * onChange - onChange event for input field
    * @param  {object} event event property handler

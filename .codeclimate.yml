@@ -21,3 +21,5 @@ exclude_paths:
   - "lib/"
   - "build/"
   - "node_modules/"
+  - "server/test"
+  - "client/assets"

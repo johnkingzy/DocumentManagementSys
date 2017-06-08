@@ -36,6 +36,7 @@ describe('Document API', () => {
       });
   });
 
+
   describe('Create Document', () => {
     it('should create new document', (done) => {
       server

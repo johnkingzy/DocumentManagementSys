@@ -5,6 +5,7 @@ import renderHTML from 'react-render-html';
 
 import EditDocument from './EditDocument';
 import options from '../../data/options';
+import { validate } from '../../utils/helper';
 
 export default class DocumentView extends React.Component {
   constructor(props, context) {
@@ -81,7 +82,7 @@ export default class DocumentView extends React.Component {
     this.setState({
       errors: {},
     });
-    const { errors, isValid } = this.validate(this.state.documents);
+    const { errors, isValid } = validate(this.state.documents);
     if (!isValid) {
       this.setState(
         {
@@ -115,24 +116,6 @@ export default class DocumentView extends React.Component {
       const invalid = false;
       this.setState({ errors, invalid });
     }
-  }
-
-  validate(state) {
-    const errors = {};
-    let isValid = false;
-    if (!(state.title.length >= 5)) {
-      errors.title = 'Title should have a minimum of 5 characters';
-    }
-    if (!(state.content.length >= 5)) {
-      errors.content = 'Content should have a minimum of 5 characters';
-    }
-    if (Object.keys(errors).length !== 0) {
-      isValid = true;
-    }
-    return {
-      errors,
-      isValid
-    };
   }
 
   deleteDocument() {
