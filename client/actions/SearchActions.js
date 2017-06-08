@@ -38,6 +38,7 @@ export function searchUsersSuccess(result) {
 /**
  * searchDocuments - search withinn documents
  * @param  {String} query the search keyword
+ * @param {Number} offset the offset value
  * @return {Function} returns a dispatch
  */
 export function searchDocuments(query, offset) {
@@ -53,6 +54,7 @@ export function searchDocuments(query, offset) {
 /**
  * searchUsers - searches with users
  * @param  {String} query the searck keyword
+ * @param {Number} offset the offset value
  * @return {Function} returns a dispatch
  */
 export function searchUsers(query, offset) {

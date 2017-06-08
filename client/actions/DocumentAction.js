@@ -1,7 +1,7 @@
 import axios from 'axios';
 import omit from 'lodash/omit';
 
-import * as types from './actionTypes';
+import types from './actionTypes';
 
 /**
 //  * createDocument - create documents action

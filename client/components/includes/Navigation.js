@@ -42,29 +42,15 @@ class NavigationBar extends React.Component {
    * @return {object} contains the JSX code
    */
   render() {
-    const { isAuthenticated } = this.props.auth;
-    const userLinks = (
-  <div>
-      <ul id="nav-mobile" className="right hide-on-med-and-down">
-        <li><a onClick={() => this.redirect('/')}>Home</a></li>
-        <li><a onClick={() => this.redirect('/dashboard')}>Dashboard</a></li>
-        <li><a onClick={() => this.redirect('/docs')}>View Docs</a></li>
-        <li><a href="" onClick={this.logout}>Logout</a></li>
-      </ul>
-      </div>
-    );
-    const guestLinks = (
-      <ul id="nav-mobile" className="right hide-on-med-and-down">
-        <li><a onClick={() => this.redirect('/')}>Home</a></li>
-        <li><a onClick={() => this.redirect('/docs')}>View Docs</a></li>
-      </ul>
-    );
     return (
       <nav className="light-reddish darken-3" id="navbar">
         <div classNameName="nav-wrapper">
           <a onClick={() => this.redirect('/')}>
             <img alt={logo} src={logo} className="logo" /></a>
-          { guestLinks }
+            <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <li><a onClick={() => this.redirect('/')}>Home</a></li>
+              <li><a onClick={() => this.redirect('/docs')}>View Docs</a></li>
+            </ul>
         </div>
       </nav>
     );

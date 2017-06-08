@@ -119,9 +119,9 @@ class DashBoard extends React.Component {
     }
   }
   onSelect(pageNumber) {
-      const searchQuery = this.state.search;
-      const offset = (pageNumber - 1) * 6;
-      this.props.actions.searchDocuments(searchQuery, offset);
+    const searchQuery = this.state.search;
+    const offset = (pageNumber - 1) * 6;
+    this.props.actions.searchDocuments(searchQuery, offset);
   }
   onChange(event) {
     const field = event.target.name;
@@ -190,7 +190,8 @@ class DashBoard extends React.Component {
                   </div>
                   </div>
                   <li id="username" className="noHover">
-                  <i className="material-icons left">account_circle</i>{activeUser.username}</li>
+                  <i className="material-icons left">account_circle</i>
+                  {activeUser.username}</li>
                   <li>
                   <a id="createbtn" data-target="modal2"
                   className="dropdown-button modal-trigger">

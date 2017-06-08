@@ -1,6 +1,6 @@
 import expect from 'expect';
 import * as RolesActions from '../../actions/RolesAction';
-import * as types from '../../actions/actionTypes';
+import types from '../../actions/actionTypes';
 
 // Test a sync action
 describe('Roles Actions', () => {

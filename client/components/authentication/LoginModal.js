@@ -126,23 +126,17 @@ class LoginModal extends React.Component {
               label="Enter your password"
               required
             />
-            <span
-              id="right"
-            >
-              <a className="orange-text" href="#!">
-              <b></b></a>
-            </span>
           </div>
 
           <br />
           <center>
         <div className="row">
-          <button
-            type="submit"
-            name="btn_login"
-            className="col s12 btn btn-large waves-effect light-reddish darken-3"
-            disabled={this.state.invalid}
-          >Login</button>
+        <button
+          type="submit"
+          name="btn_login"
+          className="col s12 btn btn-large waves-effect light-reddish darken-3"
+          disabled={this.state.invalid}
+        >Login</button>
         </div>
       </center>
         </form>

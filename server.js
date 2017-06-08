@@ -1,6 +1,5 @@
 import http from 'http';
 import dotenv from 'dotenv';
-import open from 'open';
 import log from 'log-with-colors';
 import app from './server/config/app';
 

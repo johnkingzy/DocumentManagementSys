@@ -71,6 +71,7 @@ NavBar.propTypes = {
   onChange: React.PropTypes.func.isRequired,
   searching: React.PropTypes.bool.isRequired,
   searchQuery: React.PropTypes.string.isRequired,
-  closeSearch: React.PropTypes.func.isRequired
+  closeSearch: React.PropTypes.func.isRequired,
+  redirect: React.PropTypes.func.isRequired
 };
 export default NavBar;

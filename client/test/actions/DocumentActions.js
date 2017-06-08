@@ -1,7 +1,6 @@
 import expect from 'expect';
-import axios from 'axios';
 import * as DocumentActions from '../../actions/DocumentAction';
-import * as types from '../../actions/actionTypes';
+import types from '../../actions/actionTypes';
 
 // Test a sync action
 describe('Document Actions', () => {

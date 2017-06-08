@@ -74,12 +74,12 @@ class AddRoleModal extends React.Component {
                 />
                 </div>
           <div className="row">
-            <button
-              type="submit"
-              name="btn_login"
-              className="col s12 btn btn-large waves-effect light-reddish darken-3"
-              disabled={this.state.invalid}
-            >Submit</button>
+        <button
+          type="submit"
+          name="btn_login"
+          className="col s12 btn btn-large waves-effect light-reddish darken-3"
+          disabled={this.state.invalid}
+        >Submit</button>
           </div>
             </form>
             </center>

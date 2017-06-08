@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import db from '../models';
 import Helpers from './helpers';
 

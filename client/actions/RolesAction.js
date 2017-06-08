@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as types from './actionTypes';
+import types from './actionTypes';
 
 /**
 //  * loadRoleSuccess - load role success

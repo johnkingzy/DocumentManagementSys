@@ -52,9 +52,6 @@ a {
     padding: 10px;
     text-transform: capitalize;
 }
-#username {
-  text-transform: capitalize;
-}
 .progress {
   width: 50% !important;
   margin-top: 150px !important;
@@ -106,6 +103,7 @@ textarea {
   max-height: 680px;
   overflow: auto;
   position: relative;
+  margin-top: 40px;
 }
 #side-panel {
   margin-left: 10px;
@@ -179,11 +177,7 @@ textarea {
   padding: 0px !important;
 
 }
-#mail-app {
-  background: url('../img/office.png') no-repeat;
-  background-size: cover;
-  // background-position: center;
-}
+
 .form-wrapper input {
         width: 330px;
         height: 20px;
@@ -216,11 +210,12 @@ textarea {
     pointer-events: none;
     padding-right: 10px;
 }
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 
 body{
-  background: #f2f2f2;
-  font-family: 'Open Sans', sans-serif;
+  background: url('../img/office.png') no-repeat;
+  background-size: cover;
+  font-family: 'Roboto', sans-serif;
 }
 
 .search {
@@ -327,6 +322,7 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
   max-height: 680px;
   overflow: scroll;
   margin-left: 100px;
+  margin-top: 40px;
   #text {
     background-color: #1e88e5;
     color: #fff;

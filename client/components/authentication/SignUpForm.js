@@ -252,12 +252,12 @@ class SignUpForm extends React.Component {
       <br />
       <center>
         <div className="row">
-          <button
-            type="submit"
-            name="btn_login"
-            className="col s12 btn btn-large waves-effect light-reddish darken-3"
-            disabled={this.state.invalid}
-          > Create Account </button>
+        <button
+          type="submit"
+          name="btn_login"
+          className="col s12 btn btn-large waves-effect light-reddish darken-3"
+          disabled={this.state.invalid}
+        > Create Account </button>
         </div>
       </center>
     </form>

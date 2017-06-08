@@ -1,7 +1,6 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import omit from 'lodash/omit';
-import { browserHistory } from 'react-router';
 
 import types from './actionTypes';
 import setAuthorizationToken from '../utils/authorization';

@@ -74,5 +74,8 @@ EditDocument.propTypes = {
   onSubmit: React.PropTypes.func.isRequired,
   invalid: React.PropTypes.bool.isRequired,
   options: React.PropTypes.array.isRequired,
+  title: React.PropTypes.string.isRequired,
+  content: React.PropTypes.string.isRequired,
+  access: React.PropTypes.string.isRequired
 };
 export default EditDocument;

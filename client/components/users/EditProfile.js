@@ -75,12 +75,12 @@ const EditProfile = (
       </div>
       <center>
         <div className="row">
-          <button
-            type="submit"
-            name="btn_login"
-            className="col s12 btn btn-large waves-effect light-reddish darken-3"
-            disabled={invalid}
-          > Update Account </button>
+        <button
+          type="submit"
+          name="btn_login"
+          className="col s12 btn btn-large waves-effect light-reddish darken-3"
+          disabled={invalid}
+        > Update Account </button>
         </div>
       </center>
     </form>

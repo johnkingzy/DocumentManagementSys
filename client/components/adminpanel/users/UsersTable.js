@@ -95,6 +95,8 @@ UsersTable.propTypes = {
   rows: React.PropTypes.array.isRequired,
   classValue: React.PropTypes.string.isRequired,
   updateRole: React.PropTypes.func.isRequired,
-  allRoles: React.PropTypes.array.isRequired
+  allRoles: React.PropTypes.array.isRequired,
+  onSelect: React.PropTypes.func.isRequired,
+  pagination: React.PropTypes.object.isRequired
 };
 export default UsersTable;

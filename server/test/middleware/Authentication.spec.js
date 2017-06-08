@@ -7,12 +7,11 @@ import sinon from 'sinon';
 import supertest from 'supertest';
 import app from '../../config/app';
 import helper from '../helper/test-helper';
-// import db from '../../app/models';
 import Auth from '../../config/middlewares/Authentication';
 
 const expect = chai.expect;
 const superRequest = supertest(app);
-let adminToken, regularUser, regularToken;
+let adminToken, regularToken;
 let request;
 const responseEvent = () => httpMocks
   .createResponse({ eventEmitter: events.EventEmitter });
@@ -27,7 +26,6 @@ describe('MIDDLEWARE TEST', () => {
           .send(helper.regUser)
           .end((err, res) => {
             regularToken = res.body.token;
-            regularUser = res.body.user;
             done();
           });
       });
