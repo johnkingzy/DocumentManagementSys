@@ -65,22 +65,73 @@ describe('User API', () => {
         });
     });
 
-    // it('should not create new user with empty params', (done) => {
-    //   server
-    //     .post('/users')
-    //     .expect('Content-Type', /json/)
-    //     .end((err, res) => {
-    //       expect(res.status).toEqual(409);
-    //       expect(res.body.error).toIncludeKeys(
-    //         ['username',
-    //           'email',
-    //           'firstname',
-    //           'lastname',
-    //           'password']);
-    //       if (err) return done(err);
-    //       done();
-    //     });
-    // });
+    it('rejects request if firstname field does not contain letters',
+      (done) => {
+        server.post('/users')
+          .send({
+            firstname: '122334',
+            lastname: 'mayor',
+            password: 'password123',
+            username: 'mrincredible',
+            email: 'me@you.com'
+          })
+          .expect(409)
+          .end((err, res) => {
+            expect(res.body.message)
+            .toEqual('firstname should contain chararcters only');
+            done(err);
+          });
+      });
+    it('rejects request if lastname field does not contain letters',
+        (done) => {
+          server.post('/users')
+            .send({
+              lastname: '12234554',
+              firstname: 'mayor',
+              password: 'password123',
+              username: 'mrincredible',
+              email: 'me@you.com'
+            })
+            .expect(409)
+            .end((err, res) => {
+              expect(res.body.message)
+              .toEqual('lastname should contain chararcters only');
+              done(err);
+            });
+        });
+    it('rejects request if email address is not valid',
+          (done) => {
+            server.post('/users')
+              .send({
+                email: '1272823376487',
+                lastname: 'mayor',
+                password: 'password123',
+                username: 'mrincredible'
+              })
+              .expect(409)
+              .end((err, res) => {
+                expect(res.body.message)
+                .toEqual('Provide a valid a Email Adrress');
+                done(err);
+              });
+          });
+    it('rejects request if password length is less than 8',
+      (done) => {
+        server.post('/users')
+          .send({
+            password: 'pass',
+            lastname: 'mayor',
+            firstname: 'joy',
+            username: 'mrincredible',
+            email: 'me@you.com'
+          })
+          .expect(409)
+          .end((err, res) => {
+            expect(res.body.message)
+            .toEqual('Provide a valid password with minimum of 8 characters');
+            done(err);
+          });
+      });
 
     it('should not create new user with empty email', (done) => {
       server
@@ -94,8 +145,8 @@ describe('User API', () => {
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(409);
-          expect(res.body.error.email)
-          .toEqual('Provide a valid a Email Adrress');
+          expect(res.body.message)
+          .toEqual('Your Email Address is required');
           if (err) return done(err);
           done();
         });
@@ -200,58 +251,6 @@ describe('User API', () => {
           done();
         });
     });
-    it('rejects request if firstname field does not contain letters',
-      (done) => {
-        server.post('/users')
-          .send({
-            firstname: '122334',
-          })
-          .expect(409)
-          .end((err, res) => {
-            expect(res.body.error.firstname)
-            .toEqual('firstname should contain chararcters only');
-            done(err);
-          });
-      });
-    it('rejects request if lastname field does not contain letters',
-        (done) => {
-          server.post('/users')
-            .send({
-              lastname: '12234554',
-            })
-            .expect(409)
-            .end((err, res) => {
-              expect(res.body.error.lastname)
-              .toEqual('lastname should contain chararcters only');
-              done(err);
-            });
-        });
-    it('rejects request if email address is not valid',
-          (done) => {
-            server.post('/users')
-              .send({
-                email: '1272823376487',
-              })
-              .expect(409)
-              .end((err, res) => {
-                expect(res.body.error.email)
-                .toEqual('Provide a valid a Email Adrress');
-                done(err);
-              });
-          });
-    it('rejects request if password length is less than 8',
-      (done) => {
-        server.post('/users')
-          .send({
-            password: 'pass'
-          })
-          .expect(409)
-          .end((err, res) => {
-            expect(res.body.error.password)
-            .toEqual('Provide a valid password with minimum of 8 characters');
-            done(err);
-          });
-      });
     it(`should return users own profile,
         when the requester is a regular user`, (done) => {
       server

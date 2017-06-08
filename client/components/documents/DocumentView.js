@@ -29,10 +29,11 @@ export default class DocumentView extends React.Component {
     this.setState({
       isUpdating: true
     });
-    setTimeout(() => this.setState({
+    this.clearTimeout = setTimeout(() => this.setState({
       isUpdating: false
     }), 1000);
   }
+
   componentWillReceiveProps(nextProps) {
     const { id } = this.props.currentDocument[0];
     const nextPropsId = nextProps.currentDocument[0].id;
@@ -49,6 +50,9 @@ export default class DocumentView extends React.Component {
     }
   }
 
+  componentWillUnMount() {
+    this.clearTimeout();
+  }
   onChange(event) {
     const field = event.target.name;
     const documents = this.state.documents;
@@ -160,7 +164,7 @@ export default class DocumentView extends React.Component {
     let actions;
     if (currentUser && currentUser.id === currentDocument.ownerId) {
       actions = (
-        <ul>
+        <ul id="actions">
             <a
             className="teal-text right edit"
             onClick={this.toggleEdit}

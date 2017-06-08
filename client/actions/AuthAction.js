@@ -23,20 +23,6 @@ export function isUserExists(identifier) {
  * @param  {object} message message to be displayed
  * @return {object} return an object
  */
-export function successMessage(message, path) {
-  if (path) {
-    return Materialize.toast(message, 1000, 'green', () => {
-      browserHistory.push(path);
-    });
-  }
-  return Materialize.toast(message, 1000, 'green');
-}
-
-/**
-//  * errorMessage - create documents action
- * @param  {object} message message to be displayed
- * @return {object} return an object
- */
 export function errorMessage(message) {
   return Materialize.toast(message, 1000, 'red');
 }

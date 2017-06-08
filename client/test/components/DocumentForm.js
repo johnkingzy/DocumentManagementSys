@@ -40,17 +40,21 @@ describe('<DocumentForm />', () => {
     });
     it('should have a <TextArea/> component', () => {
       const { wrapper } = setup();
-      expect(wrapper.find('TextArea').length).toBe(1);
+      expect(wrapper.find('TextEditor').length).toBe(1);
     });
     it('should have a <SelectInput/> component', () => {
       const { wrapper } = setup();
       expect(wrapper.find('SelectInput').length).toBe(1);
     });
+    it('should have a <button/> element', () => {
+      const { wrapper } = setup();
+      expect(wrapper.find('button').length).toBe(1);
+    });
   });
   describe('props value on DocumentForm', () => {
     it('should contain onSubmit', () => {
       const { wrapper } = setup();
-      expect(wrapper.props().onSubmit).toBeA('function');
+      expect(wrapper.find('form').props().onSubmit).toBeA('function');
     });
   });
 });

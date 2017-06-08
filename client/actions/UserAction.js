@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
 import types from './actionTypes';
 import setAuthorizationToken from '../utils/authorization';
 /**
@@ -55,6 +54,7 @@ export function errorMessage(message) {
 }
 /**
  * loadUsers - fetches users from database
+ *@param {Number} offset value
  * @return {Function} returns a dispatch
  */
 export function loadUsers(offset) {

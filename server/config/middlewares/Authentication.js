@@ -30,7 +30,8 @@ const Authenticate = {
           notEmpty: true,
           isEmail: {
             errorMessage: 'Provide a valid a Email Adrress'
-          }
+          },
+          errorMessage: 'Your Email Address is required'
         },
         firstname: {
           notEmpty: true,
@@ -52,6 +53,7 @@ const Authenticate = {
             options: [{ min: 8 }],
             errorMessage: 'Provide a valid password with minimum of 8 characters' // eslint-disable-line
           },
+          errorMessage: 'Your Password is required'
         }
       }
     );
@@ -618,7 +620,6 @@ const Authenticate = {
           ]
         }
       ];
-      console.log(query);
     }
     if (`${req.baseUrl}${req.route.path}` === '/users/') {
       query.where = helper.isAdmin(req.decoded.user.roleId)
@@ -680,6 +681,7 @@ const Authenticate = {
    * @param {Object} req req object
    * @param {Object} res response object
    * @param {Object} next Move to next controller handler
+   * @return {Object} response object
    */
   checkRolePermission(req, res, next) {
     if (isNaN(req.params.id)) {
