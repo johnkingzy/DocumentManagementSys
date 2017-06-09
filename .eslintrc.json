@@ -29,6 +29,7 @@
     "consistent-return": 0,
     "no-param-reassign": 0,
     "comma-dangle": 0,
+    "import/no-unresolved": 0,
     "curly": [1, "multi-line"],
     "arrow-body-style": 0,
     "no-shadow": [1, { "allow": ["req", "res", "err"] }],

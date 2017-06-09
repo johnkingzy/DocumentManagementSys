@@ -1,5 +1,8 @@
 ## Document Management System (FullStack)
 
+[![Coverage Status](https://coveralls.io/repos/github/andela-ksolomon/DocumentManagementSys/badge.svg?branch=development)](https://coveralls.io/github/andela-ksolomon/DocumentManagementSys?branch=development)
+[![Build Status](https://travis-ci.org/andela-ksolomon/DocumentManagementSys.svg?branch=master)](https://travis-ci.org/andela-ksolomon/DocumentManagementSys)
+
 Document Management System provides a restful API for users to create and manage documents giving different privileges based on user roles and managing authentication using JWT.
 
 ## API Documentation
@@ -19,7 +22,7 @@ The following features make up the Document Management System API:
 
 - It allows users to create account
 - It allows users to login and obtain a unique token which expires every 5hours
-- It allows authenticated users to retrieve and update their information 
+- It allows authenticated users to retrieve and update their information
 - It allows the admin to manage users
 
 ###### Roles
@@ -32,7 +35,7 @@ The following features make up the Document Management System API:
 ###### Documents
 
 - It allows authenticated users to create document
-- It ensures all documents are accessible based on the permission/priviledges 
+- It ensures all documents are accessible based on the permission/priviledges
 - It allows admin users to create, retrieve, modify, and delete documents
 - It ensures users can retrieve, edit and delete documents that they own  
 - It allows users to retrieve all documents they own as well as public documents
@@ -45,7 +48,7 @@ The following features make up the Document Management System API:
 - It allows admin to search users based on a specified search term
 - It allows users to search public documents for a specified search term
 - It allows users to search for users through name or email address
-- It allows users on the same role to search through role-based documents 
+- It allows users on the same role to search through role-based documents
 
 ## Hosted App on Heroku
 [DataHub](https://datahubs.herokuapp.com/)
@@ -78,7 +81,7 @@ The following features make up the Document Management System API:
 
 #### Limitations:
 The limitations to the **Document Management System API** are as follows:
-* Users can only create plain textual documents and retrieve same when needed 
+* Users can only create plain textual documents and retrieve same when needed
 * Users cannot share documents with people, but can make document `public` to make it available to other users
 
 
