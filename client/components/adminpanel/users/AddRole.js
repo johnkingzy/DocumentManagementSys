@@ -32,9 +32,9 @@ class AddRoleModal extends React.Component {
     event.preventDefault();
     this.props.addRole(this.state)
     .then(() => {
-      Materialize.toast('Document Created Successfully', 1000, 'green',
+      Materialize.toast('Role was created Successfully', 1000, 'green',
         () => {
-          $('#modal2').closeModal({ dismissible: true });
+          $('#modal1').closeModal({ dismissible: true });
           $('.lean-overlay').css({ display: 'none' });
           $('.lean-overlay').remove();
         });
@@ -42,7 +42,7 @@ class AddRoleModal extends React.Component {
     .catch(() => {
       Materialize.toast('An Error Occured Please try again', 1000, 'red',
         () => {
-          $('#modal2').closeModal({ dismissible: true });
+          $('#modal1').closeModal({ dismissible: true });
           $('.lean-overlay').css({ display: 'none' });
           $('.lean-overlay').remove();
         });
@@ -74,12 +74,12 @@ class AddRoleModal extends React.Component {
                 />
                 </div>
           <div className="row">
-            <button
-              type="submit"
-              name="btn_login"
-              className="col s12 btn btn-large waves-effect light-blue darken-3"
-              disabled={this.state.invalid}
-            >Submit</button>
+        <button
+          type="submit"
+          name="btn_login"
+          className="col s12 btn btn-large waves-effect light-reddish darken-3"
+          disabled={this.state.invalid}
+        >Submit</button>
           </div>
             </form>
             </center>
@@ -90,7 +90,7 @@ class AddRoleModal extends React.Component {
 }
 
 AddRoleModal.propTypes = {
-  nextRoleId: React.PropTypes.array.isRequired,
+  nextRoleId: React.PropTypes.number.isRequired,
   addRole: React.PropTypes.func.isRequired
 };
 AddRoleModal.contextTypes = {

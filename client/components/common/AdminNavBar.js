@@ -1,5 +1,5 @@
 import React from 'react';
-import Navigation from '../includes/Navigation.js';
+import logo from '../../assets/img/data-logo.png';
 
 class NavBar extends React.Component {
   render() {
@@ -8,46 +8,58 @@ class NavBar extends React.Component {
       onChange,
       searching,
       searchQuery,
-      closeSearch
+      closeSearch,
+      redirect
     } = this.props;
     return (
       <div>
-      <Navigation />
-      <nav className="blue">
+      <nav className="light-reddish darken-3">
         <div className="nav-wrapper">
-          <form onSubmit={onSubmit}
-          id="form-wrapper" className="col s5 m5 right">
-              <input
-              className="col s8 m8"
-              type="text"
-              placeholder="Search For Users"
-              name="search"
-              onChange={onChange}
-              required />
-              <button
-              id="search"
-              className="waves-effect waves-light orange btn col s3 m3"
-              type="submit">
-              <i className="material-icons">search</i> Search</button>
-          </form>
-          <ul id="nav-mobile" className="left">
-            <li className=" orange">
-              <a
-              className="modal-trigger"
-              data-target="modal1">Add a New Role</a></li>
-              { searching && <li className="">
-              <a
-              className="">
-              Showing Result for "{searchQuery}"</a></li>}
-          </ul>
-          <ul id="nav-mobile" className="right">
-              { searching && <li className="white">
-              <a
-              onClick={closeSearch}
-              className="close red-text">
-              <i className="material-icons right">clear</i>
-              </a></li>}
-          </ul>
+          <div className="left col s12 m5 l5">
+            <a onClick={() => this.redirect('/')}>
+            <img alt={logo} src={logo} className="log" /></a>
+
+          </div>
+           <div className="col s12 m7 l7 hide-on-med-and-down">
+                <ul className="right">
+                  <div className="wrap">
+                  <div className="search">
+                    <form onSubmit={onSubmit}>
+                      <input type="text"
+                      className="searchTerm"
+                      placeholder="What are you looking for?"
+                      onChange={onChange}
+                      name="search"
+                      required
+                      />
+                      <a onClick={onSubmit} className="searchButton">
+                        <i className="mdi-action-search" />
+                    </a>
+                    </form>
+                  </div>
+                  </div>
+                  { searching && <li>
+                    <a
+                    className="">
+                    Showing Result for "{searchQuery}"</a></li>}
+                    { searching && <li className="white">
+                    <a
+                    onClick={closeSearch}
+                    className="close red-text">
+                    <i className="material-icons right">clear</i>
+                    </a></li>}
+                  <li>
+                  <a id="createbtn" data-target="modal1"
+                  className="dropdown-button modal-trigger">
+                    <i className="material-icons left">create</i>
+                    Add a New Role
+                    </a></li>
+                  <li><a onClick={() => redirect('/dashboard')} href="">
+                  Dashboard
+                  </a>
+                </li>
+                </ul>
+              </div>
         </div>
       </nav>
       </div>
@@ -59,6 +71,7 @@ NavBar.propTypes = {
   onChange: React.PropTypes.func.isRequired,
   searching: React.PropTypes.bool.isRequired,
   searchQuery: React.PropTypes.string.isRequired,
-  closeSearch: React.PropTypes.func.isRequired
+  closeSearch: React.PropTypes.func.isRequired,
+  redirect: React.PropTypes.func.isRequired
 };
 export default NavBar;

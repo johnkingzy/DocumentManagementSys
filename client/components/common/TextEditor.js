@@ -4,7 +4,8 @@ import TinyMCE from 'react-tinymce-input';
 const TINYMCE_CONFIG = {
   language: 'en',
   theme: 'modern',
-  toolbar: 'bold italic underline strikethrough hr | bullist numlist | link unlink | undo redo | spellchecker code',
+  toolbar: `bold italic underline strikethrough hr |
+  bullist numlist | link unlink | undo redo | spellchecker code`,
   menubar: false,
   statusbar: true,
   resize: true,

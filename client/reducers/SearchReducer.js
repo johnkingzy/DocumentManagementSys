@@ -8,11 +8,11 @@ const SearchReducer = (
   case types.SEARCH_DOCUMENTS_SUCCESS:
     return Object.assign({}, state, {
       searchedDocuments: action.result.documents.rows,
-      searchedPageCount: action.result.pagination.page_count });
+      searchedPageCount: action.result.pagination });
   case types.SEARCH_USERS_SUCCESS:
     return Object.assign({}, state, {
       searchedUsers: action.result.users.rows,
-      searchedPageCount: action.result.pagination.page_count });
+      searchedPageCount: action.result.pagination });
   default:
     return state;
   }

@@ -3,6 +3,7 @@
 import React, { PropTypes } from 'react';
 
 import TextInput from '../common/TextInput';
+import helpers from '../../utils/helper';
 /**
 * @class SignUpForm
 * @classdesc signup form react component
@@ -67,7 +68,7 @@ class SignUpForm extends React.Component {
     this.setState({
       errors: {}
     });
-    const { errors, isValid } = this.validateUserInput(this.state);
+    const { errors, isValid } = helpers.validateUserInput(this.state);
     if (!isValid) {
       this.props.saveUserDetails(this.state)
       .then(() => {
@@ -134,32 +135,6 @@ class SignUpForm extends React.Component {
     }
   }
 
-  /**
-   * validateUserInput - validate users input
-   * @param  {Object} state contains the user details
-   * @return {Boolean} returns true or false
-   */
-  validateUserInput(state) {
-    const errors = {};
-    let isValid = false;
-    const regexp = /\S+@\S+\.\S+/;
-    if (!(regexp.test(state.email))) {
-      errors.email = 'Please Enter a valid email address';
-    }
-    if (!(state.username.length >= 5)) {
-      errors.username = 'Username must have a minimum of 5 characters';
-    }
-    if (!(state.password.length >= 8)) {
-      errors.password = 'Password should have a minimum of 8 characters';
-    }
-    if (Object.keys(errors).length !== 0) {
-      isValid = true;
-    }
-    return {
-      errors,
-      isValid
-    };
-  }
   /**
    * render - renders content to the view
    * @return {object} return an object
@@ -252,12 +227,12 @@ class SignUpForm extends React.Component {
       <br />
       <center>
         <div className="row">
-          <button
-            type="submit"
-            name="btn_login"
-            className="col s12 btn btn-large waves-effect light-blue darken-3"
-            disabled={this.state.invalid}
-          > Create Account </button>
+        <button
+          type="submit"
+          name="btn_login"
+          className="col s12 btn btn-large waves-effect light-reddish darken-3"
+          disabled={this.state.invalid}
+        > Create Account </button>
         </div>
       </center>
     </form>

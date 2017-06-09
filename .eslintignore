@@ -11,4 +11,6 @@ setup.js
 coverage
 dist
 .nyc_output
+Procfile
 node_modules
+tools

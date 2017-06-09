@@ -1,11 +1,11 @@
 import axios from 'axios';
 import omit from 'lodash/omit';
-import jwtDecode from 'jwt-decode';
+
 import types from './actionTypes';
 
 /**
 //  * createDocument - create documents action
- * @param  {object} documents document data
+ * @param  {object} data document data
  * @return {object} return an object
  */
 export function loadDocumentSuccess(data) {
@@ -29,11 +29,8 @@ export function errorMessage(message) {
  */
 export function loadDocuments(offset) {
   const pageOffset = offset || 0;
-  const token = localStorage.getItem('jwtToken');
-  const details = jwtDecode(token);
-  const userId = details.user.id;
   return dispatch =>
-  axios.get(`/users/${userId}/documents?offset=${pageOffset}`)
+  axios.get(`/documents?offset=${pageOffset}`)
     .then((response) => {
       const { document, pagination } = response.data;
       const data = {
@@ -42,7 +39,8 @@ export function loadDocuments(offset) {
       };
       dispatch(loadDocumentSuccess(data));
     })
-    .catch(() => {
+    .catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
 }
 
@@ -56,7 +54,8 @@ export function createDocument(data) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch(() => {
+    .catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
 }
 
@@ -74,7 +73,8 @@ export function updateDocument(data) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch(() => {
+    .catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
   };
 }
@@ -90,7 +90,8 @@ export function deleteDocument(documentId) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch(() => {
+    .catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
   };
 }

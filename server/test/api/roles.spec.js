@@ -1,8 +1,6 @@
 import { agent } from 'supertest';
 import expect from 'expect';
-import db from '../../app/models';
 import app from '../../config/app';
-import bcrypt from 'bcrypt';
 import helper from '../helper/test-helper';
 
 // process.env.NODE_ENV = 'test';

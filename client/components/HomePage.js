@@ -6,8 +6,6 @@ import SignUpForm from './authentication/SignUpForm';
 import * as AuthActions from '../actions/AuthAction';
 import NavigationBar from './includes/Navigation';
 
-
-
 /**
 * @class InvertedIndex
 * @classdesc containing the InvertedIndex methods
@@ -80,6 +78,5 @@ function mapDispatchToProps(dispatch) {
 HomePage.propTypes = {
   actions: PropTypes.object.isRequired
 };
-// const mapDispatchToProps = (dispatch => ({ actions:
-// bindActionCreators(AuthActions, dispatch) }));
+
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

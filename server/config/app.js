@@ -10,12 +10,11 @@ import UserRouter from './routes/User';
 import DocumentRouter from './routes/Document';
 import RoleRouter from './routes/Role';
 import webpackConfig from '../../webpack.config.dev';
-
+// process.env.NODE_ENV = 'development';
 const app = express(),
   compiler = webpack(webpackConfig);
 
 app.use(express.static(path.join(__dirname, '../../')));
-
 if (process.env.NODE_ENV !== 'test') {
   app.use(webpackMiddleware(compiler));
 
@@ -45,5 +44,6 @@ app.use(logger('dev'));
 
 app.get('*', (req, res) => res.status(200)
 .sendFile(path.join(__dirname, '../../client/index.html')));
+
 
 export default app;

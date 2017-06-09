@@ -17,6 +17,7 @@ const DocumentForm = (
   }
 ) => {
   return (
+    <div>
     <form className="col s12" onSubmit={onSave} method="post">
               <div className="row">
                 <TextInput
@@ -48,15 +49,16 @@ const DocumentForm = (
                 label="Privacy"
                 />
               </div>
-              <button
-            type="submit"
-            name="btn_login"
-            className="col s12 btn btn-large waves-effect light-blue darken-3"
-            disabled={loading}
-          >
+            <button
+          type="submit"
+          name="btn_login"
+          className="col s12 btn btn-large waves-effect light-reddish darken-3"
+          disabled={loading}
+        >
             Post
           </button>
       </form>
+      </div>
   );
 };
 

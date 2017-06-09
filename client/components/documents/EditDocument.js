@@ -62,7 +62,7 @@ const EditDocument = (
        <button
           type="submit"
           name="btn_login"
-          className="col s12 btn btn-large waves-effect light-blue darken-3"
+          className="col s12 btn btn-large waves-effect light-reddish darken-3"
           disabled={invalid}
         >Submit</button>
         </form>
@@ -74,5 +74,8 @@ EditDocument.propTypes = {
   onSubmit: React.PropTypes.func.isRequired,
   invalid: React.PropTypes.bool.isRequired,
   options: React.PropTypes.array.isRequired,
+  title: React.PropTypes.string.isRequired,
+  content: React.PropTypes.string.isRequired,
+  access: React.PropTypes.string.isRequired
 };
 export default EditDocument;

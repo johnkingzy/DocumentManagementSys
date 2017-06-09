@@ -1,27 +1,20 @@
-var jsdom = require('jsdom');
+require('babel-register');
+require('mock-css-modules');
+const jsdom = require('jsdom').jsdom;
 
-// setup the simplest document possible
-var document = jsdom.jsdom('');
-
-
-// get the window object out of the document
-var window = document.defaultView;
-
-// set globals for mocha that make access to document and window feel 
-// natural in the test environment
-global.document = document;
-global.window = window;
-global.$ = require('jquery');
-
-// from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
-function propagateToGlobal(windows) {
-  for (let key in windows) {
-    if (!windows.hasOwnProperty(key)) continue
-    if (key in global) continue
-
-    global[key] = windows[key];
+// Set up dummy DOM and provide `window` and `document.`
+global.document = jsdom('<!doctype html><html><body></body></html>');
+global.window = document.defaultView;
+const exposedProperties = ['window', 'navigator', 'document'];
+Object.keys(document.defaultView).forEach((property) => {
+  if (typeof global[property] === 'undefined') {
+    exposedProperties.push(property);
+    global[property] = document.defaultView[property];
   }
-}
-// take all properties of the window object and also attach it to the 
-// mocha global object
-propagateToGlobal(window);
+});
+
+// Set variables and cookies here
+global.navigator = {
+  userAgent: 'node.js',
+  plugins: []
+};

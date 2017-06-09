@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-// import db from '../../../app/models';
+import db from '../../../app/models';
 
 dotenv.config();
 const key = process.env.SECRET_KEY;
@@ -83,17 +83,24 @@ const Helpers = {
   },
 
   createQueryForList(req) {
-    const limit = req.query.limit || null;
+    const limit = req.query.limit;
     const offset = req.query.offset || 0;
     const query = {};
-    if (limit || offset) {
-      query.limit = {
-        limit,
-      };
-      query.offset = {
-        offset,
-      };
-    }
+    query.limit = limit;
+    query.offset = offset;
+    query.include = [
+      {
+        model: db.User,
+        attributes: [
+          'id',
+          'username',
+          'firstname',
+          'lastname',
+          'email',
+          'roleId'
+        ]
+      }
+    ];
     const hasDecodedProperty =
     Object.prototype.hasOwnProperty.call(req, 'decoded');
     if (hasDecodedProperty) {
@@ -111,15 +118,17 @@ const Helpers = {
     return query;
   },
   documentAccess(req) {
+    const roleId = req.decoded.user.roleId;
+    const userRoleId = roleId.toString();
     const access = {
       $or:
       [
         { access: 'public' },
-        { ownerId: req.decoded.userId },
+        { ownerId: req.decoded.user.id },
         {
           $and: [
             { access: 'role' },
-            { ownerRoleId: req.decoded.roleId }
+            { ownerRoleId: userRoleId }
           ]
         }
       ]
@@ -149,11 +158,10 @@ const Helpers = {
    * @return {Object} returns object with errors
    */
   getErrors(errors) {
-    const allErrors = {};
+    const allErrors = [];
     errors.forEach((error) => {
-      const title = `${error.param}`,
-        errorMessage = error.msg;
-      allErrors[title] = errorMessage;
+      const errorMessage = error.msg;
+      allErrors.push(errorMessage);
     });
     return allErrors;
   }

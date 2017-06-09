@@ -66,9 +66,9 @@ export function saveUserDetails(userDetails) {
         'createdAt',
         'updatedAt'
       ]);
-      console.log(decoded);
       dispatch(setCurrentUser(decoded));
-    }).catch(() => {
+    }).catch((error) => {
+      dispatch(errorMessage(error.response.data.message));
     });
 }
 
@@ -90,8 +90,8 @@ export function loginRequest(userDetails) {
       'updatedAt'
     ]);
     dispatch(setCurrentUser(decoded));
-  }).catch(() => {
-    dispatch(errorMessage('Request Failed, Please Try again'));
+  }).catch((error) => {
+    dispatch(errorMessage(error.response.data.message));
   });
 }
 

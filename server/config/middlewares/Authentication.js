@@ -30,7 +30,8 @@ const Authenticate = {
           notEmpty: true,
           isEmail: {
             errorMessage: 'Provide a valid a Email Adrress'
-          }
+          },
+          errorMessage: 'Your Email Address is required'
         },
         firstname: {
           notEmpty: true,
@@ -52,6 +53,7 @@ const Authenticate = {
             options: [{ min: 8 }],
             errorMessage: 'Provide a valid password with minimum of 8 characters' // eslint-disable-line
           },
+          errorMessage: 'Your Password is required'
         }
       }
     );
@@ -59,8 +61,8 @@ const Authenticate = {
     if (errors) {
       const error = helper.getErrors(errors);
       return res.status(409)
-      .send({
-        error
+      .json({
+        message: error[0]
       });
     }
     const password = bcrypt.hashSync(req.body.password, 10);
@@ -520,13 +522,13 @@ const Authenticate = {
     const userQuery = req.query.query;
     const searchArray =
        userQuery ? userQuery.toLowerCase().match(/\w+/g) : null;
-    const limit = req.query.limit || 10;
+    const limit = req.query.limit;
     const offset = req.query.offset || 0;
     const documentOrder = req.query.documentOrder;
     const order =
        documentOrder && documentOrder === 'ASC' ? documentOrder : 'DESC';
 
-    if (limit < 0 || !/^([1-9]\d*|0)$/.test(limit)) {
+    if (limit && (limit < 0 || !/^([1-9]\d*|0)$/.test(limit))) {
       return res.status(400)
          .send({
            message: 'Only positive number is allowed for limit value'
@@ -563,6 +565,9 @@ const Authenticate = {
            { email: { $iLike: { $any: terms } } }
         ]
       };
+      if (!req.query.limit) {
+        query.limit = 10;
+      }
     }
     if (`${req.baseUrl}${req.route.path}` === '/users/:id/documents') {
       if (isNaN(req.params.id)) {
@@ -583,8 +588,38 @@ const Authenticate = {
           }
         ]
       };
-      query.include = [db.User];
+      query.include = [
+        {
+          model: db.User,
+          attributes: [
+            'id',
+            'username',
+            'firstname',
+            'lastname',
+            'email',
+            'roleId'
+          ]
+        }
+      ];
       query.order = [['updatedAt', 'DESC']];
+    }
+    if (`${req.baseUrl}${req.route.path}` === '/documents/') {
+      if (helper.isAdmin(req.decoded.user.roleId)) {
+        query.where = {};
+      }
+      query.include = [
+        {
+          model: db.User,
+          attributes: [
+            'id',
+            'username',
+            'firstname',
+            'lastname',
+            'email',
+            'roleId'
+          ]
+        }
+      ];
     }
     if (`${req.baseUrl}${req.route.path}` === '/users/') {
       query.where = helper.isAdmin(req.decoded.user.roleId)
@@ -614,18 +649,28 @@ const Authenticate = {
           $and: [helper.documentAccess(req), helper.likeSearch(terms)]
         };
       }
-      query.include = [db.User];
+      query.include = [
+        {
+          model: db.User,
+          attributes: [
+            'id',
+            'username',
+            'firstname',
+            'lastname',
+            'email',
+            'roleId'
+          ]
+        }
+      ];
+      if (!req.query.limit) {
+        query.limit = 6;
+      }
     }
     if (`${req.baseUrl}${req.route.path}` === '/users/:id/documents') {
-      const adminSearch = req.query.query ? helper.likeSearch(terms) : { };
-      const userSearch = req.query.query
-         ? [helper.documentAccess(req), helper.likeSearch(terms)]
-         : helper.documentAccess(req);
-      if (helper.isAdmin(req.decoded.user.roleId)) {
-        query.where = adminSearch;
-      } else {
-        query.where = userSearch;
-      }
+      const userSearch = {
+        ownerId: req.params.id
+      };
+      query.where = userSearch;
     }
     req.searchFilter = query;
     next();
@@ -636,6 +681,7 @@ const Authenticate = {
    * @param {Object} req req object
    * @param {Object} res response object
    * @param {Object} next Move to next controller handler
+   * @return {Object} response object
    */
   checkRolePermission(req, res, next) {
     if (isNaN(req.params.id)) {

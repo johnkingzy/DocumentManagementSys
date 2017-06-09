@@ -2,11 +2,10 @@
 /* global $ */
 import React from 'react';
 import renderHTML from 'react-render-html';
-import moment from 'moment';
 
 import EditDocument from './EditDocument';
 import options from '../../data/options';
-import { getFirstLetter } from '../../utils/helper';
+import { validate } from '../../utils/helper';
 
 export default class DocumentView extends React.Component {
   constructor(props, context) {
@@ -31,10 +30,11 @@ export default class DocumentView extends React.Component {
     this.setState({
       isUpdating: true
     });
-    setTimeout(() => this.setState({
+    this.clearTimeout = setTimeout(() => this.setState({
       isUpdating: false
     }), 1000);
   }
+
   componentWillReceiveProps(nextProps) {
     const { id } = this.props.currentDocument[0];
     const nextPropsId = nextProps.currentDocument[0].id;
@@ -51,6 +51,9 @@ export default class DocumentView extends React.Component {
     }
   }
 
+  componentWillUnMount() {
+    this.clearTimeout();
+  }
   onChange(event) {
     const field = event.target.name;
     const documents = this.state.documents;
@@ -79,7 +82,7 @@ export default class DocumentView extends React.Component {
     this.setState({
       errors: {},
     });
-    const { errors, isValid } = this.validate(this.state.documents);
+    const { errors, isValid } = validate(this.state.documents);
     if (!isValid) {
       this.setState(
         {
@@ -115,24 +118,6 @@ export default class DocumentView extends React.Component {
     }
   }
 
-  validate(state) {
-    const errors = {};
-    let isValid = false;
-    if (!(state.title.length >= 5)) {
-      errors.title = 'Title should have a minimum of 5 characters';
-    }
-    if (!(state.content.length >= 5)) {
-      errors.content = 'Content should have a minimum of 5 characters';
-    }
-    if (Object.keys(errors).length !== 0) {
-      isValid = true;
-    }
-    return {
-      errors,
-      isValid
-    };
-  }
-
   deleteDocument() {
     const { id } = this.props.currentDocument[0];
     swal({
@@ -162,7 +147,7 @@ export default class DocumentView extends React.Component {
     let actions;
     if (currentUser && currentUser.id === currentDocument.ownerId) {
       actions = (
-        <ul>
+        <ul id="actions">
             <a
             className="teal-text right edit"
             onClick={this.toggleEdit}
@@ -214,28 +199,11 @@ export default class DocumentView extends React.Component {
           <hr className="grey-text text-lighten-2" />
           <div className="email-content-wrap">
             <div className="row">
-              <div className="col s10 m10 l10">
-                <ul className="collection">
-                  <li className="collection-item avatar">
-                    <span id="avatar" className="circle blue darken-1">
-                      {getFirstLetter(currentDocument.User.username)}
-                      </span>
-                    <span className="email-title">
-                    {currentDocument.User.firstname}
-                    {currentDocument.User.lastname}
-                    </span>
-                    <p className="truncate grey-text ultra-small">
-                      @{currentDocument.User.username}
-                      </p>
-                    <p className="grey-text ultra-small">
-                      published on: {moment(currentDocument.createdAt)
-                      .format('MM/DD/YYYY')}
-                      </p>
-                  </li>
-                </ul>
-              </div>
-              <div className="col s2 m2 l2 email-actions">
-               {actions}
+              <div
+              id="truncate"
+              className="col s12 m12 l12 email-actions red-text">
+               {actions} <i className="material-icons">visibility</i>
+               <span id="txt3"> {currentDocument.access} access </span>
               </div>
             </div>
             {isUpdating ? <center><div className="progress">
@@ -248,7 +216,6 @@ export default class DocumentView extends React.Component {
     }
   }
   }
-
 
 DocumentView.propTypes = {
   currentDocument: React.PropTypes.array.isRequired,

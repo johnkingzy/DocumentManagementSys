@@ -1,18 +1,31 @@
-
+a {
+  color: #2a64c5 !important;
+  cursor: pointer;
+}
 .modalStyle {
   padding: 20px;
   max-height: 90%;
 }
 .light-reddish.darken-3 {
   // background-color: #ff3f00 !important;
-  background-color: #1e88e5 !important;
+  background-color: #4285f4 !important;
 }
 .section {
   padding-top: 0px !important;
 }
+.nav-title {
+  text-transform: capitalize;
+}
 #user {
     margin-left: 3px;
     vertical-align: top;
+}
+.passkey {
+  margin-left: 12px !important;
+}
+.passbtn {
+  padding: 0 1rem !important;
+  margin-top: 7px !important;
 }
 .loader {
   margin-top: 80px;
@@ -21,9 +34,12 @@
   padding: 30px;
   min-height: 620px;
 }
+.card-panel {
+  height: 10px !important;
+}
 .collection .collection-item.avatar .circle {
     position: absolute;
-    width: 52px;
+    width: 52;
     height: 52px;
     overflow: hidden;
     left: 15px;
@@ -36,10 +52,14 @@
     padding: 10px;
     text-transform: capitalize;
 }
+#foot {
+  display: inherit;
+}
 .progress {
   width: 50% !important;
   margin-top: 150px !important;
 }
+
 #pagination {
   z-index: -1;
 }
@@ -50,11 +70,17 @@
 #search {
   margin-top: 8px;
 }
+.preloader-wrapper {
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
+}
 .tabs {
   margin-top: 10px !important;
 }
 img.responsive-img {
-  max-width: 50% !important;
+    max-width: 50% !important;
 }
 .bar {
   margin-top: 50px;
@@ -84,9 +110,10 @@ textarea {
   margin-left: 10px;
   width: 620px;
   min-height: 650px;
-  max-height: 650px;
+  max-height: 680px;
   overflow: auto;
   position: relative;
+  margin-top: 40px;
 }
 #side-panel {
   margin-left: 10px;
@@ -131,6 +158,7 @@ textarea {
 }
 .container {
   width: 99% !important;
+  max-width: none !important;
 }
 .selectBox {
   display: inline-block;
@@ -147,6 +175,11 @@ textarea {
   margin-top: 10px;
   margin-left: 30px;
 }
+.log {
+  width: 120px;
+  margin-top: 5px;
+  margin-left: 30px;
+}
 .role-btn {
   margin-top: 5px;
   font-size: 12px;
@@ -154,11 +187,7 @@ textarea {
   padding: 0px !important;
 
 }
-#mail-app {
-  background: url('../img/office.png') no-repeat;
-  background-size: cover;
-  // background-position: center;
-}
+
 .form-wrapper input {
         width: 330px;
         height: 20px;
@@ -187,11 +216,16 @@ textarea {
 #mainPage {
   width: 100%
 }
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+.noHover{
+    pointer-events: none;
+    padding-right: 10px;
+}
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 
 body{
-  background: #f2f2f2;
-  font-family: 'Open Sans', sans-serif;
+  background: url('../img/office.png') no-repeat;
+  background-size: cover;
+  font-family: 'Roboto', sans-serif;
 }
 
 .search {
@@ -234,7 +268,7 @@ body{
   left: 30%;
   transform: translate(-50%, -50%);
 }
-nav {
+nav a {
   color: #fff !important;
 }
 #email-sidebar {
@@ -292,13 +326,13 @@ input[type=text], input[type=password], input[type=email], input[type=url], inpu
   font-style: italic;
   font-size: 14px;
 }
-a {
-  cursor: pointer;
-}
+
 #email-list {
   min-height: 650px;
-  max-height: 650px;
+  max-height: 680px;
   overflow: scroll;
+  margin-left: 100px;
+  margin-top: 40px;
   #text {
     background-color: #1e88e5;
     color: #fff;
@@ -309,7 +343,6 @@ a {
   background-color: #fff;
   max-height: 600px;
   margin-top: 10px;
-  margin-left: 220px;
   #text {
     background-color: #fff;
     color: #fff;

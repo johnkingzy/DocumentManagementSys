@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import DocumentForm from './DocumentForm';
+import { validate } from '../../utils/helper';
 import * as DocumentActions from '../../actions/DocumentAction';
 
 
@@ -61,7 +62,7 @@ class CreateDocumentModal extends React.Component {
       errors: {},
 
     });
-    const { errors, isValid } = this.validate(this.state.documents);
+    const { errors, isValid } = validate(this.state.documents);
     if (!isValid) {
       this.props.createDocument(this.state.documents)
       .then(() => {
@@ -99,24 +100,6 @@ class CreateDocumentModal extends React.Component {
       const invalid = false;
       this.setState({ errors, invalid });
     }
-  }
-
-  validate(state) {
-    const errors = {};
-    let isValid = false;
-    if (!(state.title.length >= 5)) {
-      errors.title = 'Title should have a minimum of 5 characters';
-    }
-    if (!(state.content.length >= 5)) {
-      errors.content = 'Content should have a minimum of 5 characters';
-    }
-    if (Object.keys(errors).length !== 0) {
-      isValid = true;
-    }
-    return {
-      errors,
-      isValid
-    };
   }
 
   editorChange(event) {
@@ -159,16 +142,9 @@ class CreateDocumentModal extends React.Component {
           <nav className="light-reddish darken-3">
             <div className="nav-wrapper">
               <div className="left col s12 m5 l5">
-                <ul>
-                  <li><a href="#!" className="email-menu">
-                    <i className="material-icons">keyboard_backspace</i>
-                  </a>
-                  </li>
-                  <li><a href="#!" className="email-menu">
-                  <i className="material-icons">tag_faces</i>
-                  </a>
-                  </li>
-                </ul>
+                <span>
+                  Create a New Document
+                </span>
               </div>
               <div className="col s12 m7 l7 hide-on-med-and-down">
                 <ul className="right">

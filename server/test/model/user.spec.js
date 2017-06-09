@@ -111,18 +111,6 @@ describe('User Model', () => {
     });
   });
 
-  describe('Login In', () => {
-    // let decryptPassword;
-    // it('should login a user', () => {
-    //   db.User.findOne({ where: { email: regularUser.email } })
-    //     .then((user) => {
-    //       decryptPassword = user.validatePassword(helper.regularUser.password);
-    //       expect(decryptPassword).toBeTruthy();
-    //       expect(user.password).toNotEqual(helper.regularUser.password);
-    //     });
-    // });
-  });
-
   describe('Update user', () => {
     const updatedUser = {};
     beforeEach((done) => {
@@ -140,7 +128,6 @@ describe('User Model', () => {
     it('ensures password is hashed', (done) => {
       db.User.findById(updatedUser.id)
         .then((user) => {
-          // expect(user.dataValues.password).is.not.equal(regularUser.password);
           expect(user.dataValues.id).toEqual(regularUser.id);
           expect(user.dataValues.firstname).toNotEqual(regularUser.firstname);
           expect(user.dataValues.email).toEqual(regularUser.email);
@@ -149,4 +136,3 @@ describe('User Model', () => {
     });
   });
 });
-
