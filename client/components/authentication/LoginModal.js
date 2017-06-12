@@ -107,7 +107,7 @@ class LoginModal extends React.Component {
               className="input-field col m12 s12"
               type="text"
               name="username"
-              id="username"
+              id="username-login"
               onChange={this.onChange}
               onFocus={this.clearError}
               label="Username"
@@ -120,7 +120,7 @@ class LoginModal extends React.Component {
               className="input-field col m12 s12"
               type="password"
               name="password"
-              id="password"
+              id="password-login"
               onChange={this.onChange}
               onFocus={this.clearError}
               label="Enter your password"
@@ -133,6 +133,7 @@ class LoginModal extends React.Component {
         <div className="row">
         <button
           type="submit"
+          id="login-btn"
           name="btn_login"
           className="col s12 btn btn-large waves-effect light-reddish darken-3"
           disabled={this.state.invalid}

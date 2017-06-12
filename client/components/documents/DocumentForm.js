@@ -44,12 +44,13 @@ const DocumentForm = (
                 name="access"
                 onChange={onChange}
                 options={options}
-                error={errors}
+                error={errors.access}
                 value={documents.access}
                 label="Privacy"
                 />
               </div>
             <button
+            id="create-btn"
           type="submit"
           name="btn_login"
           className="col s12 btn btn-large waves-effect light-reddish darken-3"

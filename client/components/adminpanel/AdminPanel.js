@@ -18,7 +18,7 @@ class AdminPanel extends React.Component {
     super(props, context);
     this.state = {
       selectedUser: '',
-      classValue: 'col s7 m12 l12 card-panel',
+      classValue: 'col s7 m12 l12',
       display: false,
       searchQuery: '',
       searching: false
@@ -53,8 +53,8 @@ class AdminPanel extends React.Component {
     }
   }
   updateRole(selectedUser) {
-    if (this.state.classValue === 'col s7 m12 l12 card-panel') {
-      const classValue = 'col s7 m7 l7 card-panel z-depth-1';
+    if (this.state.classValue === 'col s7 m12 l12') {
+      const classValue = 'col s7 m7 l7 z-depth-1';
       this.setState({
         selectedUser,
         display: !this.state.display,
@@ -101,8 +101,8 @@ class AdminPanel extends React.Component {
     }
   }
   changeView() {
-    if (this.state.classValue === 'col s7 m7 l7 card-panel z-depth-1') {
-      const classValue = 'col s7 m12 l12 card-panel';
+    if (this.state.classValue === 'col s7 m7 l7 z-depth-1') {
+      const classValue = 'col s7 m12 l12';
       this.setState({
         selectedUser: '',
         display: false,

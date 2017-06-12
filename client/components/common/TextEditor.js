@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import TinyMCE from 'react-tinymce-input';
+import TinyMCE from 'react-tinymce';
 
 const TINYMCE_CONFIG = {
   language: 'en',
   theme: 'modern',
   toolbar: `bold italic underline strikethrough hr |
-  bullist numlist | link unlink | undo redo | spellchecker code`,
+  bullist numlist | link unlink | undo redo | spellchecker code | code`,
   menubar: false,
   statusbar: true,
   resize: true,
@@ -16,11 +16,14 @@ const TINYMCE_CONFIG = {
 const TextEditor = ({ document, onChange }) => {
   return (
     <div>
-        <TinyMCE
-            value={document.content}
-            tinymceConfig={TINYMCE_CONFIG}
-            onChange={onChange}
-            />
+    <TinyMCE
+      content={document.content}
+      config={{
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+      }}
+      onChange={onChange}
+    />
     </div>);
 };
 TextEditor.propTypes = {
