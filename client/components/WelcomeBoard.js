@@ -5,8 +5,7 @@ import EditProfile from './users/EditProfile';
 import UserInfo from './users/UserInfo';
 import * as UserActions from '../actions/UserAction';
 import * as AuthActions from '../actions/AuthAction';
-import helpers from '../utils/helper';
-
+import { validateInput } from '../utils/helper';
 
 class WelcomeBoard extends React.Component {
   constructor(props, context) {
@@ -55,7 +54,7 @@ class WelcomeBoard extends React.Component {
     this.setState({
       errors: {}
     });
-    const { errors, isValid } = helpers.validateUserInput(this.state.user);
+    const { errors, isValid } = validateInput(this.state.user);
     if (!isValid) {
       this.props.actions.editUser(this.props.activeUser.id, this.state.user)
       .then(() => {

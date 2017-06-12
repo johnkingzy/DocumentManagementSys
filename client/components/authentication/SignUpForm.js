@@ -3,7 +3,7 @@
 import React, { PropTypes } from 'react';
 
 import TextInput from '../common/TextInput';
-import helpers from '../../utils/helper';
+import { validateInput } from '../../utils/helper';
 /**
 * @class SignUpForm
 * @classdesc signup form react component
@@ -68,7 +68,7 @@ class SignUpForm extends React.Component {
     this.setState({
       errors: {}
     });
-    const { errors, isValid } = helpers.validateUserInput(this.state);
+    const { errors, isValid } = validateInput(this.state);
     if (!isValid) {
       this.props.saveUserDetails(this.state)
       .then(() => {
@@ -145,6 +145,7 @@ class SignUpForm extends React.Component {
       <span>
       Already a member?
       <a
+      id="login"
         data-target="modal1"
         className="orange-text modal-trigger"
       >  Login Now
@@ -158,7 +159,7 @@ class SignUpForm extends React.Component {
           type="text"
           className="input-field col m6 s12"
           name="firstname"
-          id="firstname"
+          id="firstname-signup"
           onChange={this.onChange}
           error={errors.firstname}
           label="First Name"
@@ -168,7 +169,7 @@ class SignUpForm extends React.Component {
           className="input-field col m6 s12"
           type="text"
           name="lastname"
-          id="lastname"
+          id="lastname-signup"
           onChange={this.onChange}
           error={errors.lastname}
           label="Last Name"
@@ -180,7 +181,7 @@ class SignUpForm extends React.Component {
           className="input-field col m6 s12"
           type="text"
           name="username"
-          id="username"
+          id="username-signup"
           onChange={this.onChange}
           error={errors.username}
           onBlur={this.checkUserExists}
@@ -192,7 +193,7 @@ class SignUpForm extends React.Component {
           className="input-field col m6 s12"
           type="email"
           name="email"
-          id="email"
+          id="email-signup"
           onChange={this.onChange}
           error={errors.email}
           onBlur={this.checkUserExists}
@@ -206,7 +207,7 @@ class SignUpForm extends React.Component {
           className="input-field col m6 s12"
           type="password"
           name="password"
-          id="password"
+          id="password-signup"
           onChange={this.onChange}
           error={errors.password}
           onFocus={this.clearError}
@@ -216,7 +217,7 @@ class SignUpForm extends React.Component {
           className="input-field col m6 s12"
           type="password"
           name="confirm"
-          id="confirm"
+          id="confirm-signup"
           onChange={this.onConfirm}
           error={errors.confirm}
           label="Confirm Password"
@@ -228,6 +229,7 @@ class SignUpForm extends React.Component {
       <center>
         <div className="row">
         <button
+          id="signup-btn"
           type="submit"
           name="btn_login"
           className="col s12 btn btn-large waves-effect light-reddish darken-3"

@@ -10,3 +10,7 @@ gh
 dist/
 .nyc_output/
 coverage/
+datahub-login.png
+reports/
+screenshots/
+selenium-debug.log

@@ -59,7 +59,7 @@ describe('User API', () => {
         .expect('Content-Type', /json/)
         .end((err, res) => {
           expect(res.status).toEqual(409);
-          expect(res.body.message).toEqual('Email Address already exist');
+          expect(res.body.message).toEqual('Username already exist');
           if (err) return done(err);
           done();
         });

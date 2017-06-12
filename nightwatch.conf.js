@@ -4,7 +4,7 @@ const BINPATH = './node_modules/nightwatch/bin/';
 // we use a nightwatch.conf.js file so we can include comments and helper functions
 module.exports = {
   src_folders: [
-    'client/tests/e2e'// Where you are storing your Nightwatch e2e tests
+    'client/test/e2e'// Where you are storing your Nightwatch e2e tests
   ],
   output_folder: './reports', // reports (test outcome) output by nightwatch
   selenium: { // downloaded by selenium-download module (see readme)
@@ -26,7 +26,7 @@ module.exports = {
       path: './screenshots' // save screenshots here
     },
      globals: {
-      waitForConditionTimeout: 5000 // sometimes internet is slow so wait.
+      waitForConditionTimeout: 9000 // sometimes internet is slow so wait.
     },
      desiredCapabilities: { // use Chrome as the default browser for tests
       browserName: 'chrome',
