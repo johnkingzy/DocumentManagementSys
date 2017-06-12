@@ -156,7 +156,7 @@ export default class DocumentView extends React.Component {
             <i className="material-icons right">create</i>
             </a>
             <a
-            className="red-text right"
+            className="red-text right delete"
             onClick={this.deleteDocument}
             type="submit" name="action"
             >
@@ -186,7 +186,7 @@ export default class DocumentView extends React.Component {
     if (currentDocument) {
       return (
         <div id="email-details" className="col s12 m7 l7 card-panel">
-          <p className="email-subject truncate">
+          <p id="document-title" className="email-subject truncate">
           {currentDocument && currentDocument.title}
           <a
           className="red-text"

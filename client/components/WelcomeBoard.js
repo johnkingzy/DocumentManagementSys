@@ -5,8 +5,7 @@ import EditProfile from './users/EditProfile';
 import UserInfo from './users/UserInfo';
 import * as UserActions from '../actions/UserAction';
 import * as AuthActions from '../actions/AuthAction';
-import helpers from '../utils/helper';
-
+import { validateInput } from '../utils/helper';
 
 class WelcomeBoard extends React.Component {
   constructor(props, context) {
@@ -55,7 +54,7 @@ class WelcomeBoard extends React.Component {
     this.setState({
       errors: {}
     });
-    const { errors, isValid } = helpers.validateUserInput(this.state.user);
+    const { errors, isValid } = validateInput(this.state.user);
     if (!isValid) {
       this.props.actions.editUser(this.props.activeUser.id, this.state.user)
       .then(() => {
@@ -207,7 +206,7 @@ class WelcomeBoard extends React.Component {
               onClick={this.isEditing}>
               Cancel
               </a> :
-              <a onClick={this.isEditing}>
+              <a id="edit-profile" onClick={this.isEditing}>
               Edit Profile
               </a>}
               </th>
@@ -228,10 +227,10 @@ class WelcomeBoard extends React.Component {
         <tbody>
           <tr>
             <td>First Name</td>
-            <td>{activeUser.firstname}</td>
+            <td id="firstname">{activeUser.firstname}</td>
           </tr>
           <tr>
-            <td>Last Name</td>
+            <td id="lastname">Last Name</td>
             <td>{activeUser.lastname}</td>
           </tr>
           <tr>
@@ -242,26 +241,31 @@ class WelcomeBoard extends React.Component {
             <td>Email Address</td>
             <td>{activeUser.email}</td>
           </tr>
-          <tr>
-            <td>Password</td>
             {changePassword ?
-              <div>
+              <tr>
+              <td>
+              <form onSubmit={this.onSubmit}>
               <input
-              className="passkey col s5 m5 l5"
+              className="passkey col s4 m4 l4"
               type="password"
               name="Password"
+              id="password"
               onChange={this.passwordChange}
-              placeholder="Enter New Password"
+              placeholder="New Password"
               value={this.state.password}
               required
               />
-              <input className="passkey col s5 m5 l5" type="password"
+              <input
+              id="confirm-password"
+              className="passkey col s4 m4 l4"
+              type="password"
               name="confirmPassword"
               onChange={this.onConfirm}
-              placeholder="Confirm New Password"
+              placeholder="Confirm Password"
               required
               />
               <button
+              id="submit-password"
               className="btn light-reddish darken-3 passbtn waves-light"
               disabled={invalid}
               onClick={this.onSubmit}
@@ -270,15 +274,20 @@ class WelcomeBoard extends React.Component {
               send
               </i>
               </button>
+              </form>
               <p>
               <span className="left red-text">{errors.confirm}</span>
               <a
               className="red-text"
               onClick={this.changePassword}>Cancel</a> </p>
-              </div>
+              </td>
+              </tr>
               :
-              <td><a onClick={this.changePassword}> Change Password </a></td>}
-          </tr>
+              <tr>
+              <td><a
+              id="change-password"
+              onClick={this.changePassword}> Change Password </a></td>
+            </tr>}
         </tbody>}
       </table>
     </div>

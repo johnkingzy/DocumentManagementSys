@@ -13,7 +13,7 @@ const EditProfile = (
   }
 ) => {
   return (
-    <form className="col s12" onSubmit={onSave} method="post">
+    <form id="profile-edit" className="col s12" onSubmit={onSave} method="post">
       <div className="row">
         <div className="col s12" />
       </div>
@@ -76,6 +76,7 @@ const EditProfile = (
       <center>
         <div className="row">
         <button
+          id="update-account"
           type="submit"
           name="btn_login"
           className="col s12 btn btn-large waves-effect light-reddish darken-3"

@@ -47,8 +47,9 @@ export function searchDocuments(query, offset) {
   .get(`/documents/search?query=${query}&limit=6&offset=${pageOffset}`)
   .then((result) => {
     dispatch(searchDocumentsSuccess(result.data));
-  }).catch(() => {
-  });
+  }).catch(error =>
+    dispatch(errorMessage(error.response.data.message))
+  );
 }
 
 /**
@@ -63,6 +64,7 @@ export function searchUsers(query, offset) {
   .get(`/users/search?query=${query}&limit=6&offset=${pageOffset}`)
   .then((result) => {
     dispatch(searchUsersSuccess(result.data));
-  }).catch(() => {
-  });
+  }).catch(error =>
+    dispatch(errorMessage(error.response.data.message))
+  );
 }

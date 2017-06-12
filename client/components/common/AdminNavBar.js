@@ -26,6 +26,7 @@ class NavBar extends React.Component {
                   <div className="search">
                     <form onSubmit={onSubmit}>
                       <input type="text"
+                      id="search-user"
                       className="searchTerm"
                       placeholder="What are you looking for?"
                       onChange={onChange}
@@ -42,7 +43,7 @@ class NavBar extends React.Component {
                     <a
                     className="">
                     Showing Result for "{searchQuery}"</a></li>}
-                    { searching && <li className="white">
+                    { searching && <li id="searching" className="white">
                     <a
                     onClick={closeSearch}
                     className="close red-text">

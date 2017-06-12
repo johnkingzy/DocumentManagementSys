@@ -21,14 +21,29 @@ class DocumentList extends React.Component {
     this.filterDocument = this.filterDocument.bind(this);
     this.onSelectPage = this.onSelectPage.bind(this);
   }
+
+  /**
+   * componentWillMount
+   * @return {void} no return or void
+   */
   componentWillMount() {
     this.filterDocument();
   }
+
+  /**
+   * componentDidMount
+   * @return {void} no return or void
+   */
   componentDidMount() {
     $('select').material_select();
     $('#section').on('change', this.filterAccess);
   }
 
+  /**
+   * componentWillReceiveProps
+   * @param  {object} nextProps
+   * @return {void} no return or void
+   */
   componentWillReceiveProps(nextProps) {
     const allDocuments = nextProps.allDocuments.filter(document =>
     document.access === this.state.currentSection).slice(0, 6);
@@ -39,6 +54,11 @@ class DocumentList extends React.Component {
       totalCount
     });
   }
+
+  /**
+   * filterDocument - filters document
+   * @return {void}  no return
+   */
   filterDocument() {
     const pageNo = this.state.currentPage;
     const showing = this.props.allDocuments.slice();
@@ -53,6 +73,12 @@ class DocumentList extends React.Component {
       totalCount
     });
   }
+
+  /**
+   * filterAccess - filters access type
+   * @param  {object} event the event handler
+   * @return {void} no return
+   */
   filterAccess(event) {
     this.setState({
       currentSection: event.target.value,
@@ -103,7 +129,9 @@ class DocumentList extends React.Component {
                   </a>
                 </li>
                 <li className="blue-text ultra-small">
-                <h6> Showing Page {currentPage} of {totalCount} </h6></li>
+                <h6
+                className="paginate">
+                Showing Page {currentPage} of {totalCount} </h6></li>
                 <li
                 className="waves-effect"
                 onClick={this.onSelectPage}

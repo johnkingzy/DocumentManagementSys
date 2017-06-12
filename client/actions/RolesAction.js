@@ -32,8 +32,9 @@ export function loadRoles() {
       const result = response.data;
       dispatch(loadRoleSuccess(result.roles));
     })
-    .catch(() => {
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }
 
 /**
@@ -47,8 +48,9 @@ export function updateRole(data, id) {
     .then(() => {
       dispatch(loadRoles());
     })
-    .catch(() => {
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }
 
 /**
@@ -61,6 +63,7 @@ export function addRole(data) {
     .then(() => {
       dispatch(loadRoles());
     })
-    .catch(() => {
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }

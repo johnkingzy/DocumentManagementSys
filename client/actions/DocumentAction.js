@@ -39,9 +39,9 @@ export function loadDocuments(offset) {
       };
       dispatch(loadDocumentSuccess(data));
     })
-    .catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }
 
 /**
@@ -54,9 +54,9 @@ export function createDocument(data) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }
 
 /**
@@ -73,9 +73,9 @@ export function updateDocument(data) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
   };
 }
 
@@ -90,8 +90,8 @@ export function deleteDocument(documentId) {
     .then(() => {
       dispatch(loadDocuments());
     })
-    .catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    .catch(error =>
+    dispatch(errorMessage(error.response.data.message))
+    );
   };
 }

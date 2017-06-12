@@ -67,9 +67,9 @@ export function saveUserDetails(userDetails) {
         'updatedAt'
       ]);
       dispatch(setCurrentUser(decoded));
-    }).catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    }).catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }
 
 /**
@@ -90,9 +90,9 @@ export function loginRequest(userDetails) {
       'updatedAt'
     ]);
     dispatch(setCurrentUser(decoded));
-  }).catch((error) => {
-    dispatch(errorMessage(error.response.data.message));
-  });
+  }).catch(error =>
+    dispatch(errorMessage(error.response.data.message))
+  );
 }
 
 

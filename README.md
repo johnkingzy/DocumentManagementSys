@@ -1,6 +1,7 @@
 ## Document Management System (FullStack)
 
 [![Coverage Status](https://coveralls.io/repos/github/andela-ksolomon/DocumentManagementSys/badge.svg?branch=development)](https://coveralls.io/github/andela-ksolomon/DocumentManagementSys?branch=development)
+ [![Code Climate](https://codeclimate.com/github/andela-ksolomon/DocumentManagementSys/badges/gpa.svg)](https://codeclimate.com/github/andela-ksolomon/DocumentManagementSys)
 [![Build Status](https://travis-ci.org/andela-ksolomon/DocumentManagementSys.svg?branch=master)](https://travis-ci.org/andela-ksolomon/DocumentManagementSys)
 
 Document Management System provides a restful API for users to create and manage documents giving different privileges based on user roles and managing authentication using JWT.

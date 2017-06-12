@@ -10,7 +10,7 @@ import * as DocumentActions from '../../actions/DocumentAction';
 /** @class CreateDocumentModal
  * @classdesc component for create document modal
  */
-class CreateDocumentModal extends React.Component {
+export class CreateDocumentModal extends React.Component {
   /**
    * constructor - contains the constructor
    * @param  {object} props the properties of the class component
@@ -31,6 +31,10 @@ class CreateDocumentModal extends React.Component {
     this.editorChange = this.editorChange.bind(this);
   }
 
+  /**
+   * componentDidMount - componentDidMount function
+   * @return {void} no return
+   */
   componentDidMount() {
     $('select').material_select();
     $('#access').on('change', this.updateDocumentState);
@@ -44,11 +48,15 @@ class CreateDocumentModal extends React.Component {
    * @return {void} no return or void
    */
   updateDocumentState(event) {
+    const invalid = false,
+      errors = {};
     const field = event.target.name;
     const documents = this.state.documents;
     documents[field] = event.target.value;
     return this.setState({
-      documents
+      documents,
+      invalid,
+      errors
     });
   }
 
@@ -76,7 +84,8 @@ class CreateDocumentModal extends React.Component {
               title: '',
               content: '',
               access: ''
-            }
+            },
+            invalid: false
           });
         });
       });
@@ -102,12 +111,23 @@ class CreateDocumentModal extends React.Component {
     }
   }
 
+  /**
+   * editorChange - handles the change event for TINYMCE
+   * @param  {object} event the event handler
+   * @return {Function} returns a function
+   */
   editorChange(event) {
+    const invalid = false;
     const documents = this.state.documents;
-    documents.content = event;
-    return this.setState({ documents });
+    documents.content = event.target.getContent();
+    return this.setState({ documents, invalid });
   }
 
+  /**
+   * handleFileUpload - handles file upload
+   * @param  {type} event the event handler
+   * @return {void} no return
+   */
   handleFileUpload(event) {
     const file = event.target.files[0],
       extension = file.name.split('.').pop();
@@ -168,10 +188,11 @@ class CreateDocumentModal extends React.Component {
             <DocumentForm
             onChange={this.updateDocumentState}
             documents={this.state.documents}
-            error={errors}
+            errors={errors}
             onSave={this.onSave}
             labelclass={this.state.labelclass}
             editorChange={this.editorChange}
+            loading={this.state.invalid}
             />
           </div>
         </div>

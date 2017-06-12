@@ -47,9 +47,9 @@ class DashBoard extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.loadDocuments();
     const token = localStorage.getItem('jwtToken');
-    if (token) {
+    if (token && this.props.isAuthenticated) {
+      this.props.actions.loadDocuments();
       const userId = this.props.currentUser.id;
       this.props.actions.fetchUsers(userId);
     }
@@ -86,6 +86,11 @@ class DashBoard extends React.Component {
     });
   }
 
+  /**
+   * deleteDocument - delete a documents
+   * @param  {Number} id document id
+   * @return {void} no return or void
+   */
   deleteDocument(id) {
     this.props.actions.deleteDocument(id)
     .then(() => {
@@ -96,11 +101,21 @@ class DashBoard extends React.Component {
     });
   }
 
+  /**
+   * toggleOpen - open a document
+   * @return {void} no return or void
+   */
   toggleOpen() {
     this.setState({
       selectedId: ''
     });
   }
+
+  /**
+   * onSubmit - handles search action
+   * @param  {Object} event the event handler
+   * @return {void} no return or void
+   */
   onSubmit(event) {
     const searchQuery = this.state.search;
     event.preventDefault();
@@ -123,6 +138,12 @@ class DashBoard extends React.Component {
     const offset = (pageNumber - 1) * 6;
     this.props.actions.searchDocuments(searchQuery, offset);
   }
+
+  /**
+   * onChange - handles the onChange event
+   * @param  {object} event the event handler
+   * @return {void} no return or void
+   */
   onChange(event) {
     const field = event.target.name;
     const state = this.state;
@@ -165,7 +186,7 @@ class DashBoard extends React.Component {
     const isAdmin = activeUser.roleId === 1;
     return (
       <div>
-      <nav className="light-reddish darken-3">
+      <nav id="dashboard" className="light-reddish darken-3">
         <div className="nav-wrapper">
           <div className="left col s12 m5 l5">
             <a onClick={() => this.redirect('/')}>
@@ -177,6 +198,7 @@ class DashBoard extends React.Component {
                   <div className="search">
                     <form onSubmit={this.onSubmit}>
                       <input type="text"
+                      id="search"
                       className="searchTerm"
                       placeholder="What are you looking for?"
                       onChange={this.onChange}
@@ -192,18 +214,20 @@ class DashBoard extends React.Component {
                   <li id="username" className="noHover">
                   <i className="material-icons left">account_circle</i>
                   {activeUser.username}</li>
-                  <li>
+                  <li id="create-document">
                   <a id="createbtn" data-target="modal2"
                   className="dropdown-button modal-trigger">
                     <i className="material-icons left">create</i>
                     Create New Document
                     </a></li>
                     {isAdmin &&
-                    <li><a onClick={() => this.redirect('/admin')} href="">
+                    <li><a
+                    id="admin-link"
+                    onClick={() => this.redirect('/admin')} href="">
                     Admin Panel
                     </a>
                       </li>}
-                    <li><a onClick={this.logout} href="">
+                    <li><a className="logout" onClick={this.logout} href="">
                       <i className="material-icons">power_settings_new</i>
                       </a></li>
                 </ul>

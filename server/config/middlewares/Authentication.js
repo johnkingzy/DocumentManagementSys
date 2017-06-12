@@ -91,7 +91,7 @@ const Authenticate = {
         .send(
           {
             success: false,
-            message: 'Email Address already exist'
+            message: 'Username already exist'
           }
         );
       }

@@ -64,9 +64,9 @@ export function loadUsers(offset) {
       const result = response.data;
       dispatch(loadUserSuccess(result));
     })
-    .catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }
 /**
  * fetchUsers - fetches users from database
@@ -79,9 +79,9 @@ export function fetchUsers(userId) {
       const result = response.data;
       dispatch(fetchUserSuccess(result.user));
     })
-    .catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }
 /**
  * deleteUsers - fetches users from database
@@ -95,9 +95,9 @@ export function deleteUser(userId) {
         dispatch(loadUsers());
       }
     })
-    .catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }
 /**
  * editUsers - fetches users from database
@@ -107,10 +107,10 @@ export function deleteUser(userId) {
  */
 export function editUser(userId, details) {
   return dispatch => axios.put(`/users/${userId}`, details)
-    .then((response) => {
-      dispatch(fetchUserSuccess(response.data.user));
-    })
-    .catch((error) => {
-      dispatch(errorMessage(error.response.data.message));
-    });
+    .then(response =>
+    dispatch(fetchUserSuccess(response.data.user))
+    )
+    .catch(error =>
+      dispatch(errorMessage(error.response.data.message))
+    );
 }

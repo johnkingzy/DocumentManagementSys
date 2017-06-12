@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Pagination } from 'react-materialize';
 import setRole from '../../../utils/setRole';
 
@@ -12,9 +13,11 @@ class UsersTable extends React.Component {
     this.updateRole = this.updateRole.bind(this);
     this.onClick = this.onClick.bind(this);
   }
-  componentDidMount() {
-  // $('#access').on('change', this.updateRole);
-  }
+  /**
+   * updateRole - updates roles
+   * @param  {Object} event the event handler
+   * @return {void} no return
+   */
   updateRole(event) {
     const field = event.target.name;
     const data = this.state;
@@ -23,6 +26,12 @@ class UsersTable extends React.Component {
       data
     });
   }
+
+  /**
+   * onClick - handles the onClick event
+   * @param  {object} event the event handler
+   * @return {void} no return or void
+   */
   onClick(event) {
     const selectedUser = event.target.id;
     this.props.updateRole(selectedUser);
@@ -58,7 +67,7 @@ class UsersTable extends React.Component {
             <tbody key={row.id}>
             <tr>
             <td>{row.id}</td>
-            <td>{row.firstname}</td>
+            <td id="firstname">{row.firstname}</td>
             <td>{row.lastname}</td>
             <td>{row.username}</td>
             <td>{row.email}</td>
@@ -66,6 +75,7 @@ class UsersTable extends React.Component {
             </td>
             <td>
            <a
+           id="admin-action"
            onClick={this.onClick}
            className="btn-floating waves-effect waves-light orange">
            <i id={row.id} className="material-icons">create</i></a>
@@ -92,11 +102,11 @@ class UsersTable extends React.Component {
   }
 }
 UsersTable.propTypes = {
-  rows: React.PropTypes.array.isRequired,
-  classValue: React.PropTypes.string.isRequired,
-  updateRole: React.PropTypes.func.isRequired,
-  allRoles: React.PropTypes.array.isRequired,
-  onSelect: React.PropTypes.func.isRequired,
-  pagination: React.PropTypes.object.isRequired
+  rows: PropTypes.array,
+  classValue: PropTypes.string,
+  updateRole: PropTypes.func,
+  allRoles: PropTypes.array,
+  onSelect: PropTypes.func,
+  pagination: PropTypes.object
 };
 export default UsersTable;

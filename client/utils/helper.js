@@ -5,10 +5,10 @@ export const validateInput = (state) => {
   if (!(regexp.test(state.email))) {
     errors.email = 'Please Enter a valid email address';
   }
-  if (!(state.username.length >= 5)) {
+  if (state.username && !(state.username.length >= 5)) {
     errors.username = 'Username must have a minimum of 5 characters';
   }
-  if (!(state.password.length >= 8)) {
+  if (state.password && !(state.password.length >= 8)) {
     errors.password = 'Password should have a minimum of 8 characters';
   }
   if (Object.keys(errors).length !== 0) {
@@ -28,6 +28,9 @@ export const validate = (state) => {
   }
   if (!(state.content.length >= 5)) {
     errors.content = 'Content should have a minimum of 5 characters';
+  }
+  if (!(state.access.length >= 5)) {
+    errors.access = 'Please select an access type';
   }
   if (Object.keys(errors).length !== 0) {
     isValid = true;
