@@ -58,9 +58,9 @@ describe('Document Model', () => {
     });
   });
 
-  describe('EMPTY STRING', () => {
+  describe('EMPTY STRING AS INPUT', () => {
     emptyFields.forEach((field) => {
-      it('should return error', (done) => {
+      it('should return error when empty string is passed', (done) => {
         const emptyString = Object.assign({}, helper.publicDocument);
         emptyString[field] = ' ';
         db.Document.create(emptyString)
@@ -106,7 +106,7 @@ describe('Document Model', () => {
         });
     });
 
-    it('should give the correct result', (done) => {
+    it('should return the correct result', (done) => {
       db.Document.findById(userDocument.id)
         .then((doc) => {
           expect(doc.dataValues.id).toEqual(newDocument.id);

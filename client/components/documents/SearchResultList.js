@@ -1,5 +1,5 @@
 /* eslint array-callback-return: "off" */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Pagination } from 'react-materialize';
 import { bindActionCreators } from 'redux';
@@ -69,7 +69,7 @@ class SearchResultList extends React.Component {
 /**
  * mapDispatchToProps - maps states to props value
  * @param  {Functions} dispatch dispatches an action
- * @return {Object} returns an objects
+ * @return {Object} returns a§n objects
  */
 function mapDispatchToProps(dispatch) {
   return {
@@ -78,11 +78,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 SearchResultList.propTypes = {
-  searchedResult: React.PropTypes.array.isRequired,
-  openDocument: React.PropTypes.func.isRequired,
-  changeView: React.PropTypes.func.isRequired,
-  actions: React.PropTypes.object.isRequired,
-  onSelect: React.PropTypes.func.isRequired,
-  pagination: React.PropTypes.object.isRequired
+  searchedResult: PropTypes.array.isRequired,
+  openDocument: PropTypes.func.isRequired,
+  changeView: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired,
+  onSelect: PropTypes.func.isRequired,
+  pagination: PropTypes.object
 };
 export default connect(null, mapDispatchToProps)(SearchResultList);

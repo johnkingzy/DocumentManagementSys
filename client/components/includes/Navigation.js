@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
@@ -57,12 +57,12 @@ class NavigationBar extends React.Component {
   }
 }
 NavigationBar.propTypes = {
-  auth: React.PropTypes.object.isRequired,
-  actions: React.PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 NavigationBar.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 /**

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { getFirstLetter, getDate } from '../../utils/helper';
 
 
@@ -28,7 +28,7 @@ export default class DisplayDocument extends React.Component {
   }
 }
 DisplayDocument.propTypes = {
-  document: React.PropTypes.object.isRequired,
-  id: React.PropTypes.number,
-  viewDocument: React.PropTypes.func.isRequired,
+  document: PropTypes.object.isRequired,
+  id: PropTypes.number,
+  viewDocument: PropTypes.func.isRequired,
 };

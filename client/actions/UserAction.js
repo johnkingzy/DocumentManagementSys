@@ -106,6 +106,7 @@ export function deleteUser(userId) {
  * @return {Function} returns a dispatch
  */
 export function editUser(userId, details) {
+  console.log(userId);
   return dispatch => axios.put(`/users/${userId}`, details)
     .then(response =>
     dispatch(fetchUserSuccess(response.data.user))

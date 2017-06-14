@@ -1,8 +1,7 @@
 /* eslint array-callback-return: "off" */
 /* global $ */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import renderHTML from 'react-render-html';
-
 import EditDocument from './EditDocument';
 import options from '../../data/options';
 import { validate } from '../../utils/helper';
@@ -218,10 +217,10 @@ export default class DocumentView extends React.Component {
   }
 
 DocumentView.propTypes = {
-  currentDocument: React.PropTypes.array.isRequired,
-  updateDocument: React.PropTypes.func.isRequired,
-  toggleOpen: React.PropTypes.func.isRequired,
-  changeView: React.PropTypes.func.isRequired,
-  deleteDocument: React.PropTypes.func.isRequired,
-  currentUser: React.PropTypes.object.isRequired
+  currentDocument: PropTypes.array.isRequired,
+  updateDocument: PropTypes.func.isRequired,
+  toggleOpen: PropTypes.func.isRequired,
+  changeView: PropTypes.func.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
+  currentUser: PropTypes.object.isRequired
 };

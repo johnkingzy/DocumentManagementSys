@@ -19,10 +19,27 @@ module.exports = {
   target: 'web',
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin(GLOBALS),
     new ExtractTextPlugin('style.css'),
-    new webpack.LoaderOptionsPlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      beautify: false,
+      mangle: {
+        screw_ie8: true,
+        keep_fnames: true,
+      },
+      compress: {
+        screw_ie8: true,
+        warnings: false,
+        pure_funcs: ['console.log', 'window.console.log.apply']
+      },
+      comments: false
+    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
@@ -30,6 +47,7 @@ module.exports = {
       Hammer: 'hammerjs/hammer'
     })
   ],
+  devtool: 'cheap-source-map',
   module: {
     rules: [
       {
@@ -37,11 +55,7 @@ module.exports = {
         enforce: 'pre',
         use: [
           {
-            loader: 'babel-loader',
-            query: {
-              babelrc: false,
-              presets: ['es2015', 'react', 'stage-0']
-            }
+            loader: 'babel-loader'
           }
         ],
         include: path.join(__dirname, '/client'),

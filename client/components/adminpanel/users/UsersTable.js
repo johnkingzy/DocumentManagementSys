@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { PropTypes } from 'react';
 import { Pagination } from 'react-materialize';
 import setRole from '../../../utils/setRole';
 
@@ -53,7 +52,6 @@ class UsersTable extends React.Component {
         <table>
         <thead>
           <tr>
-              <th>Id</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Username</th>
@@ -66,7 +64,6 @@ class UsersTable extends React.Component {
             return (
             <tbody key={row.id}>
             <tr>
-            <td>{row.id}</td>
             <td id="firstname">{row.firstname}</td>
             <td>{row.lastname}</td>
             <td>{row.username}</td>

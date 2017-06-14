@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 class UserInfo extends React.Component {
   constructor(props, context) {
@@ -45,9 +45,9 @@ class UserInfo extends React.Component {
   }
 }
 UserInfo.propTypes = {
-  userDetails: React.PropTypes.object.isRequired,
-  Public: React.PropTypes.array.isRequired,
-  Private: React.PropTypes.array.isRequired,
-  Role: React.PropTypes.array.isRequired,
+  userDetails: PropTypes.object.isRequired,
+  Public: PropTypes.array.isRequired,
+  Private: PropTypes.array.isRequired,
+  Role: PropTypes.array.isRequired,
 };
 export default UserInfo;

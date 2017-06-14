@@ -9,22 +9,23 @@ module.exports = {
   output_folder: './reports', // reports (test outcome) output by nightwatch
   selenium: { // downloaded by selenium-download module (see readme)
     start_process: true, // tells nightwatch to start/stop the selenium process
-    server_path: './node_modules/selenium-standalone/.selenium/selenium-server/3.4.0-server.jar',
+    server_path: './node_modules/selenium-standalone/.selenium/selenium-server/2.53.1-server.jar',
     host: '127.0.0.1',
     port: 4444, // standard selenium port
     cli_args: {
-     'webdriver.chrome.driver': './node_modules/selenium-standalone/.selenium/chromedriver/2.29-x64-chromedriver'
+     'webdriver.chrome.driver': './node_modules/selenium-standalone/.selenium/chromedriver/2.25-x64-chromedriver'
    }
   },
   test_settings: {
     default: {
      screenshots: {
-      enabled: true, // if you want to keep screenshots,
+      enabled: false, // if you want to keep screenshots,
       selenium_port: 4444,
       selenium_host: 'localhost',
       launch_url: 'http://localhost',
       path: './screenshots' // save screenshots here
     },
+    silent: true,
      globals: {
       waitForConditionTimeout: 9000 // sometimes internet is slow so wait.
     },

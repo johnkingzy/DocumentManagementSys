@@ -1,7 +1,6 @@
 /* global Materialize */
 /* global $ */
 import React, { PropTypes } from 'react';
-
 import TextInput from '../common/TextInput';
 import { validateInput } from '../../utils/helper';
 /**
@@ -242,7 +241,7 @@ class SignUpForm extends React.Component {
   }
 }
 SignUpForm.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 SignUpForm.propTypes = {

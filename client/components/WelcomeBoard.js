@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EditProfile from './users/EditProfile';
@@ -193,25 +193,17 @@ class WelcomeBoard extends React.Component {
     Role={Role}
     />}
     </div>
-     <table id="useredit" className="striped">
-        <thead>
-          <tr>
-            <th data-field="id">User Details</th>
-            <th
-            className="right"
-            data-field="name">
-            {editProfile ?
+    <span className="left">User Details</span>
+    {editProfile ?
               <a
-              className="red-text"
+              className="right red-text"
               onClick={this.isEditing}>
               Cancel
               </a> :
+              <div className="right">
               <a id="edit-profile" onClick={this.isEditing}>
               Edit Profile
-              </a>}
-              </th>
-          </tr>
-        </thead>
+              </a></div>}
         {editProfile ?
         <EditProfile
         userDetail={this.state.user}
@@ -224,6 +216,7 @@ class WelcomeBoard extends React.Component {
         onConfirm={this.onConfirm}
         />
         :
+        <table id="useredit" className="striped">
         <tbody>
           <tr>
             <td>First Name</td>
@@ -288,18 +281,17 @@ class WelcomeBoard extends React.Component {
               id="change-password"
               onClick={this.changePassword}> Change Password </a></td>
             </tr>}
-        </tbody>}
-      </table>
+        </tbody></table>}
     </div>
     );
   }
 }
 WelcomeBoard.propTypes = {
-  allDocuments: React.PropTypes.array.isRequired,
-  currentUserDetails: React.PropTypes.object.isRequired,
-  openDocument: React.PropTypes.func.isRequired,
-  actions: React.PropTypes.object.isRequired,
-  activeUser: React.PropTypes.object.isRequired
+  allDocuments: PropTypes.array.isRequired,
+  currentUserDetails: PropTypes.object.isRequired,
+  openDocument: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired,
+  activeUser: PropTypes.object.isRequired
 };
 /**
  * mapDispatchToProps - maps dispatch to props value

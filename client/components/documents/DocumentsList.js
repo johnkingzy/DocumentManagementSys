@@ -1,5 +1,5 @@
 /* eslint array-callback-return: "off" */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -178,9 +178,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 DocumentList.propTypes = {
-  allDocuments: React.PropTypes.array.isRequired,
-  openDocument: React.PropTypes.func.isRequired,
-  actions: React.PropTypes.object.isRequired,
-  pagination: React.PropTypes.object.isRequired
+  allDocuments: PropTypes.array.isRequired,
+  openDocument: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired,
+  pagination: PropTypes.object.isRequired
 };
 export default connect(null, mapDispatchToProps)(DocumentList);

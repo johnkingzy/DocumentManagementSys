@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import TextInput from '../common/TextInput';
 import TextArea from '../common/TextArea';
 
@@ -70,12 +70,12 @@ const EditDocument = (
   );
 };
 EditDocument.propTypes = {
-  onChange: React.PropTypes.func.isRequired,
-  onSubmit: React.PropTypes.func.isRequired,
-  invalid: React.PropTypes.bool.isRequired,
-  options: React.PropTypes.array.isRequired,
-  title: React.PropTypes.string.isRequired,
-  content: React.PropTypes.string.isRequired,
-  access: React.PropTypes.string.isRequired
+  onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  invalid: PropTypes.bool.isRequired,
+  options: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  access: PropTypes.string.isRequired
 };
 export default EditDocument;

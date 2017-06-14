@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { bindActionCreators } from 'redux';
@@ -59,13 +59,13 @@ export default function (ComposedComponent) {
   }
 
   Authenticate.propTypes = {
-    isAuthenticated: React.PropTypes.bool.isRequired,
-    actions: React.PropTypes.object.isRequired,
-    roleId: React.PropTypes.number.isRequired
+    isAuthenticated: PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired,
+    roleId: PropTypes.number.isRequired
   };
 
   Authenticate.contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
   /**
    * mapDispatchToProps - maps dispatch to props value

@@ -259,7 +259,7 @@ describe('User API', () => {
             .end((err, res) => {
               expect(res.status).toEqual(200);
               expect(res.body.message)
-              .toEqual('You have successfully retrived all users');
+              .toEqual('You have successfully retrieved all users');
               expect(res.body.users.rows[0].username)
               .toEqual(regUserData.user.username);
               done();
@@ -273,7 +273,7 @@ describe('User API', () => {
            .end((err, res) => {
              expect(res.status).toEqual(200);
              expect(res.body.message)
-             .toEqual('You have successfully retrived all users');
+             .toEqual('You have successfully retrieved all users');
              done();
            });
     });
