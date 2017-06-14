@@ -1,6 +1,6 @@
 /* global Materialize */
 /* global $ */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import TextInput from '../../common/TextInput';
 
 /** @class CreateDocumentModal
@@ -90,11 +90,11 @@ class AddRoleModal extends React.Component {
 }
 
 AddRoleModal.propTypes = {
-  nextRoleId: React.PropTypes.number.isRequired,
-  addRole: React.PropTypes.func.isRequired
+  nextRoleId: PropTypes.number.isRequired,
+  addRole: PropTypes.func.isRequired
 };
 AddRoleModal.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 

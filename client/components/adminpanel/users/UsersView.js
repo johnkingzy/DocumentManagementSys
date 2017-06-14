@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { getFirstLetter } from '../../../utils/helper';
 import setRole from '../../../utils/setRole';
 
@@ -159,12 +159,12 @@ class UsersView extends React.Component {
   }
 }
 UsersView.propTypes = {
-  allRoles: React.PropTypes.array.isRequired,
-  allUsers: React.PropTypes.array.isRequired,
-  selectedUser: React.PropTypes.string.isRequired,
-  loadUser: React.PropTypes.func.isRequired,
-  deleteUser: React.PropTypes.func.isRequired,
-  editRole: React.PropTypes.func.isRequired,
-  changeView: React.PropTypes.func.isRequired
+  allRoles: PropTypes.array.isRequired,
+  allUsers: PropTypes.array.isRequired,
+  selectedUser: PropTypes.string.isRequired,
+  loadUser: PropTypes.func.isRequired,
+  deleteUser: PropTypes.func.isRequired,
+  editRole: PropTypes.func.isRequired,
+  changeView: PropTypes.func.isRequired
 };
 export default UsersView;

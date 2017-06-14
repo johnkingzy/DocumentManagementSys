@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DataHubs - Document Management System Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.flatly.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top ">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DataHubs - Document Management System</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="global.html#hashPassword">hashPassword</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h4>Available API Endpoints and their Functionality</h4><table>
+<thead>
+<tr>
+<th>EndPoint</th>
+<th>Functionality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST /users/login</td>
+<td>Logs a user in.</td>
+</tr>
+<tr>
+<td>POST /users/logout</td>
+<td>Logs a user out.</td>
+</tr>
+<tr>
+<td>POST /users/</td>
+<td>Creates a new user.</td>
+</tr>
+<tr>
+<td>GET /users/</td>
+<td>Find matching instances of user.</td>
+</tr>
+<tr>
+<td>GET /users/<id></td>
+<td>Find user.</td>
+</tr>
+<tr>
+<td>PUT /users/<id></td>
+<td>Update user attributes.</td>
+</tr>
+<tr>
+<td>DELETE /users/<id></td>
+<td>Delete user.</td>
+</tr>
+<tr>
+<td>GET /users/?limit={interger}&amp;offset={interger}</td>
+<td>Pagination for users</td>
+</tr>
+<tr>
+<td>POST /documents/</td>
+<td>Creates a new document instance.</td>
+</tr>
+<tr>
+<td>GET /documents/</td>
+<td>Find matching instances of document.</td>
+</tr>
+<tr>
+<td>GET /documents/<id></td>
+<td>Find document.</td>
+</tr>
+<tr>
+<td>GET /documents/?limit={interger}&amp;offset={interger}</td>
+<td>Pagination for documents</td>
+</tr>
+<tr>
+<td>PUT /documents/<id></td>
+<td>Update document attributes.</td>
+</tr>
+<tr>
+<td>DELETE /documents/<id></td>
+<td>Delete document.</td>
+</tr>
+<tr>
+<td>GET /users/<id>/documents</td>
+<td>Find all documents belonging to the user.</td>
+</tr>
+<tr>
+<td>GET /search/users/?q={username}</td>
+<td>Gets all users with username contain the search term</td>
+</tr>
+<tr>
+<td>GET /search/documents/?q={doctitle}</td>
+<td>Get all documents with title containing the search query</td>
+</tr>
+<tr>
+<td>GET /users/:id/alldocuments</td>
+<td>Get all document owned or accessible by <code>userId</code></td>
+</tr>
+<tr>
+<td>GET /api/users/:identifier</td>
+<td>Find user with email or username containing the identifier parameter</td>
+</tr>
+</tbody>
+</table>
+<h4>Role</h4><h6>POST HTTP Request</h6><ul>
+<li><code>POST /roles</code></li>
+<li>Requires: Admin Authentication<h6>HTTP Response</h6></li>
+<li>HTTP Status: <code>201: created</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;success&quot;: true,
+&quot;message&quot;: &quot;Role created succesfully&quot;,
+&quot;role&quot;: {
+&quot;id&quot;: 5,
+&quot;title&quot;: &quot;writer&quot;,
+&quot;updatedAt&quot;: &quot;2017-06-13T17:09:41.119Z&quot;,
+&quot;createdAt&quot;: &quot;2017-06-13T17:09:41.119Z&quot;
+}
+}</code></pre><h6>GET HTTP Request</h6></li>
+<li><code>GET /roles/:id</code></li>
+<li>Requires: Authentication<h6>HTTP Response</h6></li>
+<li>HTTP Status: <code>200: OK</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;message&quot;: &quot;This role has been retrieved successfully&quot;,
+&quot;role&quot;: {
+&quot;id&quot;: 1,
+&quot;title&quot;: &quot;admin&quot;,
+&quot;createdAt&quot;: &quot;2017-05-30T12:16:24.052Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-05-30T12:16:24.052Z&quot;
+}
+}</code></pre><h6>GET HTTP Request</h6></li>
+<li><code>GET /roles</code></li>
+<li>Requires: Admin Authentication<h6>HTTP Response</h6></li>
+<li>HTTP Status: <code>200: OK</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;success&quot;: true,
+&quot;message&quot;: &quot;All roles was retrieved successfully&quot;,
+&quot;roles&quot;: [
+{
+  &quot;id&quot;: 1,
+  &quot;title&quot;: &quot;admin&quot;,
+  &quot;createdAt&quot;: &quot;2017-05-30T12:16:24.052Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-05-30T12:16:24.052Z&quot;
+},
+{
+  &quot;id&quot;: 2,
+  &quot;title&quot;: &quot;regular&quot;,
+  &quot;createdAt&quot;: &quot;2017-05-30T12:16:24.052Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-05-30T12:16:24.052Z&quot;
+},
+{
+  &quot;id&quot;: 3,
+  &quot;title&quot;: &quot;moderator&quot;,
+  &quot;createdAt&quot;: &quot;2017-06-07T23:01:27.191Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-06-07T23:01:27.191Z&quot;
+},
+{
+  &quot;id&quot;: 4,
+  &quot;title&quot;: &quot;guest&quot;,
+  &quot;createdAt&quot;: &quot;2017-06-07T23:05:06.433Z&quot;,
+  &quot;updatedAt&quot;: &quot;2017-06-07T23:05:06.433Z&quot;
+}
+]
+}</code></pre><h6>PUT HTTP Request</h6></li>
+<li><code>PUT /roles/:id</code></li>
+<li>Requires: Admin Authentication<h6>HTTP Response</h6></li>
+<li>HTTP Status: <code>200: OK</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;role&quot;: {
+&quot;id&quot;: 5,
+&quot;title&quot;: &quot;writers&quot;,
+&quot;createdAt&quot;: &quot;2017-06-13T17:09:41.119Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-06-13T17:10:32.755Z&quot;
+},
+&quot;message&quot;: &quot;Role updated successfully.&quot;
+}</code></pre><h6>DELETE HTTP Request</h6></li>
+<li><code>DELETE /roles/:id</code></li>
+<li>Requires: Admin Authentication<h6>HTTP Response</h6></li>
+<li>HTTP Status: <code>200: OK</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;message&quot;: &quot;This role has been deleted successfully&quot;
+}</code></pre></li>
+</ul>
+<h4>Users</h4><h6>POST HTTP Request</h6><ul>
+<li><code>POST /users</code><h6>HTTP response</h6></li>
+<li>HTTP Status: <code>200: created</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;message&quot;: &quot;User was created Successfully&quot;,
+&quot;user&quot;: {
+&quot;roleId&quot;: 2,
+&quot;active&quot;: true,
+&quot;id&quot;: 49,
+&quot;username&quot;: &quot;maximuf&quot;,
+&quot;firstname&quot;: &quot;Kingsley&quot;,
+&quot;lastname&quot;: &quot;John&quot;,
+&quot;email&quot;: &quot;johnkingzy@gmail.com&quot;,
+&quot;updatedAt&quot;: &quot;2017-06-13T17:11:35.673Z&quot;,
+&quot;createdAt&quot;: &quot;2017-06-13T17:11:35.673Z&quot;
+},
+&quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InJvbGVJZCI6MiwiYWN0aXZlIjp0cnVlLCJpZCI6NDksInVzZXJuYW1lIjoibWF4aW11ZiIsImZpcnN0bmFtZSI6IktpbmdzbGV5IiwibGFzdG5hbWUiOiJKb2huIiwiZW1haWwiOiJqb2hua2luZ3p5QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJEEvWXNJQWNGRzVvcW5RR2MzUU9YTHUzWkxDdUFSTWo2OE40SVJhaEFDN3FVTXdkTG8wVVFpIiwidXBkYXRlZEF0IjoiMjAxNy0wNi0xM1QxNzoxMTozNS42NzNaIiwiY3JlYXRlZEF0IjoiMjAxNy0wNi0xM1QxNzoxMTozNS42NzNaIn0sImlhdCI6MTQ5NzM3Mzg5NSwiZXhwIjoxNDk3Mzc3ODk1fQ.1qUXCI9N1zHNPtrWl-oiAoDFIyBAs8IVry8zQ182abE&quot;
+}</code></pre><h6>Login HTTP Request</h6></li>
+<li><code>POST /users/login</code><h6>HTTP Response</h6></li>
+<li>HTTP status: <code>200: OK</code></li>
+<li>JSON Data<pre class="prettyprint source lang-json"><code>{
+&quot;message&quot;: &quot;User authenticated successfully&quot;,
+&quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjoxNSwibmFtZSI6ImFkbWluIHVzZXIiLCJ1c2VybmFtZSI6ImFkbWluMSIsImVtYWlsIjoiYWRtaW4yQGFkbWluMi5jb20iLCJyb2xlSWQiOjF9LCJpYXQiOjE0OTY0MzEwMDcsImV4cCI6MTQ5NjUxNzQwN30.M5UKTYZb9m4YHeIRXlyRPQb8y66hMF65v7tV1SGmLfg&quot;
+}</code></pre></li>
+</ul>
+<h4>Get Users</h4><h6>GET HTTP Request</h6><ul>
+<li><code>GET /users</code></li>
+<li>Requires: Admin Authentication<h6>HTTP Response</h6></li>
+<li>HTTP status: <code>200: OK</code></li>
+<li>JSON Data<pre class="prettyprint source lang-json"><code>{
+&quot;message&quot;: &quot;You have successfully retrieved all users&quot;,
+&quot;users&quot;: {
+&quot;rows&quot;: [
+  {
+    &quot;id&quot;: 49,
+    &quot;username&quot;: &quot;maximuf&quot;,
+    &quot;firstname&quot;: &quot;Kingsley&quot;,
+    &quot;lastname&quot;: &quot;John&quot;,
+    &quot;email&quot;: &quot;johnkingzy@gmail.com&quot;,
+    &quot;roleId&quot;: 2
+  },
+  {
+    &quot;id&quot;: 48,
+    &quot;username&quot;: &quot;kingzy&quot;,
+    &quot;firstname&quot;: &quot;Kinhgsley&quot;,
+    &quot;lastname&quot;: &quot;Maximuf&quot;,
+    &quot;email&quot;: &quot;kingzy@gm.com&quot;,
+    &quot;roleId&quot;: 2
+  },
+  {
+    &quot;id&quot;: 21,
+    &quot;username&quot;: &quot;kingsleyjkj&quot;,
+    &quot;firstname&quot;: &quot;solomon&quot;,
+    &quot;lastname&quot;: &quot;solomonjohn&quot;,
+    &quot;email&quot;: &quot;maximuf@gmy.com&quot;,
+    &quot;roleId&quot;: 2
+  },
+  {
+    &quot;id&quot;: 19,
+    &quot;username&quot;: &quot;johnkingzy&quot;,
+    &quot;firstname&quot;: &quot;Emmanuel&quot;,
+    &quot;lastname&quot;: &quot;David&quot;,
+    &quot;email&quot;: &quot;mkingzy1@gmail.com&quot;,
+    &quot;roleId&quot;: 2
+  },
+  {
+    &quot;id&quot;: 1,
+    &quot;username&quot;: &quot;pythagoras&quot;,
+    &quot;firstname&quot;: &quot;MaximufJohn&quot;,
+    &quot;lastname&quot;: &quot;KingsleyJohn&quot;,
+    &quot;email&quot;: &quot;Solomon@gmail.com&quot;,
+    &quot;roleId&quot;: 1
+  }
+]
+},
+&quot;pagination&quot;: {
+&quot;page_count&quot;: null,
+&quot;page&quot;: null,
+&quot;page_size&quot;: null,
+&quot;total_count&quot;: 5
+}
+}</code></pre><h4>Get User</h4><h6>GET HTTP Request</h6></li>
+<li><code>GET /users/:id</code></li>
+<li>Requires: Admin Authentication<h6>HTTP Response</h6></li>
+<li>HTTP status: <code>200: OK</code></li>
+<li>JSON Data<pre class="prettyprint source lang-json"><code>{
+&quot;user&quot;: {
+&quot;id&quot;: 1,
+&quot;username&quot;: &quot;pythagoras&quot;,
+&quot;firstname&quot;: &quot;MaximufJohn&quot;,
+&quot;lastname&quot;: &quot;KingsleyJohn&quot;,
+&quot;email&quot;: &quot;Solomon@gmail.com&quot;,
+&quot;roleId&quot;: 1,
+&quot;active&quot;: true,
+&quot;createdAt&quot;: &quot;2017-05-30T12:16:24.053Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-06-13T15:53:54.732Z&quot;
+}
+}</code></pre><h4>Update User</h4><h6>PUT HTTP Request</h6></li>
+<li><code>PUT /users/:id</code></li>
+<li>Requires: Authentication<h6>HTTP Response</h6></li>
+<li>HTTP status: <code>200: OK</code></li>
+<li>JSON Data<pre class="prettyprint source lang-json"><code>{
+&quot;user&quot;: {
+&quot;id&quot;: 49,
+&quot;username&quot;: &quot;maximuf&quot;,
+&quot;firstname&quot;: &quot;Kingsley&quot;,
+&quot;lastname&quot;: &quot;John&quot;,
+&quot;email&quot;: &quot;johnkingzy@gmail.com&quot;,
+&quot;roleId&quot;: 2,
+&quot;active&quot;: true,
+&quot;createdAt&quot;: &quot;2017-06-13T17:11:35.673Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-06-13T17:11:35.673Z&quot;
+},
+&quot;success&quot;: true,
+&quot;message&quot;: &quot;Profile Info Updated Successfully&quot;
+}</code></pre><h4>Delete User</h4><h6>DELETE HTTP Request</h6></li>
+<li><code>DELETE /users/:id</code></li>
+<li>Requires: Admin Authentication<h6>HTTP Response</h6></li>
+<li>HTTP status: <code>200: OK</code></li>
+<li>JSON Data<pre class="prettyprint source lang-json"><code>{
+&quot;success&quot;: true,
+&quot;message&quot;: &quot;User was deleted successfully&quot;
+}</code></pre></li>
+</ul>
+<h4>Documents</h4><h6>POST HTTP Request</h6><ul>
+<li><code>POST /documents</code></li>
+<li>Requires: Authentication<h6>HTTP response</h6></li>
+<li>HTTP Status: <code>201: created</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;success&quot;: true,
+&quot;document&quot;: {
+&quot;id&quot;: 37,
+&quot;title&quot;: &quot;writers&quot;,
+&quot;content&quot;: &quot;What i do for a living is non of your fucking business i will advice you to keep off as iot non of your business&quot;,
+&quot;access&quot;: &quot;private&quot;,
+&quot;ownerId&quot;: 1,
+&quot;ownerRoleId&quot;: &quot;1&quot;,
+&quot;updatedAt&quot;: &quot;2017-06-13T17:30:06.300Z&quot;,
+&quot;createdAt&quot;: &quot;2017-06-13T17:30:06.300Z&quot;
+},
+&quot;message&quot;: &quot;Your document was created successfully&quot;
+}</code></pre><h6>GET HTTP Request</h6></li>
+<li><code>GET /documents</code><h6>HTTP response</h6></li>
+<li>HTTP Status: <code>200: 0k</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;document&quot;: {
+&quot;rows&quot;: [
+  {
+    &quot;id&quot;: 14,
+    &quot;ownerId&quot;: 1,
+    &quot;title&quot;: &quot;editedTitle&quot;,
+    &quot;content&quot;: &quot;&lt;p>jkhhgdxbvbsmnxbjhmbfcvxmbfvzcbmn&lt;/p>&quot;,
+    &quot;access&quot;: &quot;public&quot;,
+    &quot;ownerRoleId&quot;: &quot;1&quot;,
+    &quot;createdAt&quot;: &quot;2017-06-02T14:06:02.675Z&quot;,
+    &quot;updatedAt&quot;: &quot;2017-06-12T12:46:29.480Z&quot;,
+    &quot;User&quot;: {
+      &quot;id&quot;: 1,
+      &quot;username&quot;: &quot;pythagoras&quot;,
+      &quot;firstname&quot;: &quot;MaximufJohn&quot;,
+      &quot;lastname&quot;: &quot;KingsleyJohn&quot;,
+      &quot;email&quot;: &quot;Solomon@gmail.com&quot;,
+      &quot;roleId&quot;: 1
+    }
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;ownerId&quot;: 1,
+    &quot;title&quot;: &quot;public seed document test&quot;,
+    &quot;content&quot;: &quot;Laborum consectetur iusto suscipit similique dolores vero harum. Quo qui perspiciatis harum pariatur fugit. Non doloremque et sit eveniet ut corrupti aut.&quot;,
+    &quot;access&quot;: &quot;public&quot;,
+    &quot;ownerRoleId&quot;: &quot;1&quot;,
+    &quot;createdAt&quot;: &quot;2017-05-30T12:16:24.083Z&quot;,
+    &quot;updatedAt&quot;: &quot;2017-06-07T21:00:52.377Z&quot;,
+    &quot;User&quot;: {
+      &quot;id&quot;: 1,
+      &quot;username&quot;: &quot;pythagoras&quot;,
+      &quot;firstname&quot;: &quot;MaximufJohn&quot;,
+      &quot;lastname&quot;: &quot;KingsleyJohn&quot;,
+      &quot;email&quot;: &quot;Solomon@gmail.com&quot;,
+      &quot;roleId&quot;: 1
+    }
+  },
+]
+}
+},
+&quot;pagination&quot;: {
+&quot;page_count&quot;: null,
+&quot;page&quot;: null,
+&quot;page_size&quot;: null,
+&quot;total_count&quot;: 18
+},
+&quot;message&quot;: &quot;Document was retrieved successfully&quot;
+}</code></pre></li>
+</ul>
+<h6>GET HTTP Request</h6><ul>
+<li><code>GET /documents/:id</code></li>
+<li>Requires: Authentication<h6>HTTP response</h6></li>
+<li>HTTP Status: <code>200: 0k</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;success&quot;: true,
+&quot;document&quot;: {
+&quot;id&quot;: 14,
+&quot;ownerId&quot;: 1,
+&quot;title&quot;: &quot;editedTitle&quot;,
+&quot;content&quot;: &quot;&lt;p>jkhhgdxbvbsmnxbjhmbfcvxmbfvzcbmn&lt;/p>&quot;,
+&quot;access&quot;: &quot;public&quot;,
+&quot;ownerRoleId&quot;: &quot;1&quot;,
+&quot;createdAt&quot;: &quot;2017-06-02T14:06:02.675Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-06-12T12:46:29.480Z&quot;
+}
+}</code></pre><h4>Update Document</h4><h6>PUT HTTP Request</h6></li>
+<li><code>PUT /documents/:id</code></li>
+<li>Requires: Authentication<h6>HTTP response</h6></li>
+<li>HTTP Status: <code>200: 0k</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;updatedDoc&quot;: {
+&quot;id&quot;: 3,
+&quot;title&quot;: &quot;Hello Document Ngene - Modified&quot;,
+&quot;docContent&quot;: &quot;&lt;p>Ngene created this document&lt;/p>&quot;,
+&quot;docType&quot;: null,
+&quot;viewAccess&quot;: &quot;private&quot;,
+&quot;role&quot;: &quot;2&quot;,
+&quot;createdAt&quot;: &quot;2017-05-18T15:34:26.700Z&quot;,
+&quot;updatedAt&quot;: &quot;2017-06-05T12:05:29.738Z&quot;,
+&quot;userId&quot;: 4
+},
+&quot;message&quot;: &quot;Document updated successfully&quot;
+}</code></pre><h4>Delete Document</h4><h6>DELETE HTTP Request</h6></li>
+<li><code>DELET /documents/:id</code></li>
+<li>Requires: Authentication<h6>HTTP response</h6></li>
+<li>HTTP Status: <code>200: 0k</code></li>
+<li>JSON data<pre class="prettyprint source lang-json"><code>{
+&quot;success&quot;: true,
+&quot;message&quot;: &quot;Document was deleted successfully&quot;
+}</code></pre></li>
+</ul>
+<h4>Limitations</h4><p>Currently, we can't say our API can handle larger requests, this may be a problem when our user base grows to over million.</p></article>
+    </section>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Solomon Kingsley &copy; 2017
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+	
+		on 2017-06-13T18:37:10+01:00
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+<script>
+	$( function () {
+		$( '#main' ).localScroll( {
+			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
+		} );
+		$( "dt.name" ).each( function () {
+			var $this = $( this ).find("h4");
+			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
+			var dt = $(this);
+			var children = dt.next( "dd" );
+
+			dt.prepend( icon ).css( {cursor : "pointer"} );
+			dt.addClass( "member-collapsed" ).addClass( "member" );
+
+
+			children.hide();
+
+			dt.children().on( "click", function () {
+				children = dt.next( "dd" );
+				children.slideToggle( "fast", function () {
+
+					if ( children.is( ":visible" ) ) {
+						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
+						dt.addClass( "member-open" ).animate( "member-collapsed" );
+					} else {
+						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
+						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
+					}
+				} );
+			} );
+
+		} );
+	} );
+</script>
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

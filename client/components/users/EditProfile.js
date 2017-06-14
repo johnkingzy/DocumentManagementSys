@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import TextInput from '../common/TextInput';
 
 const EditProfile = (
@@ -89,12 +89,12 @@ const EditProfile = (
 };
 
 EditProfile.propTypes = {
-  onChange: React.PropTypes.func.isRequired,
-  onSave: React.PropTypes.func.isRequired,
-  userDetail: React.PropTypes.object.isRequired,
-  checkUserExists: React.PropTypes.func.isRequired,
-  clearError: React.PropTypes.func.isRequired,
-  errors: React.PropTypes.object.isRequired,
-  invalid: React.PropTypes.bool.isRequired
+  onChange: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  userDetail: PropTypes.object.isRequired,
+  checkUserExists: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  invalid: PropTypes.bool.isRequired
 };
 export default EditProfile;

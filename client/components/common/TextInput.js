@@ -7,6 +7,7 @@ const TextInput = (
     name,
     id,
     onChange,
+    onKeyUp,
     error,
     onBlur,
     onFocus,
@@ -24,6 +25,7 @@ const TextInput = (
       onChange={onChange}
       onBlur={onBlur}
       onFocus={onFocus}
+      onKeyDown={onKeyUp}
       required
       value={value}
     />
@@ -38,6 +40,7 @@ TextInput.propTypes = {
   id: PropTypes.string,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
+  onKeyUp: PropTypes.func,
   onBlur: PropTypes.func,
   error: PropTypes.string,
   label: PropTypes.string,

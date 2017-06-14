@@ -15,10 +15,13 @@ const User = {
       .create(req.userData)
       .then((user) => {
         const token = Helpers.createToken(user);
+        const filteredData = omit(user.dataValues, [
+          'password',
+        ]);
         res.status(200)
           .send({
             message: 'User was created Successfully',
-            user,
+            user: filteredData,
             token
           });
       })
@@ -103,7 +106,7 @@ const User = {
           const pagination = Helpers.pagination(condition);
           res.status(200)
             .send({
-              message: 'You have successfully retrived all users',
+              message: 'You have successfully retrieved all users',
               users,
               pagination
             });

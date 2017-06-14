@@ -1,6 +1,6 @@
 /* global Materialize */
 /* global $ */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import TextInput from '../common/TextInput';
 
 
@@ -150,10 +150,10 @@ class LoginModal extends React.Component {
   }
 }
 LoginModal.propTypes = {
-  loginRequest: React.PropTypes.func.isRequired
+  loginRequest: PropTypes.func.isRequired
 };
 LoginModal.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 
 export default LoginModal;

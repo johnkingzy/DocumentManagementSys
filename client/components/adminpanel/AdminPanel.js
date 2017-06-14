@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
@@ -71,6 +70,7 @@ class AdminPanel extends React.Component {
   openModal() {
     $('#modal2').openModal({ dismissible: true });
   }
+
   onChange(event) {
     this.setState({
       searchQuery: event.target.value

@@ -14,6 +14,9 @@ module.exports = {
     contentBase: './client/dist',
     hot: true
   },
+  externals: {
+    Materialize: 'Materialize'
+  },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -32,10 +35,7 @@ module.exports = {
         enforce: 'pre',
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              presets: ['es2015', 'react', 'stage-0']
-            }
+            loader: 'babel-loader'
           }
         ],
         include: path.join(__dirname, '/client'),

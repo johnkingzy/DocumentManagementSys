@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { bindActionCreators } from 'redux';
@@ -48,13 +48,12 @@ class DashBoard extends React.Component {
 
   componentWillMount() {
     const token = localStorage.getItem('jwtToken');
-    if (token && this.props.isAuthenticated) {
+    if (token) {
       this.props.actions.loadDocuments();
       const userId = this.props.currentUser.id;
       this.props.actions.fetchUsers(userId);
     }
   }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       allDocuments: nextProps.allDocuments
@@ -274,16 +273,16 @@ class DashBoard extends React.Component {
   }
 }
 DashBoard.propTypes = {
-  allDocuments: React.PropTypes.array.isRequired,
-  search: React.PropTypes.object.isRequired,
-  currentUser: React.PropTypes.object.isRequired,
-  actions: React.PropTypes.object.isRequired,
-  activeUser: React.PropTypes.object.isRequired,
-  isAuthenticated: React.PropTypes.bool.isRequired,
-  pagination: React.PropTypes.object.isRequired
+  allDocuments: PropTypes.array.isRequired,
+  search: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
+  activeUser: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  pagination: PropTypes.object.isRequired
 };
 DashBoard.contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: PropTypes.object.isRequired
 };
 /**
  * mapDispatchToProps - maps dispatch to props value

@@ -1,57 +1,60 @@
 const faker = require('faker');
+const { url, timeout } = require('../setup.js');
 
 const newTitle = faker.lorem.words(2);
 
 module.exports = {
-  'Create document': browser =>
+  'Create document': (browser) => {
     browser
-      .url('http://localhost:4000/login')
-      .waitForElementVisible('body')
+      .url(url)
+      .waitForElementVisible('body', timeout)
       .click('#login')
-      .waitForElementVisible('.modal')
+      .waitForElementVisible('.modal', timeout)
       .setValue('input[id=username-login]', 'maximuf')
       .setValue('input[id=password-login]', 'maximuf123')
       .click('#login-btn')
        .click('button.waves-effect')
-      .waitForElementVisible('#dashboard')
+      .waitForElementVisible('#dashboard', timeout)
       .click('#create-document')
-      .waitForElementVisible('#createDocument')
-      .waitForElementVisible('.mce-i-code')
+      .waitForElementVisible('#createDocument', timeout)
+      .waitForElementVisible('.mce-i-code', timeout)
       .setValue('input[name=title]', newTitle)
       .click('.mce-tinymce')
       .click('select option[value="public"]')
       .click('.mce-i-code')
       .setValue('.mce-textbox', faker.lorem.paragraphs())
       .click('.mce-floatpanel .mce-container-body button')
-      .waitForElementVisible('button.waves-effect')
+      .waitForElementVisible('button.waves-effect', timeout)
       .click('button[type=submit]')
       .click('button.waves-effect')
-      .waitForElementVisible('#dashboard')
+      .waitForElementVisible('#dashboard', timeout)
       .assert.containsText('.email-title', '')
-      .end(),
+      .end();
+  },
 
-  'Open document': browser =>
+  'Open document': (browser) => {
     browser
-      .url('http://localhost:4000/login')
-      .waitForElementVisible('body')
+      .url(url)
+      .waitForElementVisible('body', timeout)
       .click('#login')
-      .waitForElementVisible('.modal')
+      .waitForElementVisible('.modal', timeout)
       .setValue('input[id=username-login]', 'maximuf')
       .setValue('input[id=password-login]', 'maximuf123')
       .click('#login-btn')
        .click('button.waves-effect')
-      .waitForElementVisible('#dashboard')
+      .waitForElementVisible('#dashboard', 5000)
       .click('.email-title')
-      .waitForElementVisible('.email-content')
-      .assert.containsText('.email-subject', 'editedTitle')
-      .end(),
+      .waitForElementVisible('.email-content', timeout)
+      .assert.containsText('.email-subject', 'public')
+      .end();
+  },
 
   'Search for a document': browser =>
     browser
-      .url('http://localhost:4000/login')
+      .url(url)
       .waitForElementVisible('body')
       .click('#login')
-      .waitForElementVisible('.modal')
+      .waitForElementVisible('.modal', timeout)
       .setValue('input[id=username-login]', 'maximuf')
       .setValue('input[id=password-login]', 'maximuf123')
       .click('#login-btn')
@@ -65,46 +68,46 @@ module.exports = {
       .waitForElementVisible('.email-content')
       .assert.containsText('#document-title', 'Today')
       .end(),
-  //
+
   'Edit document': (browser) => {
     browser
-        .url('http://localhost:4000/login')
-        .waitForElementVisible('body')
+        .url(url)
+        .waitForElementVisible('body', timeout)
         .click('#login')
         .waitForElementVisible('.modal')
         .setValue('input[id=username-login]', 'maximuf')
         .setValue('input[id=password-login]', 'maximuf123')
         .click('#login-btn')
         .click('button.waves-effect')
-        .waitForElementVisible('#dashboard')
+        .waitForElementVisible('#dashboard', timeout)
         .click('.email-title')
-        .waitForElementVisible('#email-details')
+        .waitForElementVisible('#email-details', timeout)
         .click('.edit')
-        .waitForElementVisible('.email-content')
+        .waitForElementVisible('.email-content', timeout)
         .clearValue('input#title')
         .setValue('input#title', 'editedTitle')
         .click('button.waves-effect')
-        .waitForElementVisible('#email-list')
+        .waitForElementVisible('#email-list', timeout)
         .assert.containsText('.email-subject', 'editedTitle');
     browser.end();
   },
-  //
+
   'Delete document': (browser) => {
     browser
-      .url('http://localhost:4000/login')
-      .waitForElementVisible('body')
+      .url(url)
+      .waitForElementVisible('body', timeout)
       .click('#login')
-      .waitForElementVisible('.modal')
+      .waitForElementVisible('.modal', timeout)
       .setValue('input[id=username-login]', 'maximuf')
       .setValue('input[id=password-login]', 'maximuf123')
       .click('#login-btn')
-      .waitForElementVisible('#dashboard')
+      .waitForElementVisible('#dashboard', timeout)
       .click('select option[value="private"]')
-      .waitForElementVisible('.email-title')
+      .waitForElementVisible('.email-title', timeout)
       .click('.email-title')
-      .waitForElementVisible('#email-details')
+      .waitForElementVisible('#email-details', timeout)
       .click('.delete')
-      .waitForElementVisible('.sweet-alert')
+      .waitForElementVisible('.sweet-alert', timeout)
       .click('.confirm');
     browser.end();
   }

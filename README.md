@@ -6,50 +6,35 @@
 
 Document Management System provides a restful API for users to create and manage documents giving different privileges based on user roles and managing authentication using JWT.
 
-## API Documentation
-The API has routes, each dedicated to a single task that uses HTTP response codes to indicate API status and errors.
+## Application Features
+###### User Authentication
+Users are authenticated and validated using JWT web token. Generating tokens on signup and login ensures documents and API endpoints are protected.
 
-#### API Features
+###### Document Management
+*   Create an account
+*   Login with your credentials
+*   Create new document specifying document title, content and document access
+*   Edit Documents
+*   Delete documents
+*   View public documents created by other users.
+*   View documents created by his access group with access level set as `role`.
+*   Search a users public documents.
+*   View `public` and `role` access level documents of other regular users.
+*   Share document with specific user(s) - Upcoming
+*   Share document across multiple users - Upcoming
+*   Backup Documents to Google Drive or DropBox - Upcoming
+*   Print Documents Directly from Platform - Upcoming
+*   Share Documents via Email - Upcoming
+*   Logout
 
-The following features make up the Document Management System API:
-
-###### Authentication
-
-- It uses JSON Web Token (JWT) for authentication
-- It generates a token on successful login or account creation and returns it to the user
-- It verifies the token to ensure a user is authenticated to access every endpoints
-
-###### Users
-
-- It allows users to create account
-- It allows users to login and obtain a unique token which expires every 5hours
-- It allows authenticated users to retrieve and update their information
-- It allows the admin to manage users
-
-###### Roles
-
-- It ensures roles can be created by an admin user
-- A non-admin cannot access this endpoint
-- A non-admin user cannot create, retrieve, modify, or delete roles  
-- It allows assignment of roles to users
-
-###### Documents
-
-- It allows authenticated users to create document
-- It ensures all documents are accessible based on the permission/priviledges
-- It allows admin users to create, retrieve, modify, and delete documents
-- It ensures users can retrieve, edit and delete documents that they own  
-- It allows users to retrieve all documents they own as well as public documents
-- It allows users to retrieve all public documents
-- It allows users on the same role to retrieve role-based documents
-
-###### Search
-
-- It allows admin to retrieve all documents that matches search term
-- It allows admin to search users based on a specified search term
-- It allows users to search public documents for a specified search term
-- It allows users to search for users through name or email address
-- It allows users on the same role to search through role-based documents
+-   In addition to the general user functions, an admin user can:
+    -   View all users.
+    -   View all created documents except documents with access set to private.
+    -   Delete any user.
+    -   Update any user's record.
+    -   Create a new role.
+    -   View all created roles.
+    -   Search for any user.
 
 ## Hosted App on Heroku
 [DataHub](https://datahubs.herokuapp.com/)

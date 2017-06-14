@@ -625,6 +625,14 @@ const Authenticate = {
       query.where = helper.isAdmin(req.decoded.user.roleId)
          ? {}
          : { id: req.decoded.user.id };
+      query.attributes = [
+        'id',
+        'username',
+        'firstname',
+        'lastname',
+        'email',
+        'roleId'
+      ];
     }
     if (`${req.baseUrl}${req.route.path}` === '/users/:id') {
       if (!helper.isOwner(req) && req.decoded.user.roleId !== 1) {

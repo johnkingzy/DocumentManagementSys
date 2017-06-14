@@ -1,0 +1,31 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc"]
+    },
+    "source": {
+        "include": ["./"],
+        "includePattern": ".+\\.js$",
+        "excludePattern": "(docs|node_modules|coverage|config|client)"
+    },
+    "plugins": [],
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true,
+        "systemName": "DataHubs - Document Management System",
+        "copyright": "Solomon Kingsley &copy; 2017",
+        "navType": "vertical",
+        "theme": "flatly",
+        "linenums": true,
+        "collapseSymbols": true,
+        "inverseNav": false,
+        "search": true
+    },
+    "opts": {
+        "template": "./node_modules/ink-docstrap/template",
+        "encoding": "utf8",
+        "destination": "docs",
+        "recurse": true,
+        "private": true
+    }
+}
