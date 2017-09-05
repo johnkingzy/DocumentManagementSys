@@ -12,6 +12,7 @@ export default class DocumentView extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.clearError = this.clearError.bind(this);
     this.deleteDocument = this.deleteDocument.bind(this);
     this.state = {
       documents: {
@@ -55,9 +56,9 @@ export default class DocumentView extends React.Component {
   }
   onChange(event) {
     const field = event.target.name;
-    const documents = this.state.documents;
+    const { documents } = this.state;
     documents[field] = event.target.value;
-    return this.setState({
+    this.setState({
       documents
     });
   }
@@ -81,6 +82,7 @@ export default class DocumentView extends React.Component {
     this.setState({
       errors: {},
     });
+   
     const { errors, isValid } = validate(this.state.documents);
     if (!isValid) {
       this.setState(
@@ -142,7 +144,7 @@ export default class DocumentView extends React.Component {
     const currentDocument = this.props.currentDocument[0];
     const { currentUser } = this.props;
     const { title, content, access } = this.state.documents;
-    const { isEditing, isUpdating } = this.state;
+    const { isEditing, isUpdating, errors } = this.state;
     let actions;
     if (currentUser && currentUser.id === currentDocument.ownerId) {
       actions = (
@@ -174,6 +176,8 @@ export default class DocumentView extends React.Component {
       title={title}
       content={content}
       access={access}
+      errors={errors}
+      onFocus={this.clearError}
        />;
     } else {
       documentBody = (

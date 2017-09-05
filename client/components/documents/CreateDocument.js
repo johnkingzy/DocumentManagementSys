@@ -186,6 +186,7 @@ export class CreateDocumentModal extends React.Component {
             documents={this.state.documents}
             errors={errors}
             onSave={this.onSave}
+            clearError={this.clearError}
             labelclass={this.state.labelclass}
             editorChange={this.editorChange}
             loading={this.state.invalid}

@@ -88,6 +88,7 @@ const Helpers = {
     const query = {};
     query.limit = limit;
     query.offset = offset;
+    query.order = 'id DESC';
     query.include = [
       {
         model: db.User,

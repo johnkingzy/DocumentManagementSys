@@ -12,7 +12,7 @@ const Footer = () => {
           target="_blank">DataHubs</a> All rights reserved.</span>
           <span className="right"> Project by
           <a className="grey-text text-lighten-4"
-          href="http://github.com/andela-ksolomon">Solomon Kingsley</a></span>
+          href="http://github.com/maximuf">Solomon Kingsley</a></span>
           </div>
       </div>
     </footer>

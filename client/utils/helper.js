@@ -29,7 +29,7 @@ export const validate = (state) => {
   if (!(state.content.length >= 5)) {
     errors.content = 'Content should have a minimum of 5 characters';
   }
-  if (!(state.access.length >= 5)) {
+  if (!(state.access.length >= 3)) {
     errors.access = 'Please select an access type';
   }
   if (Object.keys(errors).length !== 0) {

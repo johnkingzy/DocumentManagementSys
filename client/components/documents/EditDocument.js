@@ -5,27 +5,30 @@ import TextArea from '../common/TextArea';
 const EditDocument = (
   {
     onChange,
+    onFocus,
     onSubmit,
     invalid,
     options,
     title,
     content,
-    access
+    access,
+    errors
   }
 ) => {
   return (
     <div className="email-content">
     <form className="col s12" onSubmit={onSubmit} method="post">
     <TextInput
-      className="input-field col m6 s12"
+      className="input-field col m12 s12"
       type="text"
       name="title"
       id="title"
       onChange={onChange}
-      error=""
       label="Title"
       labelclass="active"
       value={title}
+      error={errors.title}
+      onFocus={onFocus}
       required
     />
     <TextArea
@@ -36,13 +39,15 @@ const EditDocument = (
         onChange={onChange}
         labelclass="active"
         value={content}
-        errors=""
+        onFocus={onFocus}
+        error={errors.content}
         label="Content"
       />
       <div className="input-field col s12">
         {options && options.map((option, index) => {
           return (
-            <p key={index}><input
+            <p key={index}>
+              <input
               name="access"
               type="radio"
               value={option.value}
@@ -53,7 +58,9 @@ const EditDocument = (
               <label
               htmlFor={option.text}>
               {option.text}
-              </label></p>);
+              </label>
+              { errors && <span className="red-text">{errors.access}</span> }
+              </p>);
         })}
       </div>
       <br />
@@ -76,6 +83,7 @@ EditDocument.propTypes = {
   options: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  access: PropTypes.string.isRequired
+  access: PropTypes.string.isRequired,
+  errors: PropTypes.object.isRequired
 };
 export default EditDocument;

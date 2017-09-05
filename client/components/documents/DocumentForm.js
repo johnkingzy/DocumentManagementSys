@@ -28,13 +28,15 @@ const DocumentForm = (
                 onChange={onChange}
                 onFocus={clearError}
                 value={documents.title}
-                errors={errors}
+                error={errors.title}
                 label="Title"
                 labelclass={labelclass}
                 />
                 </div>
                 <div className="row">
                 <TextEditor
+                error={errors.content}
+                onFocus={clearError}
                 document={documents}
                 onChange={editorChange} />
               </div>
@@ -43,6 +45,7 @@ const DocumentForm = (
                 id="access"
                 name="access"
                 onChange={onChange}
+                onFocus={clearError}
                 options={options}
                 error={errors.access}
                 value={documents.access}
