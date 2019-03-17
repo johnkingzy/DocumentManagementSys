@@ -123,6 +123,12 @@ const helper = {
     access: 'public',
   },
 
+  documentWithoutAccess: {
+    title: 'This is a new document in test',
+    content: faker.lorem.paragraph(),
+    access: null,
+  },
+
   sharedDocument: {
     title: faker.company.catchPhrase(),
     content: faker.lorem.paragraph(),

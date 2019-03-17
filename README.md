@@ -52,14 +52,31 @@ Users are authenticated and validated using JWT web token. Generating tokens on 
 
 ### **Installation Steps**
 * Ensure you have `node` installed or install [Node](https://nodejs.org/en/download/)
-* Clone the project repository from your terminal `git clone https://github.com/andela-moseni/document-mgt-system.git`
-* Change directory into the `document-mgt-system` directory
+* Clone the project repository from your terminal `git clone https://github.com/andela-ksolomon/DocumentManagementSys`
+* Change directory into the `DocumentManagementSys` directory
+* Ensure you have Postgresql install on your machine, here's a [link](https://www.codementor.io/engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb) on how to install
 * Run `npm install` to install the dependencies in the `package.json` file
-* Run `npm run start:nodemon` to start the project
-* Run `npm test` to run the server-side(api) tests
+* Once you have Postgres installed, go ahead and create a database using  `createdb database_name`, replace `database_name` with you preferred database name.
+* Copy `.env.example` file to `.env` to setup environment config.
+
+```
+DATABASE_DEVELOPMENT_URL='' // postgres://<user>@localhost:5432/<database_name>
+DATABASE_TEST_URL="" // database url for testing environment
+DATABASE_PRODUCTION_URL="" // database url for production
+REPO_TOKEN="" // coveralls config
+PORT="" // server port, defaults to 8000
+SECRET_KEY="" // JWT secret key
+```
+* Run database migrations using `sequelize db:migrate` to create tables.
+* Run database seed using `sequelize db:seed:all` to populate the database with seed files.
+* Run `npm run dev-start` to start the project.
+
+### To run tests
+* Create Database for testing `createdb test_database_name`
+* Run `npm test` to run the server-side(api) tests.
 * Run `npm run test-e2e` to run the e2e tests
-* Run `npm run client:test` to run the client-side(React) tests
-* Use [Postman](https://www.getpostman.com/) or any API testing tool of your choice to access the endpoints
+* Run `npm run client:test` to run the client-side(React) tests.
+* Use [Postman](https://www.getpostman.com/) or any API testing tool of your choice to access the endpoints.
 
 ### **Endpoints**
 **N/B:** For all endpoints that require authentication, use \

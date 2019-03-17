@@ -9,6 +9,7 @@ process.env.NODE_ENV = 'test';
 // This agent refers to PORT where program is runninng.
 const server = agent(app);
 const newDocument = helper.publicDocument;
+const documentWithoutAccess = helper.documentWithoutAccess;
 const regUser = helper.docUser;
 const adminDocUser = helper.adminDocUser;
 
@@ -54,7 +55,7 @@ describe('Document API', () => {
         });
     });
 
-    it('should 400 for invalid document data', (done) => {
+    it('should return 400 for invalid document data', (done) => {
       server
         .post('/documents')
         .set('x-access-token', regUserData.token)
@@ -63,6 +64,21 @@ describe('Document API', () => {
           expect(res.status).toEqual(403);
           expect(res.body.message).toEqual(
             'Please type in a title for the document');
+          if (err) return done(err);
+          done();
+        });
+    });
+
+    it('should return 400 if document does not have an access type', (done) => {
+      server
+        .post('/documents')
+        .set('x-access-token', regUserData.token)
+        .send(documentWithoutAccess)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(400);
+          expect(res.body[0].message).toEqual(
+            'access cannot be null');
           if (err) return done(err);
           done();
         });
@@ -80,7 +96,7 @@ describe('Document API', () => {
         });
     });
 
-    it('should 200 without limit and offset', (done) => {
+    it('should return 200 without limit and offset', (done) => {
       server
         .get('/documents/')
         .set('x-access-token', adminUser.token)

@@ -28,8 +28,6 @@ describe('User Model', () => {
             .toEqual(helper.regularUser.username);
           expect(user.dataValues.email).toEqual(helper.regularUser.email);
           expect(user.dataValues.roleId).toEqual(defaultRoleId);
-          // expect(user.dataValues.password)
-          //   .toNotEqual(helper.regularUser.password);
           done();
         });
     });

@@ -48,34 +48,11 @@ const Role = {
     * @returns {void} no returns
     */
   update(req, res) {
-    if (isNaN(req.params.id)) {
-      return res.status(400).send({
-        message: 'Error occured while updating role'
-      });
-    }
-    db.Role
-      .findById(req.params.id)
-      .then((role) => {
-        if (!role) {
-          return res.status(404).send({
-            message: 'Role Not Found',
-          });
-        }
-        return role
-          .update({
-            title: req.body.title || role.title,
-          })
-          .then(() => res.status(200).send({
-            role,
-            message: 'Role updated successfully.'
-          }))
-          .catch(() => res.status(400).send({
-            message: 'Role did not update successfully.'
-          }));
-      })
-      .catch(() => res.status(400).send({
-        message: 'Error occured while updating role'
-      }));
+    req.roleInstance.update({ title: req.body.title || req.roleInstance.title })
+    .then(() => res.status(200).send({
+      role: req.roleInstance,
+      message: 'Role updated successfully.'
+    }));
   },
 
   /**
