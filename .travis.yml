@@ -8,6 +8,7 @@ services:
 before_script:
   - psql -c 'create database dms_test;' -U postgres
   - npm install -g mocha
+  - npm install -g babel-register
 script:
 - npm test
 
