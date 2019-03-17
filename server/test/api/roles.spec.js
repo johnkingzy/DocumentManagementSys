@@ -151,8 +151,26 @@ describe('Roles API', () => {
         });
     });
 
+    it('should not prevent updating role data title to empty string', (done) => {
+      const fieldsToUpdateRole = {
+        title: '',
+      };
+      server
+        .put(`/roles/${roleDetails.role.id}`)
+        .set('x-access-token', userDetails.token)
+        .send(fieldsToUpdateRole)
+        .expect('Content-Type', /json/)
+        .end((err, res) => {
+          expect(res.status).toEqual(200);
+          expect(res.body.message).toEqual('Role updated successfully.');
+          expect(res.body.role.title).toNotEqual(fieldsToUpdateRole.title);
+          if (err) return done(err);
+          done();
+        });
+    });
+
     it(
-      'should return Not authorize when user other than the admin updates role',
+      'should deny access from users other than admin when updating a role',
       (done) => {
         server
           .put(`/roles/${roleDetails.role.id}`)
@@ -168,7 +186,7 @@ describe('Roles API', () => {
           });
       });
 
-    it('should return Role Not Found when updating an invalid role', (done) => {
+    it('should return 404 when updating a role that does not exist', (done) => {
       server
         .put('/roles/10')
         .set('x-access-token', userDetails.token)
@@ -182,7 +200,7 @@ describe('Roles API', () => {
         });
     });
 
-    it('should return 400 when updating invalid role', (done) => {
+    it('should return 400 when updating an invalid role', (done) => {
       server
         .put('/roles/role')
         .set('x-access-token', userDetails.token)

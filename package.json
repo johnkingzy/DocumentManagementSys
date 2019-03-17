@@ -125,7 +125,6 @@
     "sass-loader": "^6.0.3",
     "selenium-download": "^2.0.10",
     "sequelize": "^3.30.4",
-    "sequelize-classes": "^0.1.12",
     "shortid": "^2.2.8",
     "should": "^11.2.1",
     "sinon": "^2.3.2",

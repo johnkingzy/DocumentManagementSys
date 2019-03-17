@@ -21,41 +21,27 @@ const Document = {
     const request = Helpers.createQueryForList(req);
     let condition = {};
     let pagination;
-    db.User.findById(req.decoded.user.id)
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send({
-          success: false,
-          message: 'User Not Found'
-        });
-      }
-      db.Document
-      .findAndCountAll(request)
-      .then((document) => {
-        if (!document) {
-          return res.status(404).send({
-            message: 'Document Not Found',
-          });
-        }
-        condition = {
-          count: document.count,
-          limit: request.limit,
-          offset: request.offset
-        };
-        delete document.count;
-        pagination = Helpers.pagination(condition);
-        return res.status(200)
-        .send({
-          document,
-          pagination,
-          message: 'Document was retrieved successfully'
-        });
-      })
-      .catch(error => res.status(400).send({
-        error,
-        message: 'Error occurred while retrieving documents'
-      }));
-    });
+    db.Document
+    .findAndCountAll(request)
+    .then((document) => {
+      condition = {
+        count: document.count,
+        limit: request.limit,
+        offset: request.offset
+      };
+      delete document.count;
+      pagination = Helpers.pagination(condition);
+      return res.status(200)
+      .send({
+        document,
+        pagination,
+        message: 'Document was retrieved successfully'
+      });
+    })
+    .catch(error => res.status(400).send({
+      error,
+      message: 'Error occurred while retrieving documents'
+    }));
   },
   fetchOne(req, res) {
     res.status(200)
